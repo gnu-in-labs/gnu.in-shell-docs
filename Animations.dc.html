@@ -32,16 +32,32 @@ body{margin:0;background:#111418;}
 .ani-mascot{width:min(260px,58vw);height:auto;position:relative;z-index:2;filter:drop-shadow(0 24px 22px rgba(0,0,0,.35));}
 .ani-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:24px;}
 .ani-card{border:1px solid #2B3037;border-radius:10px;background:#171B21;padding:18px;min-height:174px;display:flex;flex-direction:column;justify-content:space-between;}
-.ani-card img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid #2B3037;background:#0E1116;margin-top:14px;}
+.ani-proof{position:relative;width:100%;aspect-ratio:16/9;border-radius:8px;border:1px solid #2B3037;background:#0E1116;margin-top:14px;overflow:hidden;}
+.ani-proof::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,106,0,.10) 1px,transparent 1px),linear-gradient(180deg,rgba(245,238,221,.07) 1px,transparent 1px);background-size:28px 28px;opacity:.34;}
+.ani-proof-bar{position:absolute;left:14px;right:14px;height:9px;border-radius:999px;background:#2B3037;}
+.ani-proof-bar b{display:block;height:100%;border-radius:999px;background:#FF6A00;box-shadow:0 0 12px rgba(255,106,0,.34);}
+.ani-proof-node{position:absolute;z-index:2;width:28px;height:28px;border-radius:8px;border:1px solid #3B444F;background:#171B21;display:grid;place-items:center;font:800 10px/1 'JetBrains Mono',monospace;color:#F5EEDD;}
+.ani-proof-node[data-hot="true"]{border-color:#FF6A00;color:#FF8E40;box-shadow:0 0 18px rgba(255,106,0,.22);}
+.ani-proof-ring{position:absolute;border:1px solid rgba(255,106,0,.32);border-radius:999px;}
+.ani-proof-seq .ani-proof-bar:nth-child(1){top:24px}.ani-proof-seq .ani-proof-bar:nth-child(1) b{width:42%}
+.ani-proof-seq .ani-proof-bar:nth-child(2){top:52px}.ani-proof-seq .ani-proof-bar:nth-child(2) b{width:68%;background:#5F7F52}
+.ani-proof-seq .ani-proof-bar:nth-child(3){top:80px}.ani-proof-seq .ani-proof-bar:nth-child(3) b{width:54%}
+.ani-proof-radial .ani-proof-ring:nth-child(1){inset:18px 54px}.ani-proof-radial .ani-proof-ring:nth-child(2){inset:36px 72px;border-color:rgba(95,127,82,.42)}
+.ani-proof-radial .ani-proof-node:nth-child(3){left:50%;top:50%;transform:translate(-50%,-50%)}.ani-proof-radial .ani-proof-node:nth-child(4){left:21%;top:24%}.ani-proof-radial .ani-proof-node:nth-child(5){right:21%;bottom:24%}
+.ani-proof-flow .ani-proof-node:nth-child(1){left:14px;top:50%;transform:translateY(-50%)}.ani-proof-flow .ani-proof-node:nth-child(2){left:50%;top:50%;transform:translate(-50%,-50%)}.ani-proof-flow .ani-proof-node:nth-child(3){right:14px;top:50%;transform:translateY(-50%)}
+.ani-proof-flow .ani-proof-line{position:absolute;z-index:1;left:43px;right:43px;top:50%;height:2px;background:linear-gradient(90deg,#FF6A00,#5F7F52);opacity:.72;}
 .ani-label{font:700 12px/1 'JetBrains Mono',monospace;color:#FF8E40;letter-spacing:.12em;text-transform:uppercase;}
 .ani-card h2{font-size:23px;line-height:1.08;margin:12px 0 0;color:#F5EEDD;}
 .ani-card p{font-size:13px;line-height:1.5;color:#AAB1BA;margin:10px 0 0;}
 .ani-states{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:24px;}
-.ani-state{border:1px solid #2B3037;border-radius:10px;background:#101318;padding:12px;text-align:center;}
-.ani-state dc-import{display:block;margin:0 auto;}
+.ani-state{border:1px solid #2B3037;border-radius:10px;background:#101318;padding:12px;text-align:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);}
+.ani-state dc-import{display:block;margin:0 auto;filter:drop-shadow(0 12px 14px rgba(0,0,0,.18));}
 .ani-state div{font:700 11px/1 'JetBrains Mono',monospace;color:#C8CED6;letter-spacing:.12em;text-transform:uppercase;margin-top:8px;}
 @keyframes aniPulse{0%,100%{transform:scale(1);opacity:.54}50%{transform:scale(1.04);opacity:.9}}
 @media(max-width:860px){.ani-page{padding-top:28px}.ani-shell{width:min(100% - 32px,720px)}.ani-hero,.ani-grid{grid-template-columns:1fr}.ani-copy{min-height:auto;padding:24px}.ani-stage{min-height:320px}.ani-card{min-height:auto}}
+@media(max-width:520px){.ani-page{padding-top:18px}.ani-shell{width:min(100% - 24px,520px)}.ani-hero{gap:14px}.ani-copy{padding:20px}.ani-title{font-size:42px;line-height:1;overflow-wrap:anywhere}.ani-sub{font-size:15px;line-height:1.5}.ani-tags{gap:6px;margin-top:18px}.ani-tags span{padding:7px 8px}.ani-stage{min-height:238px;padding:16px}.ani-orbit{inset:34px}.ani-orbit:nth-child(2){inset:62px}.ani-orbit:nth-child(3){inset:90px}.ani-mascot{width:min(178px,54vw)}.ani-grid{gap:12px;margin-top:14px}.ani-card{padding:14px}.ani-proof{margin-top:10px}.ani-states{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}.ani-state{padding:10px 8px 11px;border-radius:9px}.ani-state dc-import{width:82px!important;height:94px!important}.ani-state div{font-size:10px;margin-top:6px;letter-spacing:.14em}}
+@media(max-width:380px){.ani-title{font-size:38px}}
+@media(max-width:340px){.ani-title{font-size:34px}}
 </style>
 </helmet>
 <main class="ani-page">
@@ -76,7 +92,11 @@ body{margin:0;background:#111418;}
           <h2>Sequence map</h2>
           <p>Une section pour relier les micro-états aux surfaces visibles: apparition, focus, confirmation, sortie.</p>
         </div>
-        <img src="screenshots/01-motion-section.png" alt="Motion section screenshot">
+        <div class="ani-proof ani-proof-seq" aria-hidden="true">
+          <div class="ani-proof-bar"><b></b></div>
+          <div class="ani-proof-bar"><b></b></div>
+          <div class="ani-proof-bar"><b></b></div>
+        </div>
       </article>
       <article class="ani-card">
         <div>
@@ -84,7 +104,13 @@ body{margin:0;background:#111418;}
           <h2>Spatial affordance</h2>
           <p>Les interactions radiales doivent rester lisibles en mouvement, même lorsque la surface se densifie.</p>
         </div>
-        <img src="screenshots/01-radial.png" alt="Radial motion screenshot">
+        <div class="ani-proof ani-proof-radial" aria-hidden="true">
+          <div class="ani-proof-ring"></div>
+          <div class="ani-proof-ring"></div>
+          <div class="ani-proof-node" data-hot="true">IN</div>
+          <div class="ani-proof-node">01</div>
+          <div class="ani-proof-node">02</div>
+        </div>
       </article>
       <article class="ani-card">
         <div>
@@ -92,7 +118,12 @@ body{margin:0;background:#111418;}
           <h2>Runtime path</h2>
           <p>Le motion design rejoint le moteur quand les recettes deviennent vérifiables par surface.</p>
         </div>
-        <img src="screenshots/handoff-pipeline.png" alt="Handoff pipeline screenshot">
+        <div class="ani-proof ani-proof-flow" aria-hidden="true">
+          <div class="ani-proof-node" data-hot="true">A</div>
+          <div class="ani-proof-node">B</div>
+          <div class="ani-proof-node">C</div>
+          <div class="ani-proof-line"></div>
+        </div>
       </article>
     </section>
 

@@ -59,6 +59,9 @@
       "border-bottom:1px solid rgba(245,238,221,.12);transition:transform .25s cubic-bezier(.2,.7,.2,1);}",
       "#gid-nav::-webkit-scrollbar{display:none}",
       "#gid-nav.gid-hidden{transform:translateY(-100%)}",
+      "#gid-nav-progress{position:fixed;top:calc(var(--gid-nav-h) - 3px);left:0;right:0;height:3px;z-index:2147483602;pointer-events:none;background:rgba(245,238,221,.04);transition:transform .25s cubic-bezier(.2,.7,.2,1),opacity .18s;}",
+      "#gid-nav.gid-hidden+#gid-nav-progress{transform:translateY(-100%);opacity:0;}",
+      "#gid-nav-progress span{display:block;width:var(--gid-progress-pct,8%);height:100%;background:linear-gradient(90deg,#FF6A00,#FF8E40);box-shadow:0 0 10px rgba(255,106,0,.38);transition:width .22s ease;}",
       "#gid-nav .gid-dot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;background:#FF6A00;box-shadow:0 0 9px #FF6A00;margin-right:8px}",
       "#gid-nav a{flex:0 0 auto;color:#aeb6b2;text-decoration:none;padding:7px 10px;border-radius:7px;white-space:nowrap;transition:background .15s,color .15s}",
       "#gid-nav a:hover{color:#f5eedd;background:rgba(245,238,221,.08)}",
@@ -81,6 +84,7 @@
       "#gid-nav .gid-sep{flex:0 0 auto;width:1px;height:16px;background:rgba(245,238,221,.18);margin:0 6px}",
       "#gid-nav .gid-tag{flex:0 0 auto;margin-left:auto;padding-left:14px;color:#6f7b76;font-size:11px;white-space:nowrap}",
       "#gid-rail{position:fixed;left:10px;top:calc(var(--gid-nav-h) + 12px);z-index:2147483590;display:flex;flex-direction:column;gap:6px;padding:6px;border:1px solid rgba(245,238,221,.12);border-radius:12px;background:rgba(13,17,20,.68);-webkit-backdrop-filter:blur(10px) saturate(1.1);backdrop-filter:blur(10px) saturate(1.1);box-shadow:0 12px 32px rgba(0,0,0,.22);opacity:.86}",
+      "#gid-rail::after{content:\"\";position:absolute;right:-1px;top:8px;width:2px;height:var(--gid-rail-progress,8%);max-height:calc(100% - 16px);border-radius:999px;background:#FF6A00;box-shadow:0 0 10px rgba(255,106,0,.45);}",
       "#gid-rail:hover,#gid-rail:focus-within{opacity:1}",
       "#gid-rail a,#gid-rail button{width:30px;height:30px;display:grid;place-items:center;margin:0;padding:0;border:1px solid rgba(245,238,221,.10);border-radius:8px;background:rgba(245,238,221,.05);color:#d6ddd8;text-decoration:none;font:800 10px/1 ui-monospace,'JetBrains Mono',monospace;cursor:pointer;transition:background .15s,color .15s,border-color .15s,transform .12s}",
       "#gid-rail a:hover,#gid-rail button:hover{color:#F5EEDD;background:rgba(245,238,221,.12);border-color:rgba(245,238,221,.22);transform:translateX(1px)}",
@@ -110,6 +114,7 @@
       "html[data-gid-vp='tablet'] .gid-container{padding-left:clamp(24px,4vw,48px)!important;padding-right:clamp(24px,4vw,48px)!important;}",
       "html[data-gid-vp='mobile']{--gid-nav-h:44px;--gid-edge:16px;}",
       "html[data-gid-vp='mobile'] #gid-nav{gap:1px;font-size:11px;padding-left:10px;padding-right:10px;}",
+      "html[data-gid-vp='mobile'] #gid-nav-progress{height:2px;top:calc(var(--gid-nav-h) - 2px);}",
       "html[data-gid-vp='mobile'] #gid-nav .gid-dot{width:7px;height:7px;margin-right:5px;}",
       "html[data-gid-vp='mobile'] #gid-nav a{padding:7px 8px;border-radius:6px;}",
       "html[data-gid-vp='mobile'] #gid-nav .gid-nav-trigger{width:22px;height:28px;}",
@@ -207,6 +212,28 @@
       if (surface.children[i].file === current) return true;
     }
     return false;
+  }
+
+  function realSurfaces() {
+    return flattenSurfaces(false).filter(function (s) { return !s.external && s.file; });
+  }
+
+  function currentSurfaceIndex() {
+    var real = realSurfaces();
+    for (var i = 0; i < real.length; i++) {
+      if (real[i].file === current) return i;
+    }
+    return 0;
+  }
+
+  function currentSurfaceProgress() {
+    var real = realSurfaces();
+    var index = currentSurfaceIndex();
+    return {
+      index: index,
+      total: real.length || 1,
+      pct: (((index + 1) / Math.max(real.length, 1)) * 100).toFixed(2) + "%"
+    };
   }
 
   function injectCss() {
@@ -401,6 +428,7 @@
 
   function buildNav() {
     if (document.getElementById("gid-nav")) return;
+    var progress = currentSurfaceProgress();
 
     var nav = document.createElement("nav");
     nav.id = "gid-nav";
@@ -436,10 +464,22 @@
 
     var tag = document.createElement("span");
     tag.className = "gid-tag";
-    tag.textContent = "gnu.in-OS · v0.14.2 beta";
+    tag.textContent = currentSurfaceLabel() + " · " + String(progress.index + 1).padStart(2, "0") + "/" + String(progress.total).padStart(2, "0") + " · v0.14.2 beta";
     nav.appendChild(tag);
 
     document.body.appendChild(nav);
+
+    var bar = document.createElement("div");
+    bar.id = "gid-nav-progress";
+    bar.style.setProperty("--gid-progress-pct", progress.pct);
+    var fill = document.createElement("span");
+    bar.appendChild(fill);
+    document.body.appendChild(bar);
+
+    requestAnimationFrame(function () {
+      var active = nav.querySelector(".gid-active") || nav.querySelector(".gid-parent-active>a");
+      if (active && active.scrollIntoView) active.scrollIntoView({ block: "nearest", inline: "nearest" });
+    });
 
     var lastY = 0;
     window.addEventListener("scroll", function () {
@@ -553,16 +593,14 @@
 
   function buildRail() {
     if (document.getElementById("gid-rail")) return;
-    var currentIndex = -1;
-    var real = flattenSurfaces(false).filter(function (s) { return !s.external && s.file; });
-    for (var i = 0; i < real.length; i++) {
-      if (real[i].file === current) currentIndex = i;
-    }
-    if (currentIndex < 0) currentIndex = 0;
+    var real = realSurfaces();
+    var currentIndex = currentSurfaceIndex();
+    var progress = currentSurfaceProgress();
 
     var rail = document.createElement("aside");
     rail.id = "gid-rail";
     rail.setAttribute("aria-label", "Quick tools");
+    rail.style.setProperty("--gid-rail-progress", progress.pct);
 
     var home = makeRailItem("a", "IN", "Index", current === real[0].file ? "gid-active" : "");
     home.href = encodeURIComponent(real[0].file);
@@ -580,7 +618,10 @@
     top.type = "button";
     top.addEventListener("click", function () {
       var canvas = document.getElementById("gid-canvas-viewport");
-      if (canvas) canvas.scrollLeft = 0;
+      if (canvas) {
+        canvas.scrollLeft = 0;
+        canvas.scrollTop = 0;
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
     rail.appendChild(top);
