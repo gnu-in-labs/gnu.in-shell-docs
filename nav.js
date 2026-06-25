@@ -77,12 +77,13 @@
       ".gid-table-grid>*{min-width:0;}",
       ".gid-flexline>*{min-width:0;}",
       ".gid-hero-type{font-size:clamp(42px,7.1vw,var(--gid-font-native,80px))!important;letter-spacing:0!important;}",
-      "#dc-root.gid-canvas-root{width:100%!important;max-width:100vw!important;overflow:visible!important;}",
-      "#gid-canvas-viewport{width:100%;max-width:100vw;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin;background:#F5EEDD;}",
+      "#dc-root.gid-canvas-root{width:100%!important;max-width:100vw!important;min-height:0!important;overflow:hidden!important;padding:clamp(10px,1.8vw,22px)!important;background:#F5EEDD;}",
+      "#gid-canvas-viewport{width:100%;height:var(--gid-canvas-frame-h,calc(100dvh - var(--gid-nav-h) - 44px));max-width:100%;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:thin;background:#F5EEDD;border:1px solid rgba(13,17,20,.14);border-radius:14px;box-shadow:0 16px 44px rgba(13,17,20,.12),inset 0 0 0 1px rgba(255,255,255,.5);}",
       "#gid-canvas-stage{position:relative;min-width:100%;}",
       "#gid-canvas-stage>.sc-host{position:relative!important;min-width:0!important;max-width:none!important;transform-origin:0 0;will-change:transform;}",
-      "html[data-gid-vp='mobile'] #gid-canvas-viewport{padding-bottom:12px;}",
-      "html[data-gid-vp='tablet'] #gid-canvas-viewport{padding-bottom:14px;}",
+      "html[data-gid-vp='mobile'] #dc-root.gid-canvas-root{padding:10px 10px 10px 52px!important;}",
+      "html[data-gid-vp='mobile'] #gid-canvas-viewport{border-radius:12px;}",
+      "html[data-gid-vp='tablet'] #dc-root.gid-canvas-root{padding:16px 16px 16px 58px!important;}",
       "html.gid-surface-central #dc-root [style*='height:100vh']{height:calc(100dvh - var(--gid-nav-h))!important;}",
       "html.gid-surface-index #dc-root [style*='height:430px']{height:auto!important;min-height:clamp(360px,58dvh,430px)!important;}",
       "html[data-gid-vp='tablet'] .gid-container{padding-left:clamp(24px,4vw,48px)!important;padding-right:clamp(24px,4vw,48px)!important;}",
@@ -256,11 +257,6 @@
     if (!host || !host.querySelector("[data-screen-label]")) return false;
 
     var vp = document.documentElement.dataset.gidVp || "desktop";
-    if (vp === "desktop") {
-      unwrapCanvas(root, viewport, stage, host);
-      return false;
-    }
-
     if (!viewport) {
       viewport = document.createElement("div");
       viewport.id = "gid-canvas-viewport";
@@ -274,15 +270,24 @@
     var metrics = directCanvasMetrics(host);
     if (!metrics.width || !metrics.height) return false;
 
-    var scale = vp === "mobile" ? 0.62 : 0.72;
+    var scale = vp === "mobile" ? 0.62 : (vp === "tablet" ? 0.72 : 0.78);
     if (metrics.width <= 1440) scale = vp === "mobile" ? 0.78 : 0.9;
 
     var stageW = Math.ceil(metrics.width * scale);
     var stageH = Math.ceil(metrics.height * scale);
+    var navH = px(getComputedStyle(document.documentElement).getPropertyValue("--gid-nav-h")) || (vp === "mobile" ? 44 : 40);
+    var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+    var maxFrame = Math.max(
+      vp === "mobile" ? 420 : 520,
+      Math.min(vh - navH - (vp === "desktop" ? 56 : 34), vp === "desktop" ? 860 : (vp === "tablet" ? 760 : 640))
+    );
+    var frameH = Math.min(stageH + 2, maxFrame);
+    var rootPad = vp === "mobile" ? 20 : (vp === "tablet" ? 32 : 44);
     root.classList.add("gid-canvas-root");
-    root.style.setProperty("height", (stageH + 18) + "px", "important");
+    root.style.setProperty("height", (frameH + rootPad) + "px", "important");
     root.style.setProperty("min-height", "0", "important");
-    viewport.style.height = (stageH + 18) + "px";
+    root.style.setProperty("--gid-canvas-frame-h", frameH + "px");
+    viewport.style.height = frameH + "px";
     stage.style.width = stageW + "px";
     stage.style.height = stageH + "px";
     host.style.width = metrics.width + "px";
@@ -398,8 +403,13 @@
     buildRail();
     annotateInlineLayouts();
 
-    window.addEventListener("resize", setViewportState, { passive: true });
-    window.addEventListener("orientationchange", setViewportState, { passive: true });
+    function refreshViewport() {
+      setViewportState();
+      annotateInlineLayouts();
+    }
+
+    window.addEventListener("resize", refreshViewport, { passive: true });
+    window.addEventListener("orientationchange", refreshViewport, { passive: true });
 
     var tries = 0;
     var iv = setInterval(function () {
