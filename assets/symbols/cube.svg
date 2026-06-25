@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">GNU6-shell cube terminal symbol</title>
+  <desc>Flat 3D cube with terminal prompt. Transparent background.</desc>
+  <g id="cube-terminal">
+    <polygon id="cube-top" points="66,66 128,32 190,66 128,100" fill="#FF6A00"></polygon>
+    <polygon id="cube-left" points="60,78 122,113 122,181 60,146" fill="#FF6A00"></polygon>
+    <polygon id="terminal-face" points="134,113 196,78 196,146 134,181" fill="#111418"></polygon>
+    <g id="prompt" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+      <polyline id="prompt-chevron" points="151,115 166,130 151,145"></polyline>
+      <line id="prompt-cursor" x1="167" y1="153" x2="184" y2="153"></line>
+    </g>
+  </g>
+
+</svg>

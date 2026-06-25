@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <title>Gnu.In-Shell — Motion Spec v0.4.0</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="../../assets/symbols/cube.svg">
 <style>
   html, body { margin: 0; padding: 0; background: #f0eee9; height: 100%; overflow: hidden; }
   body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
@@ -52,7 +53,7 @@ function App() {
         <DCSection
           id="manifeste"
           title="Gnu.In-Shell · fiche d'animation v0.4.0"
-          subtitle="Pour des menus contextuels qui cassent fade+transient. Lecture en trois échelles — atomes, molécules, recettes — avec tokens neutres et snippets QML/Qt/Flutter/CSS clé-en-main. Sync avec Context Spec v3.1 : 5 recettes motion servent désormais 8 archétypes."
+          subtitle="Pour des menus contextuels qui cassent fade+transient. Lecture en trois échelles — atomes, molécules, recettes — avec tokens neutres et snippets Qt/Flutter/CSS clé-en-main. Sync avec Context Spec v3.1 : 5 recettes motion servent désormais 8 archétypes."
         >
           <DCArtboard id="cover" label="∞.0 · Cover" width={1280} height={720}>
             <MotionCover />
@@ -109,7 +110,7 @@ function App() {
           <DCSection
             id="recettes"
             title="Recettes · 5 orchestrations clé-en-main"
-            subtitle="Storyboards complets par archétype. Open → hover → commit → sub → close lus sur une timeline unique. Snippets QML / Qt / Flutter / CSS branchables tels quels."
+            subtitle="Storyboards complets par archétype. Open → hover → commit → sub → close lus sur une timeline unique. Snippets Qt / Flutter / CSS branchables tels quels."
           >
             {RECIPES.map((r) => (
               <DCArtboard key={r.id} id={`rec-${r.id}`} label={`${r.id} · ${r.title}${r.signature ? ' ★' : ''}`} width={1280} height={720}>

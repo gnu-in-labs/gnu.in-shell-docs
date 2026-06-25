@@ -1,7 +1,6 @@
-/* Shared top navigation for the Gnu.In-Shell deck.
+/* Shared top navigation + favicon for the Gnu.In-Shell deck.
  * Loaded from each page's <head> (OUTSIDE <x-dc>) so it never enters the
- * dc-runtime template and can't break its compile. Injects a slim, auto-hiding
- * top bar linking every surface, with the current page highlighted. */
+ * dc-runtime template and can't break its compile. */
 (function () {
   var SURFACES = [
     { label: "Index", file: "Gnu.In-Shell - Index.dc.html", home: true },
@@ -13,14 +12,26 @@
     { label: "Handoff", file: "Gnu.In-Shell - Handoff.dc.html" },
     { sep: true },
     { label: "Central", file: "Central.dc.html" },
-    { label: "Syster", file: "Syster.dc.html" },
-    { label: "Plan de fusion", file: "gnu.in-OS - Plan de Fusion.dc.html" },
-    { label: "Plan complet", file: "gnu.in-OS - Plan de Fusion (complet).dc.html" },
-    { label: "Trigger Film", file: "Trigger Film.dc.html" }
+    { label: "Plan complet", file: "gnu.in-OS - Plan de Fusion (complet).dc.html" }
   ];
 
   var current = "";
   try { current = decodeURIComponent(location.pathname.split("/").pop() || ""); } catch (e) { current = location.pathname.split("/").pop() || ""; }
+
+  function ensureFavicon() {
+    var href = "assets/symbols/cube.svg";
+    var existing = document.querySelector("link[rel~='icon']");
+    if (existing) {
+      existing.setAttribute("type", "image/svg+xml");
+      existing.setAttribute("href", href);
+      return;
+    }
+    var icon = document.createElement("link");
+    icon.setAttribute("rel", "icon");
+    icon.setAttribute("type", "image/svg+xml");
+    icon.setAttribute("href", href);
+    document.head.appendChild(icon);
+  }
 
   function build() {
     if (document.getElementById("gid-nav")) return;
@@ -28,10 +39,11 @@
     var css = document.createElement("style");
     css.id = "gid-nav-style";
     css.textContent =
+      "body{padding-top:40px!important;box-sizing:border-box;}" +
       "#gid-nav{position:fixed;top:0;left:0;right:0;z-index:2147483600;display:flex;align-items:center;gap:2px;" +
       "height:40px;padding:0 12px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;" +
       "font:500 12px/1 ui-monospace,'IBM Plex Mono','JetBrains Mono',SFMono-Regular,Menlo,monospace;" +
-      "letter-spacing:.04em;color:#cdd3d0;background:rgba(13,17,20,.82);" +
+      "letter-spacing:.04em;color:#cdd3d0;background:rgba(13,17,20,.86);" +
       "-webkit-backdrop-filter:blur(10px) saturate(1.1);backdrop-filter:blur(10px) saturate(1.1);" +
       "border-bottom:1px solid rgba(245,238,221,.12);transition:transform .25s cubic-bezier(.2,.7,.2,1);}" +
       "#gid-nav::-webkit-scrollbar{display:none}" +
@@ -53,7 +65,12 @@
     nav.appendChild(dot);
 
     SURFACES.forEach(function (s) {
-      if (s.sep) { var d = document.createElement("span"); d.className = "gid-sep"; nav.appendChild(d); return; }
+      if (s.sep) {
+        var d = document.createElement("span");
+        d.className = "gid-sep";
+        nav.appendChild(d);
+        return;
+      }
       var a = document.createElement("a");
       a.href = encodeURIComponent(s.file);
       a.textContent = s.label;
@@ -68,7 +85,6 @@
 
     document.body.appendChild(nav);
 
-    // auto-hide on scroll-down, reveal on scroll-up (keeps editorial layouts uncovered)
     var lastY = 0;
     window.addEventListener("scroll", function () {
       var y = window.scrollY || document.documentElement.scrollTop || 0;
@@ -79,8 +95,8 @@
   }
 
   function boot() {
+    ensureFavicon();
     build();
-    // dc-runtime renders the <x-dc> after load; re-assert the bar if it gets detached
     var tries = 0;
     var iv = setInterval(function () {
       if (!document.getElementById("gid-nav") && document.body) build();

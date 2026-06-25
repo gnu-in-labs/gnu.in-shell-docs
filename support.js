@@ -1349,7 +1349,8 @@
       const r = registry.get(name);
       if (r.fetched) return;
       r.fetched = true;
-      const url = COMPONENT_DIR + "/" + encodeURIComponent(name) + ".dc.html";
+      const file = encodeURIComponent(name) + ".dc.html";
+      const url = name === "Syster" ? "_components/" + file : COMPONENT_DIR + "/" + file;
       fetch(url).then((res) => {
         if (!res.ok) {
           console.error(
