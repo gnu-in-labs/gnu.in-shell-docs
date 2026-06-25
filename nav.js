@@ -2,14 +2,17 @@
  * Loaded from each page's <head> (OUTSIDE <x-dc>) so it never enters the
  * dc-runtime template and can't break its compile. */
 (function () {
+  var WIREFRAME_SURFACES = [
+    { label: "Fondations", file: "Gnu.In-Shell - Fondations.dc.html", step: "01" },
+    { label: "Atomes", file: "Gnu.In-Shell - Atomes.dc.html", step: "02" },
+    { label: "Molécules", file: "Gnu.In-Shell - Molécules.dc.html", step: "03" },
+    { label: "Intégration", file: "Gnu.In-Shell - Intégration.dc.html", step: "04" },
+    { label: "Handoff", file: "Gnu.In-Shell - Handoff.dc.html", step: "05" }
+  ];
+
   var SURFACES = [
     { label: "Index", file: "Gnu.In-Shell - Index.dc.html", home: true },
-    { label: "Atlas", file: "Gnu.In-Shell - Atlas Unifié.dc.html" },
-    { label: "Fondations", file: "Gnu.In-Shell - Fondations.dc.html" },
-    { label: "Atomes", file: "Gnu.In-Shell - Atomes.dc.html" },
-    { label: "Molécules", file: "Gnu.In-Shell - Molécules.dc.html" },
-    { label: "Intégration", file: "Gnu.In-Shell - Intégration.dc.html" },
-    { label: "Handoff", file: "Gnu.In-Shell - Handoff.dc.html" },
+    { label: "Atlas", file: "Gnu.In-Shell - Atlas Unifié.dc.html", children: WIREFRAME_SURFACES },
     { sep: true },
     { label: "Central", file: "Central.dc.html" },
     { label: "Animations", file: "Animations.dc.html" },
@@ -60,6 +63,21 @@
       "#gid-nav a{flex:0 0 auto;color:#aeb6b2;text-decoration:none;padding:7px 10px;border-radius:7px;white-space:nowrap;transition:background .15s,color .15s}",
       "#gid-nav a:hover{color:#f5eedd;background:rgba(245,238,221,.08)}",
       "#gid-nav a.gid-active{color:#0d1114;background:#F5EEDD;font-weight:600}",
+      "#gid-nav .gid-nav-group{position:relative;flex:0 0 auto;display:flex;align-items:center;gap:1px;}",
+      "#gid-nav .gid-nav-group>a{border-top-right-radius:3px;border-bottom-right-radius:3px;}",
+      "#gid-nav .gid-nav-group.gid-parent-active>a{color:#0d1114;background:#F5EEDD;font-weight:600;}",
+      "#gid-nav .gid-nav-trigger{flex:0 0 auto;width:24px;height:28px;display:grid;place-items:center;margin:0;padding:0;border:0;border-radius:3px;background:rgba(245,238,221,.05);color:#aeb6b2;font:800 10px/1 ui-monospace,'JetBrains Mono',monospace;cursor:pointer;}",
+      "#gid-nav .gid-nav-trigger:hover,#gid-nav .gid-nav-group:focus-within .gid-nav-trigger,#gid-nav .gid-nav-group.gid-open .gid-nav-trigger{color:#F5EEDD;background:rgba(245,238,221,.12);}",
+      ".gid-menu{position:fixed;top:calc(var(--gid-nav-h) + 8px);left:58px;z-index:2147483605;display:none;width:min(316px,calc(100vw - 72px));box-sizing:border-box;padding:10px;border:1px solid rgba(245,238,221,.14);border-radius:10px;background:rgba(13,17,20,.94);-webkit-backdrop-filter:blur(12px) saturate(1.12);backdrop-filter:blur(12px) saturate(1.12);box-shadow:0 18px 42px rgba(0,0,0,.34);}",
+      ".gid-menu.gid-open{display:block;}",
+      ".gid-menu-title{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 6px 10px;color:#7c828a;font:800 9px/1 ui-monospace,'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;}",
+      ".gid-menu-title span:last-child{color:#FF8E40;letter-spacing:.04em;}",
+      ".gid-menu a{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:8px;color:#d6ddd8;text-decoration:none;background:transparent;border:1px solid transparent;font:600 11px/1.2 ui-monospace,'JetBrains Mono',monospace;}",
+      ".gid-menu a+a{margin-top:5px;}",
+      ".gid-menu a:hover{background:rgba(245,238,221,.08);border-color:rgba(245,238,221,.12);}",
+      ".gid-menu a.gid-active{background:#F5EEDD;color:#0d1114;border-color:#F5EEDD;}",
+      ".gid-menu-step{color:#FF8E40;font-weight:800;}",
+      ".gid-menu-copy{color:#7c828a;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.08em;}",
       "#gid-nav .gid-sep{flex:0 0 auto;width:1px;height:16px;background:rgba(245,238,221,.18);margin:0 6px}",
       "#gid-nav .gid-tag{flex:0 0 auto;margin-left:auto;padding-left:14px;color:#6f7b76;font-size:11px;white-space:nowrap}",
       "#gid-rail{position:fixed;left:10px;top:calc(var(--gid-nav-h) + 12px);z-index:2147483590;display:flex;flex-direction:column;gap:6px;padding:6px;border:1px solid rgba(245,238,221,.12);border-radius:12px;background:rgba(13,17,20,.68);-webkit-backdrop-filter:blur(10px) saturate(1.1);backdrop-filter:blur(10px) saturate(1.1);box-shadow:0 12px 32px rgba(0,0,0,.22);opacity:.86}",
@@ -94,6 +112,8 @@
       "html[data-gid-vp='mobile'] #gid-nav{gap:1px;font-size:11px;padding-left:10px;padding-right:10px;}",
       "html[data-gid-vp='mobile'] #gid-nav .gid-dot{width:7px;height:7px;margin-right:5px;}",
       "html[data-gid-vp='mobile'] #gid-nav a{padding:7px 8px;border-radius:6px;}",
+      "html[data-gid-vp='mobile'] #gid-nav .gid-nav-trigger{width:22px;height:28px;}",
+      "html[data-gid-vp='mobile'] .gid-menu{left:52px;width:min(300px,calc(100vw - 60px));top:calc(var(--gid-nav-h) + 7px);}",
       "html[data-gid-vp='mobile'] #gid-nav .gid-tag{display:none;}",
       "html[data-gid-vp='mobile'] #gid-rail{left:8px;top:calc(var(--gid-nav-h) + 8px);gap:4px;padding:4px;border-radius:10px;opacity:.78}",
       "html[data-gid-vp='mobile'] #gid-rail a,html[data-gid-vp='mobile'] #gid-rail button{width:28px;height:28px;border-radius:7px;font-size:9px}",
@@ -147,19 +167,46 @@
   }
 
   function currentSurfaceSlug() {
-    for (var i = 0; i < SURFACES.length; i++) {
-      var s = SURFACES[i];
+    var all = flattenSurfaces(true);
+    for (var i = 0; i < all.length; i++) {
+      var s = all[i];
       if (s.file === current) return s.home ? "index" : slug(s.label || s.file);
     }
     return slug(current || "index");
   }
 
   function currentSurfaceLabel() {
-    for (var i = 0; i < SURFACES.length; i++) {
-      var s = SURFACES[i];
+    var all = flattenSurfaces(true);
+    for (var i = 0; i < all.length; i++) {
+      var s = all[i];
       if (s.file === current) return s.label || "Index";
     }
     return current ? current.replace(/\.dc\.html$/i, "") : "Index";
+  }
+
+  function flattenSurfaces(includeExternal) {
+    var out = [];
+    for (var i = 0; i < SURFACES.length; i++) {
+      var s = SURFACES[i];
+      if (s.sep) continue;
+      if ((includeExternal || !s.external) && s.file) out.push(s);
+      if (s.children) {
+        for (var j = 0; j < s.children.length; j++) {
+          var child = s.children[j];
+          if ((includeExternal || !child.external) && child.file) out.push(child);
+        }
+      }
+      if (includeExternal && s.external) out.push(s);
+    }
+    return out;
+  }
+
+  function hasCurrentChild(surface) {
+    if (!surface || !surface.children) return false;
+    for (var i = 0; i < surface.children.length; i++) {
+      if (surface.children[i].file === current) return true;
+    }
+    return false;
   }
 
   function injectCss() {
@@ -370,6 +417,12 @@
         nav.appendChild(d);
         return;
       }
+
+      if (s.children && s.children.length) {
+        nav.appendChild(buildNavGroup(s));
+        return;
+      }
+
       var a = document.createElement("a");
       a.href = s.href || encodeURIComponent(s.file);
       if (s.external) {
@@ -397,6 +450,98 @@
     }, { passive: true });
   }
 
+  function buildNavGroup(surface) {
+    var group = document.createElement("span");
+    group.className = "gid-nav-group";
+    if (surface.file === current || hasCurrentChild(surface)) group.classList.add("gid-parent-active");
+
+    var primary = document.createElement("a");
+    primary.href = encodeURIComponent(surface.file);
+    primary.textContent = surface.label;
+    if (surface.file === current) primary.classList.add("gid-active");
+    group.appendChild(primary);
+
+    var trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "gid-nav-trigger";
+    trigger.textContent = "v";
+    trigger.setAttribute("aria-label", "Menu wireframe Atlas");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-controls", "gid-atlas-menu");
+    group.appendChild(trigger);
+
+    var menu = document.createElement("div");
+    menu.id = "gid-atlas-menu";
+    menu.className = "gid-menu";
+    menu.setAttribute("role", "menu");
+    menu.setAttribute("aria-label", "Wireframe Atlas");
+
+    var title = document.createElement("div");
+    title.className = "gid-menu-title";
+    var label = document.createElement("span");
+    label.textContent = "Atlas / wireframe";
+    var hint = document.createElement("span");
+    hint.textContent = "Fondations -> Handoff";
+    title.appendChild(label);
+    title.appendChild(hint);
+    menu.appendChild(title);
+
+    surface.children.forEach(function (child) {
+      var a = document.createElement("a");
+      a.href = encodeURIComponent(child.file);
+      a.setAttribute("role", "menuitem");
+      if (child.file === current) a.className = "gid-active";
+
+      var step = document.createElement("span");
+      step.className = "gid-menu-step";
+      step.textContent = child.step || "";
+      a.appendChild(step);
+
+      var text = document.createElement("span");
+      text.textContent = child.label;
+      a.appendChild(text);
+
+      var copy = document.createElement("span");
+      copy.className = "gid-menu-copy";
+      copy.textContent = "ouvrir";
+      a.appendChild(copy);
+
+      menu.appendChild(a);
+    });
+
+    document.body.appendChild(menu);
+
+    trigger.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var open = !group.classList.contains("gid-open");
+      closeNavGroups();
+      group.classList.toggle("gid-open", open);
+      menu.classList.toggle("gid-open", open);
+      trigger.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+
+    document.addEventListener("click", closeNavGroups);
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeNavGroups();
+    });
+
+    return group;
+  }
+
+  function closeNavGroups() {
+    var groups = document.querySelectorAll(".gid-nav-group.gid-open");
+    for (var i = 0; i < groups.length; i++) {
+      groups[i].classList.remove("gid-open");
+      var trigger = groups[i].querySelector(".gid-nav-trigger");
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+    }
+    var menus = document.querySelectorAll(".gid-menu.gid-open");
+    for (var j = 0; j < menus.length; j++) {
+      menus[j].classList.remove("gid-open");
+    }
+  }
+
   function makeRailItem(tag, label, title, className) {
     var el = document.createElement(tag);
     el.textContent = label;
@@ -409,7 +554,7 @@
   function buildRail() {
     if (document.getElementById("gid-rail")) return;
     var currentIndex = -1;
-    var real = SURFACES.filter(function (s) { return !s.sep && !s.external && s.file; });
+    var real = flattenSurfaces(false).filter(function (s) { return !s.external && s.file; });
     for (var i = 0; i < real.length; i++) {
       if (real[i].file === current) currentIndex = i;
     }
