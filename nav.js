@@ -15,7 +15,7 @@
     { label: "Animations", file: "Animations.dc.html" },
     { label: "Roadmap", file: "Roadmap.dc.html" },
     { label: "Syster kit", file: "Sys.ter Mascot Kit.dc.html" },
-    { label: "GitHub", href: "https://github.com/gnu-in-labs/gnu.in-shell-demo", external: true },
+    { label: "GitHub", href: "https://github.com/gnu-in-labs/gnu.in-shell-docs", external: true },
     { label: "Plan complet", file: "gnu.in-OS - Plan de Fusion (complet).dc.html" }
   ];
 
