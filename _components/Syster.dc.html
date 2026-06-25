@@ -69,12 +69,14 @@
 
       <!-- 40 face (Montreal, centered on the screen) -->
       <div style="position:absolute;left:21.90%;top:33.20%;width:56.20%;height:41.70%;container-type:size;{{ faceDim }}">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:0.14em;font-family:'Montreal','Inter',system-ui,sans-serif;font-weight:700;font-size:50cqh;line-height:1;color:{{ glyph }};">
+        <div style="position:absolute;inset:0;font-family:'Montreal','Inter',system-ui,sans-serif;font-weight:700;font-size:50cqh;line-height:1;color:{{ glyph }};">
 
-          <span style="display:inline-flex;align-items:center;">{{ noseGlyph }}</span>
+          <span style="position:absolute;left:30%;top:50%;width:0.62em;height:1em;display:grid;place-items:center;transform:translate(-50%,-50%);">{{ noseGlyph }}</span>
+
+          <div style="position:absolute;left:58%;top:50%;width:1.05em;height:1em;display:grid;place-items:center;transform:translate(-50%,calc(-50% - 0.18em));">
 
           <sc-if value="{{ showCaret }}" hint-placeholder-val="{{ true }}">
-            <span style="display:inline-flex;align-items:center;width:0.38em;height:0.08em;border-radius:999px;background:{{ glyph }};transform:translateY(0.30em);{{ caretStyle }}"></span>
+            <span style="display:block;width:0.38em;height:0.08em;border-radius:999px;background:{{ glyph }};{{ caretStyle }}"></span>
           </sc-if>
 
           <sc-if value="{{ isHello }}" hint-placeholder-val="{{ false }}">
@@ -115,6 +117,7 @@
           <sc-if value="{{ isFail }}" hint-placeholder-val="{{ false }}">
             <span style="display:inline-flex;align-items:center;color:#E5484D;">&times;&times;</span>
           </sc-if>
+          </div>
         </div>
 
         <sc-if value="{{ isVeille }}" hint-placeholder-val="{{ false }}">
