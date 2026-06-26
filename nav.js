@@ -277,7 +277,8 @@
       "#gid-nav .gid-lang{flex:0 0 auto;display:flex;align-items:center;gap:2px;margin-left:6px;padding:3px;border:1px solid rgba(245,238,221,.12);border-radius:8px;background:rgba(245,238,221,.04);}",
       "#gid-nav .gid-lang button{width:28px;height:24px;border:0;border-radius:5px;background:transparent;color:#9aa3ae;font:800 9px/1 ui-monospace,'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}",
       "#gid-nav .gid-lang button[aria-pressed='true']{background:#F5EEDD;color:#0d1114;}",
-      "#gid-rail{box-sizing:border-box;position:fixed;left:clamp(16px,2vw,28px);top:calc(var(--gid-nav-h) + 18px);z-index:2147483590;display:flex;flex-direction:column;gap:7px;padding:7px;border:1px solid rgba(245,238,221,.16);border-radius:16px;background:rgba(13,17,20,.74);-webkit-backdrop-filter:blur(16px) saturate(1.14);backdrop-filter:blur(16px) saturate(1.14);box-shadow:0 22px 46px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.04) inset;opacity:.9;isolation:isolate;touch-action:none;user-select:none;will-change:left,top,width,height,border-radius,box-shadow;transition:opacity .15s,border-color .15s,box-shadow .18s,background .18s,border-radius .18s,padding .18s}",
+      ".gid-sr{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;}",
+      "#gid-rail{box-sizing:border-box;position:fixed;left:clamp(16px,2vw,28px);top:calc(var(--gid-nav-h) + 18px);z-index:2147483590;display:flex;flex-direction:column;gap:7px;padding:7px;border:1px solid rgba(245,238,221,.16);border-radius:16px;background:rgba(13,17,20,.74);-webkit-backdrop-filter:blur(16px) saturate(1.14);backdrop-filter:blur(16px) saturate(1.14);box-shadow:0 22px 46px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.04) inset;opacity:.9;isolation:isolate;touch-action:auto;user-select:none;will-change:left,top,width,height,border-radius,box-shadow;transition:opacity .15s,border-color .15s,box-shadow .18s,background .18s,border-radius .18s,padding .18s}",
       "#gid-rail::before{content:\"\";position:absolute;inset:3px;border-radius:13px;border:1px solid rgba(255,255,255,.05);pointer-events:none;transition:border-radius .18s;}",
       "#gid-rail::after{content:\"\";position:absolute;right:3px;top:11px;width:2px;height:var(--gid-rail-progress,8%);max-height:calc(100% - 22px);border-radius:999px;background:#FF6A00;box-shadow:0 0 10px rgba(255,106,0,.45);transition:width .18s,height .18s,top .18s,right .18s;}",
       "#gid-rail:hover,#gid-rail:focus-within{opacity:1}",
@@ -285,9 +286,10 @@
       "#gid-rail a:hover,#gid-rail button:hover{color:#F5EEDD;background:rgba(245,238,221,.12);border-color:rgba(245,238,221,.22);transform:translateX(1px)}",
       "#gid-rail .gid-active{background:#F5EEDD;color:#0d1114;border-color:#F5EEDD}",
       "#gid-rail .gid-accent{color:#FF8E40}",
-      "#gid-rail .gid-rail-handle{height:16px;border-style:dashed;color:#7c828a;background:rgba(245,238,221,.035);cursor:grab;font-size:11px;letter-spacing:.08em}",
+      "#gid-rail .gid-rail-handle{height:24px;border-style:dashed;color:#7c828a;background:rgba(245,238,221,.035);cursor:grab;font-size:11px;letter-spacing:.08em}",
       "#gid-rail .gid-rail-handle:hover,#gid-rail.gid-rail-dragging .gid-rail-handle{color:#FF8E40;border-color:rgba(255,106,0,.34);background:rgba(255,106,0,.08);transform:none}",
       "#gid-rail .gid-rail-toggle{color:#FF8E40}",
+      "#gid-rail .gid-rail-handle,#gid-rail.gid-rail-collapsed .gid-rail-toggle{touch-action:none;}",
       "#gid-rail.gid-rail-dragging{opacity:1;cursor:grabbing;border-color:rgba(255,106,0,.42);box-shadow:0 26px 54px rgba(0,0,0,.38),0 0 0 1px rgba(255,106,0,.22) inset}",
       "#gid-rail.gid-rail-dragging a,#gid-rail.gid-rail-dragging button{cursor:grabbing}",
       "#gid-rail.gid-rail-collapsed{width:58px;height:58px;padding:7px;gap:0;border-radius:999px;background:rgba(13,17,20,.86);box-shadow:0 22px 48px rgba(0,0,0,.38),0 0 0 1px rgba(255,106,0,.26) inset}",
@@ -336,14 +338,14 @@
       "html[data-gid-vp='mobile'] #gid-nav-progress{height:2px;top:calc(var(--gid-nav-h) - 2px);}",
       "html[data-gid-vp='mobile'] #gid-nav .gid-dot{width:7px;height:7px;margin-right:5px;}",
       "html[data-gid-vp='mobile'] #gid-nav a{padding:7px 8px;border-radius:6px;}",
-      "html[data-gid-vp='mobile'] #gid-nav .gid-nav-trigger{width:22px;height:28px;}",
+      "html[data-gid-vp='mobile'] #gid-nav .gid-nav-trigger{width:28px;height:30px;}",
       "html[data-gid-vp='mobile'] .gid-menu{left:70px;width:min(286px,calc(100vw - 82px));top:calc(var(--gid-nav-h) + 9px);}",
       "html[data-gid-vp='mobile'] #gid-nav .gid-tag{display:none;}",
       "html[data-gid-vp='mobile'] #gid-rail{left:14px;top:calc(var(--gid-nav-h) + 14px);gap:5px;padding:6px;border-radius:15px;opacity:.92}",
       "html[data-gid-vp='mobile'] #gid-rail::before{border-radius:12px}",
       "html[data-gid-vp='mobile'] #gid-rail::after{right:3px;top:10px;max-height:calc(100% - 20px)}",
       "html[data-gid-vp='mobile'] #gid-rail a,html[data-gid-vp='mobile'] #gid-rail button{width:30px;height:30px;border-radius:9px;font-size:9px}",
-      "html[data-gid-vp='mobile'] #gid-rail .gid-rail-handle{height:14px}",
+      "html[data-gid-vp='mobile'] #gid-rail .gid-rail-handle{height:24px}",
       "html[data-gid-vp='mobile'] #gid-rail.gid-rail-collapsed{width:58px;height:58px;padding:7px;border-radius:999px}",
       "html[data-gid-vp='mobile'].gid-rail-collapsed-mode #dc-root:not(.gid-canvas-root){padding-left:0!important;}",
       "html[data-gid-vp='mobile'].gid-rail-collapsed-mode #dc-root.gid-canvas-root{padding-left:10px!important;}",
@@ -828,14 +830,46 @@
 
     document.body.appendChild(menu);
 
-    trigger.addEventListener("click", function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      var open = !group.classList.contains("gid-open");
+    function setMenuOpen(open) {
       closeNavGroups();
       group.classList.toggle("gid-open", open);
       menu.classList.toggle("gid-open", open);
       trigger.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    trigger.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      setMenuOpen(!group.classList.contains("gid-open"));
+    });
+
+    trigger.addEventListener("keydown", function (event) {
+      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+      event.preventDefault();
+      event.stopPropagation();
+      setMenuOpen(true);
+      var items = menu.querySelectorAll("a[role='menuitem']");
+      if (items.length) items[event.key === "ArrowUp" ? items.length - 1 : 0].focus();
+    });
+
+    menu.addEventListener("keydown", function (event) {
+      var items = Array.prototype.slice.call(menu.querySelectorAll("a[role='menuitem']"));
+      if (!items.length) return;
+      var index = items.indexOf(document.activeElement);
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMenuOpen(false);
+        trigger.focus();
+        return;
+      }
+      if (event.key === "Home" || event.key === "End" || event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        if (event.key === "Home") index = 0;
+        else if (event.key === "End") index = items.length - 1;
+        else if (event.key === "ArrowDown") index = (index + 1 + items.length) % items.length;
+        else if (event.key === "ArrowUp") index = (index - 1 + items.length) % items.length;
+        items[index].focus();
+      }
     });
 
     document.addEventListener("click", closeNavGroups);
@@ -876,6 +910,24 @@
     }
   }
 
+  function defaultRailPosition(rail) {
+    var vp = railViewportKey();
+    var navH = px(getComputedStyle(document.documentElement).getPropertyValue("--gid-nav-h")) || (vp === "mobile" ? 44 : 40);
+    var rect = rail ? rail.getBoundingClientRect() : null;
+    var width = rect && rect.width ? rect.width : (rail && rail.classList.contains("gid-rail-collapsed") ? 58 : 46);
+    var height = rect && rect.height ? rect.height : (rail && rail.classList.contains("gid-rail-collapsed") ? 58 : 220);
+    if (vp === "mobile") {
+      return {
+        x: Math.max(14, window.innerWidth - width - 18),
+        y: Math.max(navH + 12, window.innerHeight - height - 18)
+      };
+    }
+    return {
+      x: Math.min(Math.max(window.innerWidth * 0.02, 16), 28),
+      y: navH + 18
+    };
+  }
+
   function saveRailState(rail) {
     if (!rail) return;
     var rect = rail.getBoundingClientRect();
@@ -890,6 +942,84 @@
     }
   }
 
+  function expandedRect(rect, gap) {
+    return {
+      left: rect.left - gap,
+      top: rect.top - gap,
+      right: rect.right + gap,
+      bottom: rect.bottom + gap,
+      width: rect.width + gap * 2,
+      height: rect.height + gap * 2
+    };
+  }
+
+  function rectsOverlap(a, b) {
+    return a && b && !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
+  }
+
+  function railExclusionRects(rail) {
+    var selectors = [
+      ".idx-hero h1",
+      ".doc-hero h1",
+      ".ctx-title",
+      ".mot-title",
+      ".idx-card",
+      ".doc-card",
+      ".ctx-card",
+      ".mot-card",
+      ".idx-live",
+      ".doc-next"
+    ];
+    var out = [];
+    for (var i = 0; i < selectors.length; i++) {
+      var nodes = document.querySelectorAll(selectors[i]);
+      for (var j = 0; j < nodes.length; j++) {
+        var rect = nodes[j].getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < window.innerHeight) out.push(rect);
+      }
+    }
+    var focused = document.activeElement;
+    if (focused && rail && !rail.contains(focused) && focused !== document.body && focused.getBoundingClientRect) {
+      var focusRect = focused.getBoundingClientRect();
+      if (focusRect.width > 0 && focusRect.height > 0 && focusRect.bottom > 0 && focusRect.top < window.innerHeight) out.push(focusRect);
+    }
+    return out;
+  }
+
+  function avoidRailExclusions(rail, x, y, width, height, bounds) {
+    var gap = document.documentElement.dataset.gidVp === "mobile" ? 14 : 18;
+    var candidate = { left: x, top: y, right: x + width, bottom: y + height, width: width, height: height };
+    var exclusions = railExclusionRects(rail).map(function (rect) { return expandedRect(rect, gap); });
+    for (var i = 0; i < exclusions.length; i++) {
+      var ex = exclusions[i];
+      if (!rectsOverlap(candidate, ex)) continue;
+      var options = [
+        { x: ex.left - width - gap, y: y },
+        { x: ex.right + gap, y: y },
+        { x: x, y: ex.top - height - gap },
+        { x: x, y: ex.bottom + gap }
+      ].map(function (pos) {
+        return {
+          x: Math.min(Math.max(pos.x, bounds.minX), bounds.maxX),
+          y: Math.min(Math.max(pos.y, bounds.minY), bounds.maxY)
+        };
+      }).filter(function (pos) {
+        var next = { left: pos.x, top: pos.y, right: pos.x + width, bottom: pos.y + height };
+        return !rectsOverlap(next, ex);
+      }).sort(function (a, b) {
+        var da = Math.abs(a.x - x) + Math.abs(a.y - y);
+        var db = Math.abs(b.x - x) + Math.abs(b.y - y);
+        return da - db;
+      });
+      if (options.length) {
+        x = options[0].x;
+        y = options[0].y;
+        candidate = { left: x, top: y, right: x + width, bottom: y + height, width: width, height: height };
+      }
+    }
+    return { x: x, y: y };
+  }
+
   function clampRailXY(rail, x, y) {
     var rect = rail.getBoundingClientRect();
     var navH = px(getComputedStyle(document.documentElement).getPropertyValue("--gid-nav-h")) || 40;
@@ -900,10 +1030,12 @@
     var minY = navH + pad;
     var maxX = Math.max(minX, window.innerWidth - width - pad);
     var maxY = Math.max(minY, window.innerHeight - height - pad);
-    return {
+    var bounds = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
+    var clamped = {
       x: Math.min(Math.max(x, minX), maxX),
       y: Math.min(Math.max(y, minY), maxY)
     };
+    return avoidRailExclusions(rail, clamped.x, clamped.y, width, height, bounds);
   }
 
   function setRailPosition(rail, x, y) {
@@ -951,15 +1083,8 @@
       });
     } else {
       requestAnimationFrame(function () {
-        var navH = px(getComputedStyle(document.documentElement).getPropertyValue("--gid-nav-h")) || 40;
-        var rect = rail.getBoundingClientRect();
-        var x = vp === "mobile"
-          ? Math.max(14, window.innerWidth - (rect.width || 58) - 14)
-          : (parseFloat(getComputedStyle(rail).left) || 24);
-        var y = vp === "mobile"
-          ? Math.max(navH + 8, window.innerHeight - (rect.height || 48) - 18)
-          : (parseFloat(getComputedStyle(rail).top) || navH + 18);
-        setRailPosition(rail, x, y);
+        var pos = defaultRailPosition(rail);
+        setRailPosition(rail, pos.x, pos.y);
       });
     }
   }
@@ -980,6 +1105,65 @@
 
   function installRailDrag(rail) {
     var drag = null;
+    var keyboardStart = null;
+    var keyboardActive = false;
+
+    function railMoveTarget(target) {
+      if (!target || !target.closest) return false;
+      if (target.closest(".gid-rail-handle")) return true;
+      if (target.closest(".gid-rail-toggle")) return true;
+      return rail.classList.contains("gid-rail-collapsed") && target === rail;
+    }
+
+    function currentRailOrigin() {
+      var rect = rail.getBoundingClientRect();
+      return { x: rect.left, y: rect.top };
+    }
+
+    rail.addEventListener("focusin", function (event) {
+      if (railMoveTarget(event.target)) {
+        keyboardStart = currentRailOrigin();
+        keyboardActive = false;
+      }
+    });
+
+    rail.addEventListener("keydown", function (event) {
+      if (!railMoveTarget(event.target)) return;
+      var key = event.key;
+      var isArrow = key === "ArrowLeft" || key === "ArrowRight" || key === "ArrowUp" || key === "ArrowDown";
+      if (!isArrow && key !== "Escape" && key !== "Home") return;
+      if (event.cancelable) event.preventDefault();
+
+      if (key === "Escape") {
+        if (!keyboardStart) keyboardStart = currentRailOrigin();
+        setRailPosition(rail, keyboardStart.x, keyboardStart.y);
+        saveRailState(rail);
+        keyboardStart = currentRailOrigin();
+        keyboardActive = false;
+        return;
+      }
+
+      if (key === "Home") {
+        var reset = defaultRailPosition(rail);
+        setRailPosition(rail, reset.x, reset.y);
+        saveRailState(rail);
+        keyboardStart = currentRailOrigin();
+        keyboardActive = false;
+        return;
+      }
+
+      if (!keyboardActive) {
+        keyboardStart = currentRailOrigin();
+        keyboardActive = true;
+      }
+      var rect = rail.getBoundingClientRect();
+      var step = event.shiftKey ? 32 : (event.altKey ? 4 : 10);
+      var dx = key === "ArrowLeft" ? -step : (key === "ArrowRight" ? step : 0);
+      var dy = key === "ArrowUp" ? -step : (key === "ArrowDown" ? step : 0);
+      setRailPosition(rail, rect.left + dx, rect.top + dy);
+      saveRailState(rail);
+    });
+
     rail.addEventListener("click", function (event) {
       if (rail.dataset.gidSuppressClick === "1") {
         event.preventDefault();
@@ -1063,9 +1247,22 @@
     rail.setAttribute("aria-label", currentLang === "fr" ? "Outils rapides" : "Quick tools");
     rail.style.setProperty("--gid-rail-progress", progress.pct);
 
-    var handle = makeRailItem("button", "::", currentLang === "fr" ? "Déplacer la barre" : "Move rail", "gid-rail-handle");
+    var helpId = "gid-rail-keyboard-help";
+    if (!document.getElementById(helpId)) {
+      var help = document.createElement("span");
+      help.id = helpId;
+      help.className = "gid-sr";
+      help.textContent = currentLang === "fr"
+        ? "Utiliser les flèches pour déplacer la barre, Maj plus flèche pour un grand déplacement, Home pour replacer, Échap pour annuler."
+        : "Use arrow keys to move the rail, Shift plus arrow for a large move, Home to reset, Escape to cancel.";
+      document.body.appendChild(help);
+    }
+
+    var handle = makeRailItem("button", "::", currentLang === "fr" ? "Déplacer la barre avec les flèches" : "Move rail with arrow keys", "gid-rail-handle");
     handle.type = "button";
     handle.setAttribute("data-gid-drag-handle", "true");
+    handle.setAttribute("aria-describedby", helpId);
+    handle.setAttribute("aria-keyshortcuts", "ArrowLeft ArrowRight ArrowUp ArrowDown Shift+ArrowLeft Shift+ArrowRight Shift+ArrowUp Shift+ArrowDown Home Escape");
     rail.appendChild(handle);
 
     var home = makeRailItem("a", "IN", "Index", current === real[0].file ? "gid-active" : "");
@@ -1100,6 +1297,9 @@
 
     var toggle = makeRailItem("button", "-", t("Rétracter la barre"), "gid-rail-toggle");
     toggle.type = "button";
+    toggle.setAttribute("aria-controls", "gid-rail");
+    toggle.setAttribute("aria-describedby", helpId);
+    toggle.setAttribute("aria-keyshortcuts", "ArrowLeft ArrowRight ArrowUp ArrowDown Shift+ArrowLeft Shift+ArrowRight Shift+ArrowUp Shift+ArrowDown Home Escape");
     toggle.addEventListener("click", function () {
       if (rail.dataset.gidSuppressClick === "1") return;
       setRailCollapsed(rail, !rail.classList.contains("gid-rail-collapsed"), true);

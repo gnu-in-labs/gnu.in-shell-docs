@@ -136,6 +136,15 @@ async function getIndexState(page, forbiddenPatterns) {
     const rail = document.getElementById("gid-rail");
     const railBox = rail ? rail.getBoundingClientRect() : null;
     const railToggle = rail ? rail.querySelector(".gid-rail-toggle") : null;
+    const navTargets = nav ? [...nav.querySelectorAll("a[href], button")].map((node) => {
+      const rect = node.getBoundingClientRect();
+      return {
+        text: node.textContent.trim(),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+        visible: getComputedStyle(node).display !== "none"
+      };
+    }) : [];
     const live = document.querySelector("[data-idx-live]");
     const liveCanvas = live ? live.querySelector(".idx-live-canvas") : null;
     const liveBox = live ? live.getBoundingClientRect() : null;
@@ -200,6 +209,7 @@ async function getIndexState(page, forbiddenPatterns) {
       navExists: Boolean(nav),
       railExists: Boolean(rail),
       navText: nav ? nav.innerText : "",
+      navTargets,
       railBox: railBox && { left: Math.round(railBox.left), right: Math.round(railBox.right), top: Math.round(railBox.top) },
       railState: rail && {
         collapsed: rail.classList.contains("gid-rail-collapsed"),
@@ -277,7 +287,34 @@ async function getInteractionState(page, options = {}) {
         menuVisible: style ? style.display !== "none" && style.visibility !== "hidden" : false
       };
     });
-    menuState = { beforeBox, beforeExpanded, ...menuState, afterEscape };
+    await trigger.focus();
+    await page.keyboard.press("ArrowDown");
+    await page.waitForTimeout(100);
+    const keyboardOpen = await page.evaluate(() => {
+      const triggerEl = document.querySelector("#gid-nav .gid-nav-group .gid-nav-trigger");
+      const active = document.activeElement;
+      return {
+        triggerExpanded: triggerEl ? triggerEl.getAttribute("aria-expanded") : null,
+        activeRole: active ? active.getAttribute("role") : null,
+        activeText: active ? active.textContent.trim() : ""
+      };
+    });
+    await page.keyboard.press("ArrowDown");
+    await page.waitForTimeout(80);
+    const keyboardNext = await page.evaluate(() => ({
+      activeRole: document.activeElement ? document.activeElement.getAttribute("role") : null,
+      activeText: document.activeElement ? document.activeElement.textContent.trim() : ""
+    }));
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(100);
+    const keyboardClosed = await page.evaluate(() => {
+      const triggerEl = document.querySelector("#gid-nav .gid-nav-group .gid-nav-trigger");
+      return {
+        triggerExpanded: triggerEl ? triggerEl.getAttribute("aria-expanded") : null,
+        activeClass: document.activeElement ? document.activeElement.className : ""
+      };
+    });
+    menuState = { beforeBox, beforeExpanded, ...menuState, afterEscape, keyboardOpen, keyboardNext, keyboardClosed };
   }
 
   const railInteraction = await getRailInteractionState(page);
@@ -308,6 +345,18 @@ async function readRailState(page) {
     const toggle = rail ? rail.querySelector(".gid-rail-toggle") : null;
     const handle = rail ? rail.querySelector(".gid-rail-handle") : null;
     const rect = rail ? rail.getBoundingClientRect() : null;
+    const controls = rail ? [...rail.querySelectorAll("a[href], button")].map((node) => {
+      const box = node.getBoundingClientRect();
+      return {
+        label: node.getAttribute("aria-label") || node.textContent.trim(),
+        visible: getComputedStyle(node).display !== "none",
+        width: Math.round(box.width),
+        height: Math.round(box.height),
+        keyshortcuts: node.getAttribute("aria-keyshortcuts") || "",
+        describedby: node.getAttribute("aria-describedby") || "",
+        controls: node.getAttribute("aria-controls") || ""
+      };
+    }) : [];
     return {
       exists: Boolean(rail),
       collapsed: rail ? rail.classList.contains("gid-rail-collapsed") : null,
@@ -316,6 +365,7 @@ async function readRailState(page) {
       toggleExpanded: toggle ? toggle.getAttribute("aria-expanded") : null,
       toggleVisible: toggle ? getComputedStyle(toggle).display !== "none" : false,
       handleVisible: handle ? getComputedStyle(handle).display !== "none" : false,
+      controlTargets: controls,
       rect: rect && { left: Math.round(rect.left), top: Math.round(rect.top), width: Math.round(rect.width), height: Math.round(rect.height) }
     };
   });
@@ -362,7 +412,36 @@ async function getRailInteractionState(page) {
   }
   const final = await readRailState(page);
 
-  return { initial, drag, beforeDrag, afterDrag, afterFirstToggle, afterSecondToggle, final };
+  const keySelector = final.collapsed ? "#gid-rail .gid-rail-toggle" : "#gid-rail .gid-rail-handle";
+  await page.locator(keySelector).focus({ timeout: 5000 });
+  await page.waitForTimeout(80);
+  const beforeKeyboard = await readRailState(page);
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowDown");
+  await page.waitForTimeout(120);
+  const afterKeyboardMove = await readRailState(page);
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(120);
+  const afterKeyboardEscape = await readRailState(page);
+  await page.keyboard.press("Home");
+  await page.waitForTimeout(120);
+  const afterKeyboardHome = await readRailState(page);
+  if (afterKeyboardHome.collapsed !== initial.collapsed) {
+    await page.locator("#gid-rail .gid-rail-toggle").click({ timeout: 5000 });
+    await page.waitForTimeout(180);
+  }
+  const afterKeyboardFinal = await readRailState(page);
+
+  return {
+    initial,
+    drag,
+    beforeDrag,
+    afterDrag,
+    afterFirstToggle,
+    afterSecondToggle,
+    final,
+    keyboard: { beforeKeyboard, afterKeyboardMove, afterKeyboardEscape, afterKeyboardHome, afterKeyboardFinal }
+  };
 }
 
 async function readLiveState(page) {
@@ -428,6 +507,11 @@ function validateResult(result) {
   if (result.case.startsWith("mobile") && result.railState && result.railState.visibleControls.length !== 1) {
     issues.push(`rail-mobile-visible-controls=${result.railState.visibleControls.join("/")}`);
   }
+  for (const target of result.navTargets || []) {
+    if (target.visible && (target.width < 24 || target.height < 24)) {
+      issues.push(`nav-target-small=${target.text}:${target.width}x${target.height}`);
+    }
+  }
   if (!result.focusOutline || result.focusOutline.outlineStyle === "none" || parseFloat(result.focusOutline.outlineWidth) < 2) {
     issues.push(`focus=${JSON.stringify(result.focusOutline)}`);
   }
@@ -458,6 +542,12 @@ function validateResult(result) {
       if (!menu.menuVisible) issues.push("atlas-menu=hidden");
       if (menu.afterEscape.triggerExpanded !== "false") issues.push(`atlas-menu-expanded-after-escape=${menu.afterEscape.triggerExpanded}`);
       if (menu.afterEscape.menuVisible || menu.afterEscape.groupOpen) issues.push("atlas-menu=still-open-after-escape");
+      if (menu.keyboardOpen.triggerExpanded !== "true") issues.push(`atlas-menu-keyboard-open=${menu.keyboardOpen.triggerExpanded}`);
+      if (menu.keyboardOpen.activeRole !== "menuitem") issues.push(`atlas-menu-keyboard-focus=${menu.keyboardOpen.activeRole}:${menu.keyboardOpen.activeText}`);
+      if (menu.keyboardNext.activeRole !== "menuitem" || menu.keyboardNext.activeText === menu.keyboardOpen.activeText) {
+        issues.push(`atlas-menu-keyboard-next=${menu.keyboardNext.activeRole}:${menu.keyboardNext.activeText}`);
+      }
+      if (menu.keyboardClosed.triggerExpanded !== "false") issues.push(`atlas-menu-keyboard-close=${menu.keyboardClosed.triggerExpanded}`);
     }
     if (!result.interaction.railInteraction) {
       issues.push("rail-interaction=missing");
@@ -474,6 +564,31 @@ function validateResult(result) {
       if (rail.afterSecondToggle.collapsed !== rail.afterDrag.collapsed) issues.push("rail-toggle=not-restored");
       if (rail.final.collapsed !== rail.initial.collapsed) issues.push("rail-final-state=changed");
       if (rail.final.toggleExpanded !== (rail.final.collapsed ? "false" : "true")) issues.push(`rail-toggle-expanded=${rail.final.toggleExpanded}`);
+      for (const target of rail.final.controlTargets || []) {
+        if (target.visible && (target.width < 24 || target.height < 24)) {
+          issues.push(`rail-target-small=${target.label}:${target.width}x${target.height}`);
+        }
+      }
+      const moverTargets = (rail.final.controlTargets || []).filter((target) => /Déplacer|Move rail|Ouvrir|Open rail|Rétracter|Collapse rail/.test(target.label));
+      if (!moverTargets.some((target) => target.keyshortcuts.includes("ArrowLeft") && target.describedby === "gid-rail-keyboard-help")) {
+        issues.push("rail-keyboard-help=missing");
+      }
+      if (!rail.keyboard) {
+        issues.push("rail-keyboard=missing");
+      } else {
+        const before = rail.keyboard.beforeKeyboard.rect;
+        const moved = rail.keyboard.afterKeyboardMove.rect;
+        const escaped = rail.keyboard.afterKeyboardEscape.rect;
+        if (before && moved) {
+          const delta = Math.abs(moved.left - before.left) + Math.abs(moved.top - before.top);
+          if (delta < 8) issues.push(`rail-keyboard-move=unchanged:${delta}`);
+        }
+        if (before && escaped) {
+          const delta = Math.abs(escaped.left - before.left) + Math.abs(escaped.top - before.top);
+          if (delta > 2) issues.push(`rail-keyboard-escape=${delta}`);
+        }
+        if (rail.keyboard.afterKeyboardFinal.collapsed !== rail.initial.collapsed) issues.push("rail-keyboard-final-state=changed");
+      }
     }
     if (!result.interaction.liveInteraction) {
       issues.push("live-interaction=missing");
