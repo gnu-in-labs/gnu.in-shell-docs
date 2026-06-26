@@ -17,10 +17,10 @@
 
   var SURFACES = [
     { label: "Index", file: "Gnu.In-Shell - Index.dc.html", home: true },
-    { label: "Atlas", file: "Gnu.In-Shell - Atlas Unifié.dc.html", children: WIREFRAME_SURFACES, menuTitle: "Atlas / wireframe", menuHint: "Fondations -> Handoff" },
+    { label: "Atlas", file: "Gnu.In-Shell - Atlas Unifié.dc.html", children: WIREFRAME_SURFACES, menuTitle: "Atlas / parcours", menuHint: "Fondations -> Handoff" },
     { sep: true },
     { label: "Central", file: "Central.dc.html" },
-    { label: "Menus", file: "Gnu.In Context Menus.dc.html", children: MENU_SURFACES, menuTitle: "Menus / context.spec", menuHint: "27 molecules" },
+    { label: "Menus", file: "Gnu.In Context Menus.dc.html", children: MENU_SURFACES, menuTitle: "Menus / contextes", menuHint: "27 molecules" },
     { label: "Animations", file: "Animations.dc.html" },
     { label: "Film", file: "Trigger Film.dc.html" },
     { label: "Roadmap", file: "Roadmap.dc.html" },
@@ -478,7 +478,7 @@
 
     var tag = document.createElement("span");
     tag.className = "gid-tag";
-    tag.textContent = currentSurfaceLabel() + " · " + String(progress.index + 1).padStart(2, "0") + "/" + String(progress.total).padStart(2, "0") + " · v0.14.2 beta";
+    tag.textContent = currentSurfaceLabel() + " · " + String(progress.index + 1).padStart(2, "0") + "/" + String(progress.total).padStart(2, "0") + " · v0.14.2";
     nav.appendChild(tag);
 
     document.body.appendChild(nav);

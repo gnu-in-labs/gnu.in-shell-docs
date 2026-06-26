@@ -17,7 +17,7 @@
 <style>
 :root {
   --idx-ink:#111418;
-  --idx-soft:#667085;
+  --idx-soft:#505A66;
   --idx-line:#D7DADF;
   --idx-paper:#F5EEDD;
   --idx-paper-2:#FFF9F2;
@@ -26,8 +26,11 @@
   --idx-panel-2:#171C22;
   --idx-orange:#FF6A00;
   --idx-orange-2:#FF8E40;
+  --idx-accent-text:#B74700;
   --idx-green:#8DA982;
   --idx-blue:#3D8DCC;
+  --idx-title-shadow:2px 2px 0 rgba(255,106,0,.30), 4px 4px 0 rgba(17,20,24,.10);
+  --idx-title-shadow-dark:3px 3px 0 rgba(255,106,0,.38), 6px 6px 0 rgba(245,238,221,.08);
   --idx-pad:clamp(56px,7.4vw,96px);
 }
 body { margin:0; background:var(--idx-paper); }
@@ -41,7 +44,7 @@ body { margin:0; background:var(--idx-paper); }
 .idx-hero-grid { position:relative; z-index:1; min-height:560px; display:grid; grid-template-columns:minmax(0,1.08fr) minmax(310px,.58fr); gap:42px; align-items:center; padding-top:42px; padding-bottom:46px; }
 .idx-brand-row { display:flex; align-items:center; gap:12px; }
 .idx-kicker { font:700 10px/1 'JetBrains Mono', monospace; letter-spacing:.18em; text-transform:uppercase; color:#948F94; }
-.idx-hero h1 { margin:22px 0 0; color:#F3EEE9; font-size:clamp(62px,8.4vw,112px); line-height:.9; letter-spacing:0; }
+.idx-hero h1 { margin:22px 0 0; color:#F3EEE9; font-size:clamp(62px,8.4vw,112px); line-height:.9; letter-spacing:0; text-shadow:var(--idx-title-shadow-dark); }
 .idx-hero h1 span { color:var(--idx-orange); }
 .idx-lede { max-width:760px; margin:22px 0 0; color:#D4CFCC; font-size:clamp(18px,1.55vw,24px); line-height:1.42; letter-spacing:0; }
 .idx-lede b { color:#F3EEE9; font-weight:700; }
@@ -57,37 +60,39 @@ body { margin:0; background:var(--idx-paper); }
 .idx-ledger-title { display:block; color:#F3EEE9; font-weight:700; font-size:14px; }
 .idx-ledger-copy { display:block; margin-top:5px; color:#9AA0A8; font-size:12px; line-height:1.46; }
 .idx-section { padding-top:48px; }
-.idx-section-head { display:flex; align-items:baseline; gap:14px; margin-bottom:22px; }
-.idx-section-num { font:800 13px/1 'JetBrains Mono', monospace; color:var(--idx-orange); letter-spacing:.08em; }
-.idx-section-title { font-weight:800; font-size:clamp(22px,2.2vw,32px); line-height:1; color:var(--idx-ink); letter-spacing:0; }
-.idx-section-copy { max-width:760px; color:var(--idx-soft); font-size:14px; line-height:1.55; }
-.idx-section-head::after { content:""; flex:1; height:1px; background:var(--idx-line); }
-.idx-principles { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
-.idx-principle { border:1px solid var(--idx-line); border-radius:12px; background:#FFFFFF; padding:18px; box-shadow:0 8px 18px rgba(17,20,24,.045); }
-.idx-principle .material-symbols-rounded { font-family:'Material Symbols Rounded'; font-size:22px; color:var(--idx-orange); }
+.idx-section-head { display:grid; grid-template-columns:42px minmax(220px,.38fr) minmax(0,1fr); gap:10px 18px; align-items:start; margin-bottom:22px; }
+.idx-section-num { padding-top:8px; font:800 13px/1 'JetBrains Mono', monospace; color:var(--idx-accent-text); letter-spacing:.08em; }
+.idx-section-title { margin:0; font-weight:900; font-size:clamp(30px,3.25vw,46px); line-height:.92; color:var(--idx-ink); letter-spacing:0; text-shadow:var(--idx-title-shadow); }
+.idx-section-copy { margin:0; padding-top:6px; max-width:780px; color:var(--idx-soft); font-size:14px; line-height:1.58; }
+.idx-section-head::after { content:""; grid-column:2 / -1; height:1px; background:var(--idx-line); align-self:end; margin-top:8px; }
+.idx-principles { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+.idx-principle { position:relative; overflow:hidden; border:1px solid var(--idx-line); border-radius:12px; background:#FFFFFF; padding:20px 18px 18px; box-shadow:0 8px 18px rgba(17,20,24,.045); }
+.idx-principle::before { content:""; position:absolute; left:0; right:0; top:0; height:4px; background:var(--idx-orange); }
+.idx-principle .material-symbols-rounded { font-family:'Material Symbols Rounded'; font-size:22px; color:var(--idx-accent-text); }
 .idx-principle h3 { margin:13px 0 0; font-size:17px; line-height:1.15; letter-spacing:0; }
 .idx-principle p { margin:9px 0 0; color:var(--idx-soft); font-size:13px; line-height:1.52; }
 .idx-principle code { font-family:'JetBrains Mono', monospace; font-size:11px; color:#343941; background:#F0F2F4; border-radius:5px; padding:1px 5px; }
+.idx-principle-kicker { display:inline-flex; align-items:center; min-height:22px; padding:0 7px; border-radius:6px; background:#F0F2F4; color:#555D68; font:800 9px/1 'JetBrains Mono', monospace; letter-spacing:.08em; text-transform:uppercase; }
 .idx-main-grid { display:grid; grid-template-columns:minmax(0,1.36fr) minmax(318px,.64fr); gap:22px; align-items:start; }
 .idx-cascade { padding:18px; border:1px solid var(--idx-line); border-radius:12px; background:#F9F4EA; }
 .idx-cascade-link { position:relative; display:grid; grid-template-columns:54px minmax(0,1fr) auto; align-items:center; gap:16px; margin-left:calc(var(--step) * 23px); padding:15px 16px; border:1px solid #E6E8EB; border-radius:9px; background:#FFFFFF; color:var(--idx-ink); text-decoration:none; box-shadow:0 4px 12px rgba(17,20,24,.045); transition:transform .18s cubic-bezier(.2,.7,.2,1), border-color .18s, background .18s; }
 .idx-cascade-link + .idx-cascade-link { margin-top:10px; }
 .idx-cascade-link::before { content:""; position:absolute; left:calc(-1 * var(--step) * 23px + 20px); top:-11px; width:calc(var(--step) * 23px - 8px); height:31px; border-left:1px solid #C9CDD3; border-bottom:1px solid #C9CDD3; display:var(--line); }
 .idx-cascade-link:hover { transform:translateX(4px); border-color:var(--idx-orange); background:var(--idx-paper-2); }
-.idx-cascade-num { font:800 12px/1 'JetBrains Mono', monospace; color:var(--idx-orange); }
+.idx-cascade-num { font:800 12px/1 'JetBrains Mono', monospace; color:var(--idx-accent-text); }
 .idx-cascade-title { font-weight:800; font-size:18px; line-height:1.08; letter-spacing:0; color:var(--idx-ink); }
 .idx-cascade-copy { display:block; margin-top:5px; font-size:12.5px; line-height:1.46; color:var(--idx-soft); }
 .idx-cascade-meta { display:flex; flex-wrap:wrap; gap:6px; margin-top:9px; }
 .idx-mini { display:inline-flex; align-items:center; min-height:20px; padding:0 7px; border-radius:6px; background:#F0F2F4; color:#555D68; font:800 9px/1 'JetBrains Mono', monospace; letter-spacing:.04em; text-transform:uppercase; }
 .idx-cascade-icon { font-family:'Material Symbols Rounded'; font-size:20px; color:#A1A6AD; }
 .idx-aside { border:1px solid var(--idx-line); border-radius:12px; background:#FFFFFF; padding:18px; box-shadow:0 8px 18px rgba(17,20,24,.045); }
-.idx-aside-title { font:800 11px/1 'JetBrains Mono', monospace; color:var(--idx-orange); letter-spacing:.14em; text-transform:uppercase; }
+.idx-aside-title { font:800 11px/1 'JetBrains Mono', monospace; color:var(--idx-accent-text); letter-spacing:.14em; text-transform:uppercase; }
 .idx-aside h3 { margin:10px 0 0; font-size:25px; line-height:1.05; letter-spacing:0; color:var(--idx-ink); }
 .idx-aside p { margin:9px 0 16px; color:var(--idx-soft); font-size:13px; line-height:1.48; }
 .idx-resource { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; padding:14px; border:1px solid #E6E8EB; border-radius:9px; background:#FFFFFF; color:var(--idx-ink); text-decoration:none; transition:transform .18s cubic-bezier(.2,.7,.2,1), border-color .18s, background .18s; }
 .idx-resource + .idx-resource { margin-top:10px; }
 .idx-resource:hover { transform:translateY(-2px); border-color:var(--idx-orange); background:var(--idx-paper-2); }
-.idx-resource .material-symbols-rounded { font-family:'Material Symbols Rounded'; font-size:20px; color:var(--idx-orange); }
+.idx-resource .material-symbols-rounded { font-family:'Material Symbols Rounded'; font-size:20px; color:var(--idx-accent-text); }
 .idx-resource b { font-size:13.5px; }
 .idx-resource small { display:block; color:var(--idx-soft); font-size:12px; line-height:1.35; margin-top:3px; }
 .idx-arrow { font-family:'Material Symbols Rounded'; color:#A1A6AD; transition:transform .18s cubic-bezier(.2,.7,.2,1), color .18s; }
@@ -96,7 +101,7 @@ body { margin:0; background:var(--idx-paper); }
 .idx-surface { min-height:168px; display:flex; flex-direction:column; border:1px solid var(--idx-line); border-radius:12px; background:#FFFFFF; padding:16px; text-decoration:none; color:var(--idx-ink); box-shadow:0 8px 18px rgba(17,20,24,.04); transition:transform .18s cubic-bezier(.2,.7,.2,1), border-color .18s; }
 .idx-surface:hover { transform:translateY(-3px); border-color:var(--idx-orange); }
 .idx-surface-top { display:flex; align-items:center; justify-content:space-between; gap:10px; }
-.idx-surface-code { font:800 10px/1 'JetBrains Mono', monospace; color:var(--idx-orange); letter-spacing:.08em; }
+.idx-surface-code { font:800 10px/1 'JetBrains Mono', monospace; color:var(--idx-accent-text); letter-spacing:.08em; }
 .idx-status { font:800 9px/1 'JetBrains Mono', monospace; letter-spacing:.08em; text-transform:uppercase; padding:6px 7px; border-radius:999px; color:#435B3B; background:#E8F0E3; }
 .idx-status.orange { color:#87400A; background:#FFE3CF; }
 .idx-status.blue { color:#245A82; background:#DDEDF8; }
@@ -117,11 +122,13 @@ body { margin:0; background:var(--idx-paper); }
 .idx-gate b { display:block; color:#F3EEE9; font-size:13px; line-height:1.2; }
 .idx-gate span { display:block; margin-top:7px; color:#8F98A3; font-size:12px; line-height:1.45; }
 .idx-footer { display:flex; justify-content:space-between; gap:18px; padding-top:26px; color:#A1A6AD; font:700 11px/1.45 'JetBrains Mono', monospace; }
+.idx-chip:focus-visible, .idx-cascade-link:focus-visible, .idx-resource:focus-visible, .idx-surface:focus-visible { outline:3px solid var(--idx-accent-text); outline-offset:3px; }
 @media (max-width:1100px) {
   :root { --idx-pad:clamp(74px,9vw,92px); }
   .idx-hero-grid, .idx-main-grid { grid-template-columns:1fr; }
   .idx-ledger { border-left:0; border-top:1px solid rgba(245,238,221,.1); padding-left:0; padding-top:18px; }
   .idx-principles, .idx-registry, .idx-gates { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .idx-section-head { grid-template-columns:38px minmax(200px,.42fr) minmax(0,1fr); }
   .idx-spine { grid-template-columns:1fr; }
 }
 @media (max-width:720px) {
@@ -132,14 +139,23 @@ body { margin:0; background:var(--idx-paper); }
   .idx-hero h1 { font-size:clamp(48px,14vw,66px); }
   .idx-lede { font-size:17px; }
   .idx-principles, .idx-registry, .idx-gates { grid-template-columns:1fr; }
-  .idx-section-head { flex-wrap:wrap; }
-  .idx-section-head::after { flex-basis:100%; }
+  .idx-section-head { grid-template-columns:34px minmax(0,1fr); gap:8px 12px; }
+  .idx-section-copy { grid-column:2; padding-top:0; }
+  .idx-section-head::after { grid-column:1 / -1; margin-top:4px; }
   .idx-cascade-link { grid-template-columns:42px minmax(0,1fr) auto; margin-left:0 !important; }
   .idx-cascade-link::before { display:none !important; }
   .idx-footer { flex-direction:column; }
 }
 @media (prefers-reduced-motion:reduce) {
   .idx-resource, .idx-cascade-link, .idx-surface, .idx-ledger-row, .idx-arrow { transition:none !important; animation:none !important; }
+}
+@media (forced-colors:active) {
+  .idx-hero h1, .idx-section-title { text-shadow:none; }
+  .idx-chip, .idx-cascade-link, .idx-resource, .idx-surface, .idx-principle, .idx-aside, .idx-gate { forced-color-adjust:auto; }
+}
+@media (prefers-contrast:more) {
+  .idx-hero h1, .idx-section-title { text-shadow:none; }
+  .idx-section-copy, .idx-principle p, .idx-cascade-copy, .idx-aside p, .idx-resource small, .idx-surface p { color:#343941; }
 }
 </style>
 </helmet>
@@ -154,32 +170,32 @@ body { margin:0; background:var(--idx-paper); }
         </div>
         <h1>gnu<span>.in</span>-OS</h1>
         <p class="idx-lede">
-          Un index de travail pour lire le shell comme un objet complet: <b>surfaces</b>, <b>moteur</b>, <b>motion</b>, <b>contenu</b> et <b>preuves visuelles</b> raccordés dans une même trajectoire de décision.
+          Une porte d'entrée pour lire le shell comme un objet complet: <b>surfaces</b>, <b>moteur</b>, <b>motion</b>, <b>contenu</b> et <b>preuves visuelles</b> raccordés dans une même trajectoire de décision.
         </p>
         <div class="idx-hero-actions" aria-label="État du corpus">
           <a class="idx-chip" href="Central.dc.html"><strong>ouvrir</strong> Central</a>
           <a class="idx-chip" href="Gnu.In-Shell%20-%20Atlas%20Unifi%C3%A9.dc.html"><strong>lire</strong> Atlas</a>
-          <span class="idx-chip"><strong>version</strong> v0.14.2 beta</span>
-          <span class="idx-chip"><strong>repo</strong> gnu.in-shell-docs</span>
+          <span class="idx-chip"><strong>version</strong> v0.14.2</span>
+          <span class="idx-chip"><strong>docs</strong> gnu.in-shell-docs</span>
         </div>
       </div>
 
       <aside class="idx-ledger" aria-label="Rôle de l'index">
         <div class="idx-ledger-row">
-          <span class="idx-ledger-num">01</span>
-          <span><span class="idx-ledger-title">Orienter la lecture</span><span class="idx-ledger-copy">L'Index dit quoi lire, dans quel ordre, et pourquoi chaque surface existe dans le corpus.</span></span>
+          <span class="idx-ledger-num" aria-hidden="true">01</span>
+          <span><span class="idx-ledger-title">Cartographier les surfaces</span><span class="idx-ledger-copy">Atlas, Central, Menus, Renderer et Film posent la carte active du shell.</span></span>
         </div>
         <div class="idx-ledger-row">
-          <span class="idx-ledger-num">02</span>
-          <span><span class="idx-ledger-title">Stabiliser le langage</span><span class="idx-ledger-copy">Chaque page doit reprendre la même grammaire: rôle, état, preuve, raccord moteur, prochain durcissement.</span></span>
+          <span class="idx-ledger-num" aria-hidden="true">02</span>
+          <span><span class="idx-ledger-title">Composer les primitives</span><span class="idx-ledger-copy">Fondations, Atomes C.xx et Molécules CM.xx décrivent les mesures, états et assemblages.</span></span>
         </div>
         <div class="idx-ledger-row">
-          <span class="idx-ledger-num">03</span>
-          <span><span class="idx-ledger-title">Montrer sans sur-vendre</span><span class="idx-ledger-copy">Le site distingue le canon actuel, les surfaces de présentation et les pistes non encore validées.</span></span>
+          <span class="idx-ledger-num" aria-hidden="true">03</span>
+          <span><span class="idx-ledger-title">Suivre la descente moteur</span><span class="idx-ledger-copy">Tokens, scènes, données d'état et captures relient les planches aux comportements attendus.</span></span>
         </div>
         <div class="idx-ledger-row">
-          <span class="idx-ledger-num">04</span>
-          <span><span class="idx-ledger-title">Préparer l'audit</span><span class="idx-ledger-copy">La prochaine phase pourra juger rédaction, layout, comportement, réactivité et cohérence page par page.</span></span>
+          <span class="idx-ledger-num" aria-hidden="true">04</span>
+          <span><span class="idx-ledger-title">Vérifier les états</span><span class="idx-ledger-copy">Chaque surface garde un rôle lisible, un état nommé et une preuve de rendu.</span></span>
         </div>
       </aside>
     </div>
@@ -187,45 +203,54 @@ body { margin:0; background:var(--idx-paper); }
 
   <section class="idx-wrap idx-section" aria-labelledby="idx-method-title">
     <div class="idx-section-head">
-      <span class="idx-section-num">00</span>
-      <h2 id="idx-method-title" class="idx-section-title">Contrat éditorial</h2>
-      <p class="idx-section-copy">Ce site doit devenir une documentation utilisable, pas une collection de planches. Chaque section ci-dessous sert de règle de cohérence pour les pages suivantes.</p>
+      <span class="idx-section-num" aria-hidden="true">00</span>
+      <h2 id="idx-method-title" class="idx-section-title">Grammaire du shell</h2>
+      <p class="idx-section-copy">Le shell se lit en couches: fondations, primitives, compositions, surfaces et transmission moteur. L'Index expose le niveau utile avant d'ouvrir les planches détaillées.</p>
     </div>
     <div class="idx-principles">
       <article class="idx-principle">
-        <span class="material-symbols-rounded">schema</span>
-        <h3>Une page = une fonction</h3>
-        <p>Une surface n'est publiée que si son rôle est lisible: explorer, prouver, comparer, décider ou transmettre. Le texte doit réduire l'ambiguïté, pas remplir l'espace.</p>
+        <span class="material-symbols-rounded" aria-hidden="true">schema</span>
+        <div class="idx-principle-kicker">tokens</div>
+        <h3>Fondations</h3>
+        <p>Palette, type, espace, rayons, densité et motion posent le vocabulaire mesurable des surfaces.</p>
       </article>
       <article class="idx-principle">
-        <span class="material-symbols-rounded">fact_check</span>
-        <h3>Un état = une preuve</h3>
-        <p>Chaque promesse visuelle doit pointer vers une preuve: rendu, fixture, capture, port-data ou comportement vérifié. Les états non canoniques restent nommés comme tels.</p>
+        <span class="material-symbols-rounded" aria-hidden="true">fact_check</span>
+        <div class="idx-principle-kicker">C.01-C.24</div>
+        <h3>Atomes</h3>
+        <p>Boutons, rangées, champs, toggles, sliders et statuts fixent les états interactifs de base.</p>
       </article>
       <article class="idx-principle">
-        <span class="material-symbols-rounded">design_services</span>
-        <h3>Un style = un système</h3>
-        <p>Le langage visuel part de l'Index: noir signal, papier chaud, orange opérateur, vert validation, mono pour les contrats, Montreal pour la lecture.</p>
+        <span class="material-symbols-rounded" aria-hidden="true">design_services</span>
+        <div class="idx-principle-kicker">CM.01-CM.16</div>
+        <h3>Molécules</h3>
+        <p>Menus, toolbars, notifications et lignes de statut assemblent les primitives en surfaces lisibles.</p>
+      </article>
+      <article class="idx-principle">
+        <span class="material-symbols-rounded" aria-hidden="true">view_quilt</span>
+        <div class="idx-principle-kicker">surfaces</div>
+        <h3>Runtime simulé</h3>
+        <p>Central, Menus, Renderer, Animations et Film montrent les états consultables du système.</p>
       </article>
     </div>
   </section>
 
   <section class="idx-wrap idx-section" aria-labelledby="idx-cascade-title">
     <div class="idx-section-head">
-      <span class="idx-section-num">01</span>
-      <h2 id="idx-cascade-title" class="idx-section-title">Cascade wireframe</h2>
-      <p class="idx-section-copy">La cascade reste la colonne de lecture principale: de l'inventaire général vers le handoff moteur, avec chaque étape responsable d'un niveau d'abstraction.</p>
+      <span class="idx-section-num" aria-hidden="true">01</span>
+      <h2 id="idx-cascade-title" class="idx-section-title">Parcours du système</h2>
+      <p class="idx-section-copy">La cascade reste la colonne de lecture principale: de l'inventaire général vers la transmission moteur, avec chaque étape responsable d'un niveau d'abstraction.</p>
     </div>
     <div class="idx-main-grid">
-      <nav class="idx-cascade" aria-label="Explorer le wireframe">
+      <nav class="idx-cascade" aria-label="Explorer le système">
         <a class="idx-cascade-link" href="Gnu.In-Shell%20-%20Atlas%20Unifi%C3%A9.dc.html" style="--step:0; --line:none;">
           <span class="idx-cascade-num">01</span>
           <span>
             <span class="idx-cascade-title">Atlas Unifié</span>
-            <span class="idx-cascade-copy">Carte du corpus, structure des surfaces, lecture recommandée et zones encore à durcir.</span>
+            <span class="idx-cascade-copy">Carte du corpus, structure des surfaces, lecture recommandée et zones à préciser.</span>
             <span class="idx-cascade-meta"><span class="idx-mini">orientation</span><span class="idx-mini">système</span></span>
           </span>
-          <span class="idx-cascade-icon">map</span>
+          <span class="idx-cascade-icon" aria-hidden="true">map</span>
         </a>
         <a class="idx-cascade-link" href="Gnu.In-Shell%20-%20Fondations.dc.html" style="--step:1; --line:block;">
           <span class="idx-cascade-num">02</span>
@@ -234,7 +259,7 @@ body { margin:0; background:var(--idx-paper); }
             <span class="idx-cascade-copy">Couleur, type, espace, ombres, rayons, densité et motion comme grammaire minimale.</span>
             <span class="idx-cascade-meta"><span class="idx-mini">tokens</span><span class="idx-mini">règles</span></span>
           </span>
-          <span class="idx-cascade-icon">palette</span>
+          <span class="idx-cascade-icon" aria-hidden="true">palette</span>
         </a>
         <a class="idx-cascade-link" href="Gnu.In-Shell%20-%20Atomes.dc.html" style="--step:2; --line:block;">
           <span class="idx-cascade-num">03</span>
@@ -243,114 +268,114 @@ body { margin:0; background:var(--idx-paper); }
             <span class="idx-cascade-copy">Primitives mesurées, états, icônes, boutons, inputs et ancres de comportement.</span>
             <span class="idx-cascade-meta"><span class="idx-mini">primitives</span><span class="idx-mini">états</span></span>
           </span>
-          <span class="idx-cascade-icon">category</span>
+          <span class="idx-cascade-icon" aria-hidden="true">category</span>
         </a>
         <a class="idx-cascade-link" href="Gnu.In-Shell%20-%20Mol%C3%A9cules.dc.html" style="--step:3; --line:block;">
           <span class="idx-cascade-num">04</span>
           <span>
             <span class="idx-cascade-title">Molécules</span>
-            <span class="idx-cascade-copy">Assemblages, context menus, recettes, variantes et preuve que le rendu vient des données.</span>
+            <span class="idx-cascade-copy">Assemblages, menus contextuels, recettes, variantes et preuve que le rendu vient des données.</span>
             <span class="idx-cascade-meta"><span class="idx-mini">composition</span><span class="idx-mini">menus</span></span>
           </span>
-          <span class="idx-cascade-icon">widgets</span>
+          <span class="idx-cascade-icon" aria-hidden="true">widgets</span>
         </a>
         <a class="idx-cascade-link" href="Gnu.In-Shell%20-%20Int%C3%A9gration.dc.html" style="--step:4; --line:block;">
           <span class="idx-cascade-num">05</span>
           <span>
             <span class="idx-cascade-title">Intégration</span>
-            <span class="idx-cascade-copy">Surfaces runtime, contrats de montage, collisions possibles et comportement attendu.</span>
-            <span class="idx-cascade-meta"><span class="idx-mini">runtime</span><span class="idx-mini">liaisons</span></span>
+            <span class="idx-cascade-copy">Surfaces actives, contrats de montage, collisions possibles et comportement attendu.</span>
+            <span class="idx-cascade-meta"><span class="idx-mini">surfaces</span><span class="idx-mini">liaisons</span></span>
           </span>
-          <span class="idx-cascade-icon">hub</span>
+          <span class="idx-cascade-icon" aria-hidden="true">hub</span>
         </a>
         <a class="idx-cascade-link" href="Gnu.In-Shell%20-%20Handoff.dc.html" style="--step:5; --line:block; background:#111418; border-color:#2B3037; color:#F3EEE9;">
           <span class="idx-cascade-num" style="color:var(--idx-orange-2);">06</span>
           <span>
             <span class="idx-cascade-title" style="color:#F3EEE9;">Handoff moteur</span>
-            <span class="idx-cascade-copy" style="color:#9AA0A8;">Matrice d'implémentation, API, couches Rust/GPUI, sprint et critères de reprise.</span>
-            <span class="idx-cascade-meta"><span class="idx-mini" style="background:#241A12;color:#FFB36E;">implémentation</span><span class="idx-mini" style="background:#1A1F26;color:#CBC5CA;">handoff</span></span>
+            <span class="idx-cascade-copy" style="color:#9AA0A8;">Matrice de transmission, API, couches moteur, reprise et critères de validation.</span>
+            <span class="idx-cascade-meta"><span class="idx-mini" style="background:#241A12;color:#FFB36E;">intégration</span><span class="idx-mini" style="background:#1A1F26;color:#CBC5CA;">transmission</span></span>
           </span>
-          <span class="idx-cascade-icon" style="color:var(--idx-orange-2);">terminal</span>
+          <span class="idx-cascade-icon" style="color:var(--idx-orange-2);" aria-hidden="true">terminal</span>
         </a>
       </nav>
 
       <aside class="idx-aside">
         <div class="idx-aside-title">portes rapides</div>
         <h3>Surfaces actives</h3>
-        <p>Accès direct aux pages qui doivent porter le plus de cohérence visuelle et rédactionnelle dans la prochaine passe.</p>
-        <a class="idx-resource" href="Central.dc.html"><span class="material-symbols-rounded">view_quilt</span><span><b>Central</b><small>hub de simulation et lecture des scènes</small></span><span class="idx-arrow">arrow_forward</span></a>
-        <a class="idx-resource" href="Gnu.In%20Context%20Menus.dc.html"><span class="material-symbols-rounded">menu_open</span><span><b>Menus</b><small>context.spec, cascade, radial, dock fan</small></span><span class="idx-arrow">arrow_forward</span></a>
-        <a class="idx-resource" href="Molecule%20Renderer.dc.html"><span class="material-symbols-rounded">data_object</span><span><b>Renderer</b><small>27 molécules hydratées par les données</small></span><span class="idx-arrow">arrow_forward</span></a>
-        <a class="idx-resource" href="Animations.dc.html"><span class="material-symbols-rounded">animation</span><span><b>Animations</b><small>motion, états et preuves visuelles</small></span><span class="idx-arrow">arrow_forward</span></a>
-        <a class="idx-resource" href="Trigger%20Film.dc.html"><span class="material-symbols-rounded">movie</span><span><b>Film</b><small>vie d'un trigger en présentation animée</small></span><span class="idx-arrow">arrow_forward</span></a>
-        <a class="idx-resource" href="Roadmap.dc.html"><span class="material-symbols-rounded">route</span><span><b>Roadmap</b><small>jalons publics et risques à cadrer</small></span><span class="idx-arrow">arrow_forward</span></a>
-        <a class="idx-resource" href="Sys.ter%20Mascot%20Kit.dc.html"><span class="material-symbols-rounded">smart_toy</span><span><b>Syster kit</b><small>showcase UI, mascotte actuelle conservée</small></span><span class="idx-arrow">arrow_forward</span></a>
-        <a class="idx-resource" href="https://github.com/gnu-in-labs/gnu.in-shell-docs" target="_blank" rel="noreferrer"><span class="material-symbols-rounded">code_blocks</span><span><b>GitHub</b><small>source publique du corpus docs</small></span><span class="idx-arrow">open_in_new</span></a>
+        <p>Accès direct aux pages qui portent le noyau visuel et le comportement consultable du corpus.</p>
+        <a class="idx-resource" href="Central.dc.html"><span class="material-symbols-rounded" aria-hidden="true">view_quilt</span><span><b>Central</b><small>hub de simulation et lecture des scènes</small></span><span class="idx-arrow" aria-hidden="true">arrow_forward</span></a>
+        <a class="idx-resource" href="Gnu.In%20Context%20Menus.dc.html"><span class="material-symbols-rounded" aria-hidden="true">menu_open</span><span><b>Menus</b><small>cascade, radial, dock fan et couches de commande</small></span><span class="idx-arrow" aria-hidden="true">arrow_forward</span></a>
+        <a class="idx-resource" href="Molecule%20Renderer.dc.html"><span class="material-symbols-rounded" aria-hidden="true">data_object</span><span><b>Renderer</b><small>27 molécules hydratées par les données</small></span><span class="idx-arrow" aria-hidden="true">arrow_forward</span></a>
+        <a class="idx-resource" href="Animations.dc.html"><span class="material-symbols-rounded" aria-hidden="true">animation</span><span><b>Animations</b><small>motion, états et preuves visuelles</small></span><span class="idx-arrow" aria-hidden="true">arrow_forward</span></a>
+        <a class="idx-resource" href="Trigger%20Film.dc.html"><span class="material-symbols-rounded" aria-hidden="true">movie</span><span><b>Film</b><small>vie d'un trigger en présentation animée</small></span><span class="idx-arrow" aria-hidden="true">arrow_forward</span></a>
+        <a class="idx-resource" href="Roadmap.dc.html"><span class="material-symbols-rounded" aria-hidden="true">route</span><span><b>Roadmap</b><small>jalons publics et risques à cadrer</small></span><span class="idx-arrow" aria-hidden="true">arrow_forward</span></a>
+        <a class="idx-resource" href="Sys.ter%20Mascot%20Kit.dc.html"><span class="material-symbols-rounded" aria-hidden="true">smart_toy</span><span><b>Syster kit</b><small>showcase UI, mascotte actuelle conservée</small></span><span class="idx-arrow" aria-hidden="true">arrow_forward</span></a>
+        <a class="idx-resource" href="https://github.com/gnu-in-labs/gnu.in-shell-docs" target="_blank" rel="noreferrer"><span class="material-symbols-rounded" aria-hidden="true">code_blocks</span><span><b>GitHub</b><small>source publique du corpus docs</small></span><span class="idx-arrow" aria-hidden="true">open_in_new</span></a>
       </aside>
     </div>
   </section>
 
   <section class="idx-wrap idx-section" aria-labelledby="idx-registry-title">
     <div class="idx-section-head">
-      <span class="idx-section-num">02</span>
+      <span class="idx-section-num" aria-hidden="true">02</span>
       <h2 id="idx-registry-title" class="idx-section-title">Registre des surfaces</h2>
-      <p class="idx-section-copy">Le registre rend visibles les responsabilités. Il sert de base pour juger les incongruences de style, les manques de rédaction et les comportements qui doivent devenir communs.</p>
+      <p class="idx-section-copy">Le registre montre qui fait quoi dans le corpus: hub, contexte, rendu data, mouvement, narration, jalons, mascotte et archive longue.</p>
     </div>
     <div class="idx-registry">
       <a class="idx-surface" href="Central.dc.html">
         <span class="idx-surface-top"><span class="idx-surface-code">CENTRAL</span><span class="idx-status">actif</span></span>
         <h3>Hub adaptatif</h3>
-        <p>Surface de synthèse: scènes, contrôles, inspecteur, port-data et comportement du shell simulé.</p>
-        <span class="idx-surface-foot">à renforcer: rédaction des modes</span>
+        <p>Surface de synthèse: scènes, contrôles, inspecteur, données d'état et comportement du shell simulé.</p>
+        <span class="idx-surface-foot">scènes · modes · inspecteur</span>
       </a>
       <a class="idx-surface" href="Gnu.In%20Context%20Menus.dc.html">
         <span class="idx-surface-top"><span class="idx-surface-code">MENUS</span><span class="idx-status blue">neuf</span></span>
         <h3>Context layer</h3>
         <p>Présente cascade, radial, dock affordance et command stack comme comportements bornés.</p>
-        <span class="idx-surface-foot">à renforcer: specs de décision</span>
+        <span class="idx-surface-foot">cascade · radial · dock</span>
       </a>
       <a class="idx-surface" href="Molecule%20Renderer.dc.html">
         <span class="idx-surface-top"><span class="idx-surface-code">RENDERER</span><span class="idx-status blue">neuf</span></span>
         <h3>Hydratation data</h3>
-        <p>Galerie exhaustive des molécules rendues à partir de `molecule_specs.json`.</p>
-        <span class="idx-surface-foot">à renforcer: filtres et légendes</span>
+        <p>Galerie exhaustive des molécules rendues à partir des données de référence.</p>
+        <span class="idx-surface-foot">compositions · états</span>
       </a>
       <a class="idx-surface" href="Animations.dc.html">
         <span class="idx-surface-top"><span class="idx-surface-code">MOTION</span><span class="idx-status">stable</span></span>
         <h3>États vivants</h3>
         <p>Montre les états de Sys.ter et les primitives d'animation à raccorder aux surfaces.</p>
-        <span class="idx-surface-foot">à renforcer: cohérence page</span>
+        <span class="idx-surface-foot">idle · listening · working</span>
       </a>
       <a class="idx-surface" href="Trigger%20Film.dc.html">
         <span class="idx-surface-top"><span class="idx-surface-code">FILM</span><span class="idx-status">actif</span></span>
         <h3>Narration runtime</h3>
         <p>Présente le trajet d'un trigger depuis l'intention jusqu'à la surface rendue.</p>
-        <span class="idx-surface-foot">à renforcer: chapitrage</span>
+        <span class="idx-surface-foot">trigger · scène · résultat</span>
       </a>
       <a class="idx-surface" href="Roadmap.dc.html">
-        <span class="idx-surface-top"><span class="idx-surface-code">ROADMAP</span><span class="idx-status orange">à cadrer</span></span>
+        <span class="idx-surface-top"><span class="idx-surface-code">ROADMAP</span><span class="idx-status orange">cadrage</span></span>
         <h3>Priorités publiques</h3>
-        <p>Doit distinguer jalon, risque, dette design et preuve attendue.</p>
-        <span class="idx-surface-foot">à renforcer: critères</span>
+        <p>Distingue jalons, risques, dette design et preuve attendue.</p>
+        <span class="idx-surface-foot">jalons · risques · preuves</span>
       </a>
       <a class="idx-surface" href="Sys.ter%20Mascot%20Kit.dc.html">
         <span class="idx-surface-top"><span class="idx-surface-code">SYSTER</span><span class="idx-status orange">showcase</span></span>
         <h3>Kit mascotte</h3>
         <p>Surface de présentation. Elle ne remplace pas le canon visuel courant.</p>
-        <span class="idx-surface-foot">à renforcer: séparation canon</span>
+        <span class="idx-surface-foot">showcase · canon conservé</span>
       </a>
       <a class="idx-surface" href="gnu.in-OS%20-%20Plan%20de%20Fusion%20(complet).dc.html">
         <span class="idx-surface-top"><span class="idx-surface-code">PLAN</span><span class="idx-status">archive</span></span>
         <h3>Fusion complète</h3>
         <p>Document long de contexte, utile pour conserver les décisions transversales.</p>
-        <span class="idx-surface-foot">à renforcer: extraction utile</span>
+        <span class="idx-surface-foot">contexte · décisions</span>
       </a>
     </div>
   </section>
 
   <section class="idx-wrap idx-section" aria-labelledby="idx-spine-title">
     <div class="idx-section-head">
-      <span class="idx-section-num">03</span>
+      <span class="idx-section-num" aria-hidden="true">03</span>
       <h2 id="idx-spine-title" class="idx-section-title">Colonne vertébrale</h2>
       <p class="idx-section-copy">La cohérence du site dépend d'une descente unique: des tokens vers le moteur, du moteur vers les composants, des composants vers les surfaces.</p>
     </div>
@@ -358,39 +383,39 @@ body { margin:0; background:var(--idx-paper); }
       <div>
         <div class="idx-spine-kicker">source de vérité</div>
         <div class="idx-spine-main">tokens.json</div>
-        <div class="idx-spine-copy">molecule_specs · port-data · scenes · screenshots · navigation</div>
+        <div class="idx-spine-copy">compositions · données d'état · scènes · captures · navigation</div>
       </div>
       <div class="idx-flow" aria-label="Flux du système">
         <span>design reference</span>
-        <span class="material-symbols-rounded">east</span>
-        <span class="green">engine Rust/GPUI</span>
-        <span class="material-symbols-rounded">east</span>
+        <span class="material-symbols-rounded" aria-hidden="true">east</span>
+        <span class="green">moteur natif</span>
+        <span class="material-symbols-rounded" aria-hidden="true">east</span>
         <span>Gnu* composants</span>
-        <span class="material-symbols-rounded">east</span>
+        <span class="material-symbols-rounded" aria-hidden="true">east</span>
         <span class="orange">surface native</span>
       </div>
-      <div style="justify-self:end;align-self:start;"><span style="width:10px;height:10px;border-radius:50%;background:var(--idx-orange);display:inline-block;animation:idxPing 1400ms ease-out infinite;"></span></div>
+      <div style="justify-self:end;align-self:start;" aria-hidden="true"><span style="width:10px;height:10px;border-radius:50%;background:var(--idx-orange);display:inline-block;animation:idxPing 1400ms ease-out infinite;"></span></div>
     </div>
   </section>
 
   <section class="idx-wrap idx-section" aria-labelledby="idx-gates-title">
-    <div class="idx-section-head" style="color:#F3EEE9;">
-      <span class="idx-section-num">04</span>
-      <h2 id="idx-gates-title" class="idx-section-title">Gates de cohérence</h2>
-      <p class="idx-section-copy">Ces critères sont les premiers garde-fous pour éviter que chaque page dérive dans son propre vocabulaire ou son propre comportement.</p>
+    <div class="idx-section-head">
+      <span class="idx-section-num" aria-hidden="true">04</span>
+      <h2 id="idx-gates-title" class="idx-section-title">Critères de rendu</h2>
+      <p class="idx-section-copy">Une surface reste dans le corpus lorsqu'elle se charge proprement, garde son vocabulaire visuel et expose son état sans ambiguïté.</p>
     </div>
     <div style="background:#0A0C0F;border-radius:18px;padding:28px 32px;">
       <div class="idx-gates">
-        <div class="idx-gate"><b>Navigation commune</b><span>Chaque page doit exposer le même repère: nav horizontale, rail flottant, favicon cube, cascades Atlas et Menus.</span></div>
-        <div class="idx-gate"><b>Rédaction utile</b><span>Chaque texte doit expliquer une décision, un état ou un comportement vérifiable. Les phrases décoratives sont supprimées.</span></div>
-        <div class="idx-gate"><b>Preuve de rendu</b><span>Les surfaces critiques doivent passer sans overflow desktop/tablette, sans images cassées, sans erreur console.</span></div>
+        <div class="idx-gate"><b>Navigation commune</b><span>Chaque page expose le même repère: nav horizontale, rail flottant, favicon cube, cascades Atlas et Menus.</span></div>
+        <div class="idx-gate"><b>Texte utile</b><span>Les textes nomment un rôle, un état ou un comportement observable; les libellés décoratifs sortent de la surface.</span></div>
+        <div class="idx-gate"><b>Preuve de rendu</b><span>Les surfaces critiques passent sans overflow desktop/tablette, sans images cassées, sans erreur de chargement.</span></div>
       </div>
     </div>
   </section>
 
   <footer class="idx-wrap idx-footer">
     <span>&gt;_ gnu.in-OS · documentation & showcase · Gnosis ⊕ Context.Spec ⊕ GNU.IN</span>
-    <span>Index augmenté · base de cohérence pour la prochaine passe</span>
+    <span>Corpus public · docs, surfaces, preuves visuelles</span>
   </footer>
 </div>
 </x-dc>
