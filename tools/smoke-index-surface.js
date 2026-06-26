@@ -135,6 +135,7 @@ async function getIndexState(page, forbiddenPatterns) {
     const nav = document.getElementById("gid-nav");
     const rail = document.getElementById("gid-rail");
     const railBox = rail ? rail.getBoundingClientRect() : null;
+    const railToggle = rail ? rail.querySelector(".gid-rail-toggle") : null;
     const heroBox = document.querySelector(".idx-hero h1")?.getBoundingClientRect();
     const titleStyle = getComputedStyle(document.querySelector(".idx-section-title"));
 
@@ -196,6 +197,13 @@ async function getIndexState(page, forbiddenPatterns) {
       railExists: Boolean(rail),
       navText: nav ? nav.innerText : "",
       railBox: railBox && { left: Math.round(railBox.left), right: Math.round(railBox.right), top: Math.round(railBox.top) },
+      railState: rail && {
+        collapsed: rail.classList.contains("gid-rail-collapsed"),
+        expanded: rail.getAttribute("aria-expanded"),
+        toggleText: railToggle ? railToggle.textContent : "",
+        toggleExpanded: railToggle ? railToggle.getAttribute("aria-expanded") : null,
+        visibleControls: [...rail.children].filter((child) => getComputedStyle(child).display !== "none").map((child) => child.textContent.trim())
+      },
       heroBox: heroBox && { left: Math.round(heroBox.left), right: Math.round(heroBox.right), top: Math.round(heroBox.top) },
       focusOutline: firstFocus ? {
         outlineWidth: focusStyle.outlineWidth,
@@ -257,6 +265,8 @@ async function getInteractionState(page, options = {}) {
     menuState = { beforeBox, beforeExpanded, ...menuState, afterEscape };
   }
 
+  const railInteraction = await getRailInteractionState(page);
+
   let hover = null;
   if (checkHover) {
     const cascade = page.locator(".idx-cascade-link").first();
@@ -273,7 +283,70 @@ async function getInteractionState(page, options = {}) {
     hover = { beforeHover, afterHover };
   }
 
-  return { hover, menuState };
+  return { hover, menuState, railInteraction };
+}
+
+async function readRailState(page) {
+  return page.evaluate(() => {
+    const rail = document.getElementById("gid-rail");
+    const toggle = rail ? rail.querySelector(".gid-rail-toggle") : null;
+    const handle = rail ? rail.querySelector(".gid-rail-handle") : null;
+    const rect = rail ? rail.getBoundingClientRect() : null;
+    return {
+      exists: Boolean(rail),
+      collapsed: rail ? rail.classList.contains("gid-rail-collapsed") : null,
+      expanded: rail ? rail.getAttribute("aria-expanded") : null,
+      toggleText: toggle ? toggle.textContent : "",
+      toggleExpanded: toggle ? toggle.getAttribute("aria-expanded") : null,
+      toggleVisible: toggle ? getComputedStyle(toggle).display !== "none" : false,
+      handleVisible: handle ? getComputedStyle(handle).display !== "none" : false,
+      rect: rect && { left: Math.round(rect.left), top: Math.round(rect.top), width: Math.round(rect.width), height: Math.round(rect.height) }
+    };
+  });
+}
+
+async function dragRailControl(page, selector, dx, dy) {
+  const control = page.locator(selector).first();
+  const box = await control.boundingBox();
+  if (!box) return null;
+  const x = box.x + box.width / 2;
+  const y = box.y + box.height / 2;
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  await page.mouse.move(x + dx, y + dy, { steps: 8 });
+  await page.mouse.up();
+  await page.waitForTimeout(180);
+  return { from: { x: Math.round(x), y: Math.round(y) }, to: { x: Math.round(x + dx), y: Math.round(y + dy) } };
+}
+
+async function getRailInteractionState(page) {
+  await page.evaluate(() => {
+    const nav = document.getElementById("gid-nav");
+    if (nav) nav.classList.remove("gid-hidden");
+  });
+  await page.waitForTimeout(120);
+
+  const initial = await readRailState(page);
+  const dragSelector = initial.collapsed ? "#gid-rail .gid-rail-toggle" : "#gid-rail .gid-rail-handle";
+  const beforeDrag = await readRailState(page);
+  const drag = await dragRailControl(page, dragSelector, 34, 28);
+  const afterDrag = await readRailState(page);
+
+  await page.locator("#gid-rail .gid-rail-toggle").click({ timeout: 5000 });
+  await page.waitForTimeout(180);
+  const afterFirstToggle = await readRailState(page);
+
+  await page.locator("#gid-rail .gid-rail-toggle").click({ timeout: 5000 });
+  await page.waitForTimeout(180);
+  const afterSecondToggle = await readRailState(page);
+
+  if (afterSecondToggle.collapsed !== initial.collapsed) {
+    await page.locator("#gid-rail .gid-rail-toggle").click({ timeout: 5000 });
+    await page.waitForTimeout(180);
+  }
+  const final = await readRailState(page);
+
+  return { initial, drag, beforeDrag, afterDrag, afterFirstToggle, afterSecondToggle, final };
 }
 
 function validateResult(result) {
@@ -284,6 +357,10 @@ function validateResult(result) {
   if (result.brokenImages.length) issues.push(`brokenImages=${result.brokenImages.join(",")}`);
   if (result.icon !== "assets/symbols/cube.svg" || result.iconStatus !== 200) issues.push(`icon=${result.icon} status=${result.iconStatus}`);
   if (!result.navExists || !result.railExists) issues.push(`nav=${result.navExists} rail=${result.railExists}`);
+  if (result.case.startsWith("mobile") && result.railState && !result.railState.collapsed) issues.push("rail-mobile-default=expanded");
+  if (result.case.startsWith("mobile") && result.railState && result.railState.visibleControls.length !== 1) {
+    issues.push(`rail-mobile-visible-controls=${result.railState.visibleControls.join("/")}`);
+  }
   if (!result.focusOutline || result.focusOutline.outlineStyle === "none" || parseFloat(result.focusOutline.outlineWidth) < 2) {
     issues.push(`focus=${JSON.stringify(result.focusOutline)}`);
   }
@@ -314,6 +391,22 @@ function validateResult(result) {
       if (!menu.menuVisible) issues.push("atlas-menu=hidden");
       if (menu.afterEscape.triggerExpanded !== "false") issues.push(`atlas-menu-expanded-after-escape=${menu.afterEscape.triggerExpanded}`);
       if (menu.afterEscape.menuVisible || menu.afterEscape.groupOpen) issues.push("atlas-menu=still-open-after-escape");
+    }
+    if (!result.interaction.railInteraction) {
+      issues.push("rail-interaction=missing");
+    } else {
+      const rail = result.interaction.railInteraction;
+      if (!rail.initial.exists) issues.push("rail=missing");
+      if (!rail.drag) issues.push("rail-drag=no-control");
+      if (rail.afterDrag.rect && rail.beforeDrag.rect) {
+        const moved = Math.abs(rail.afterDrag.rect.left - rail.beforeDrag.rect.left) + Math.abs(rail.afterDrag.rect.top - rail.beforeDrag.rect.top);
+        if (moved < 12) issues.push(`rail-drag=unchanged:${moved}`);
+      }
+      if (rail.afterDrag.collapsed !== rail.beforeDrag.collapsed) issues.push("rail-drag=changed-collapse-state");
+      if (rail.afterFirstToggle.collapsed === rail.afterDrag.collapsed) issues.push("rail-toggle=unchanged");
+      if (rail.afterSecondToggle.collapsed !== rail.afterDrag.collapsed) issues.push("rail-toggle=not-restored");
+      if (rail.final.collapsed !== rail.initial.collapsed) issues.push("rail-final-state=changed");
+      if (rail.final.toggleExpanded !== (rail.final.collapsed ? "false" : "true")) issues.push(`rail-toggle-expanded=${rail.final.toggleExpanded}`);
     }
   }
   return issues;

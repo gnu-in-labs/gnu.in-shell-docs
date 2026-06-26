@@ -90,14 +90,24 @@
       ".gid-menu-copy{color:#7c828a;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.08em;}",
       "#gid-nav .gid-sep{flex:0 0 auto;width:1px;height:16px;background:rgba(245,238,221,.18);margin:0 6px}",
       "#gid-nav .gid-tag{flex:0 0 auto;margin-left:auto;padding-left:14px;color:#6f7b76;font-size:11px;white-space:nowrap}",
-      "#gid-rail{position:fixed;left:clamp(16px,2vw,28px);top:calc(var(--gid-nav-h) + 18px);z-index:2147483590;display:flex;flex-direction:column;gap:7px;padding:7px;border:1px solid rgba(245,238,221,.16);border-radius:16px;background:rgba(13,17,20,.74);-webkit-backdrop-filter:blur(16px) saturate(1.14);backdrop-filter:blur(16px) saturate(1.14);box-shadow:0 22px 46px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.04) inset;opacity:.9;isolation:isolate}",
-      "#gid-rail::before{content:\"\";position:absolute;inset:3px;border-radius:13px;border:1px solid rgba(255,255,255,.05);pointer-events:none;}",
-      "#gid-rail::after{content:\"\";position:absolute;right:3px;top:11px;width:2px;height:var(--gid-rail-progress,8%);max-height:calc(100% - 22px);border-radius:999px;background:#FF6A00;box-shadow:0 0 10px rgba(255,106,0,.45);}",
+      "#gid-rail{box-sizing:border-box;position:fixed;left:clamp(16px,2vw,28px);top:calc(var(--gid-nav-h) + 18px);z-index:2147483590;display:flex;flex-direction:column;gap:7px;padding:7px;border:1px solid rgba(245,238,221,.16);border-radius:16px;background:rgba(13,17,20,.74);-webkit-backdrop-filter:blur(16px) saturate(1.14);backdrop-filter:blur(16px) saturate(1.14);box-shadow:0 22px 46px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.04) inset;opacity:.9;isolation:isolate;touch-action:none;user-select:none;will-change:left,top,width,height,border-radius,box-shadow;transition:opacity .15s,border-color .15s,box-shadow .18s,background .18s,border-radius .18s,padding .18s}",
+      "#gid-rail::before{content:\"\";position:absolute;inset:3px;border-radius:13px;border:1px solid rgba(255,255,255,.05);pointer-events:none;transition:border-radius .18s;}",
+      "#gid-rail::after{content:\"\";position:absolute;right:3px;top:11px;width:2px;height:var(--gid-rail-progress,8%);max-height:calc(100% - 22px);border-radius:999px;background:#FF6A00;box-shadow:0 0 10px rgba(255,106,0,.45);transition:width .18s,height .18s,top .18s,right .18s;}",
       "#gid-rail:hover,#gid-rail:focus-within{opacity:1}",
       "#gid-rail a,#gid-rail button{width:30px;height:30px;display:grid;place-items:center;margin:0;padding:0;border:1px solid rgba(245,238,221,.10);border-radius:8px;background:rgba(245,238,221,.05);color:#d6ddd8;text-decoration:none;font:800 10px/1 ui-monospace,'JetBrains Mono',monospace;cursor:pointer;transition:background .15s,color .15s,border-color .15s,transform .12s}",
       "#gid-rail a:hover,#gid-rail button:hover{color:#F5EEDD;background:rgba(245,238,221,.12);border-color:rgba(245,238,221,.22);transform:translateX(1px)}",
       "#gid-rail .gid-active{background:#F5EEDD;color:#0d1114;border-color:#F5EEDD}",
       "#gid-rail .gid-accent{color:#FF8E40}",
+      "#gid-rail .gid-rail-handle{height:16px;border-style:dashed;color:#7c828a;background:rgba(245,238,221,.035);cursor:grab;font-size:11px;letter-spacing:.08em}",
+      "#gid-rail .gid-rail-handle:hover,#gid-rail.gid-rail-dragging .gid-rail-handle{color:#FF8E40;border-color:rgba(255,106,0,.34);background:rgba(255,106,0,.08);transform:none}",
+      "#gid-rail .gid-rail-toggle{color:#FF8E40}",
+      "#gid-rail.gid-rail-dragging{opacity:1;cursor:grabbing;border-color:rgba(255,106,0,.42);box-shadow:0 26px 54px rgba(0,0,0,.38),0 0 0 1px rgba(255,106,0,.22) inset}",
+      "#gid-rail.gid-rail-dragging a,#gid-rail.gid-rail-dragging button{cursor:grabbing}",
+      "#gid-rail.gid-rail-collapsed{width:46px;height:46px;padding:6px;gap:0;border-radius:999px;background:rgba(13,17,20,.82);box-shadow:0 20px 46px rgba(0,0,0,.36),0 0 0 1px rgba(255,106,0,.22) inset}",
+      "#gid-rail.gid-rail-collapsed::before{border-radius:999px;inset:4px}",
+      "#gid-rail.gid-rail-collapsed::after{width:8px;height:8px;right:5px;top:5px;max-height:none}",
+      "#gid-rail.gid-rail-collapsed>*:not(.gid-rail-toggle){display:none!important}",
+      "#gid-rail.gid-rail-collapsed .gid-rail-toggle{width:32px;height:32px;border-radius:999px;background:rgba(255,106,0,.12);border-color:rgba(255,106,0,.34);box-shadow:0 0 20px rgba(255,106,0,.12);font-size:9px;color:#F5EEDD}",
       ".gid-container{max-width:min(var(--gid-container-native,1280px),calc(100vw - var(--gid-edge) - var(--gid-edge)))!important;padding-left:var(--gid-edge)!important;padding-right:var(--gid-edge)!important;}",
       ".gid-grid{gap:var(--gid-card-gap)!important;}",
       ".gid-grid-3{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))!important;}",
@@ -128,10 +138,14 @@
       "html[data-gid-vp='mobile'] #gid-nav .gid-nav-trigger{width:22px;height:28px;}",
       "html[data-gid-vp='mobile'] .gid-menu{left:70px;width:min(286px,calc(100vw - 82px));top:calc(var(--gid-nav-h) + 9px);}",
       "html[data-gid-vp='mobile'] #gid-nav .gid-tag{display:none;}",
-      "html[data-gid-vp='mobile'] #gid-rail{left:14px;top:calc(var(--gid-nav-h) + 14px);gap:5px;padding:6px;border-radius:15px;opacity:.9}",
+      "html[data-gid-vp='mobile'] #gid-rail{left:14px;top:calc(var(--gid-nav-h) + 14px);gap:5px;padding:6px;border-radius:15px;opacity:.92}",
       "html[data-gid-vp='mobile'] #gid-rail::before{border-radius:12px}",
       "html[data-gid-vp='mobile'] #gid-rail::after{right:3px;top:10px;max-height:calc(100% - 20px)}",
       "html[data-gid-vp='mobile'] #gid-rail a,html[data-gid-vp='mobile'] #gid-rail button{width:30px;height:30px;border-radius:9px;font-size:9px}",
+      "html[data-gid-vp='mobile'] #gid-rail .gid-rail-handle{height:14px}",
+      "html[data-gid-vp='mobile'] #gid-rail.gid-rail-collapsed{width:48px;height:48px;padding:7px;border-radius:999px}",
+      "html[data-gid-vp='mobile'].gid-rail-collapsed-mode #dc-root:not(.gid-canvas-root){padding-left:0!important;}",
+      "html[data-gid-vp='mobile'].gid-rail-collapsed-mode #dc-root.gid-canvas-root{padding-left:10px!important;}",
       "html[data-gid-vp='mobile'] #dc-root:not(.gid-canvas-root){padding-left:64px!important;}",
       "html.gid-surface-central:not([data-gid-vp='desktop']) #dc-root{padding-left:0!important;}",
       "html[data-gid-vp='mobile'] .gid-container{padding-left:var(--gid-edge)!important;padding-right:var(--gid-edge)!important;}",
@@ -597,6 +611,174 @@
     }
   }
 
+  function railViewportKey() {
+    return document.documentElement.getAttribute("data-gid-vp") || "desktop";
+  }
+
+  function railStorageKey() {
+    return "gid-rail-state:" + railViewportKey();
+  }
+
+  function loadRailState() {
+    try {
+      var raw = localStorage.getItem(railStorageKey());
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveRailState(rail) {
+    if (!rail) return;
+    var rect = rail.getBoundingClientRect();
+    try {
+      localStorage.setItem(railStorageKey(), JSON.stringify({
+        x: Math.round(rect.left),
+        y: Math.round(rect.top),
+        collapsed: rail.classList.contains("gid-rail-collapsed")
+      }));
+    } catch (e) {
+      // localStorage can be unavailable in strict privacy contexts.
+    }
+  }
+
+  function clampRailXY(rail, x, y) {
+    var rect = rail.getBoundingClientRect();
+    var navH = px(getComputedStyle(document.documentElement).getPropertyValue("--gid-nav-h")) || 40;
+    var width = rect.width || (rail.classList.contains("gid-rail-collapsed") ? 48 : 46);
+    var height = rect.height || (rail.classList.contains("gid-rail-collapsed") ? 48 : 210);
+    var pad = 8;
+    var minX = pad;
+    var minY = navH + pad;
+    var maxX = Math.max(minX, window.innerWidth - width - pad);
+    var maxY = Math.max(minY, window.innerHeight - height - pad);
+    return {
+      x: Math.min(Math.max(x, minX), maxX),
+      y: Math.min(Math.max(y, minY), maxY)
+    };
+  }
+
+  function setRailPosition(rail, x, y) {
+    var pos = clampRailXY(rail, x, y);
+    rail.style.left = pos.x + "px";
+    rail.style.top = pos.y + "px";
+  }
+
+  function syncRailToggle(rail) {
+    var toggle = rail ? rail.querySelector(".gid-rail-toggle") : null;
+    if (!toggle) return;
+    var collapsed = rail.classList.contains("gid-rail-collapsed");
+    toggle.textContent = collapsed ? "IN" : "-";
+    toggle.title = collapsed ? "Ouvrir la barre" : "Rétracter la barre";
+    toggle.setAttribute("aria-label", toggle.title);
+    toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    rail.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    document.documentElement.classList.toggle("gid-rail-collapsed-mode", collapsed);
+  }
+
+  function setRailCollapsed(rail, collapsed, persist) {
+    if (!rail) return;
+    rail.classList.toggle("gid-rail-collapsed", collapsed);
+    syncRailToggle(rail);
+    requestAnimationFrame(function () {
+      var rect = rail.getBoundingClientRect();
+      setRailPosition(rail, rect.left, rect.top);
+      if (persist) saveRailState(rail);
+    });
+  }
+
+  function applyRailState(rail) {
+    if (!rail) return;
+    var state = loadRailState();
+    var vp = railViewportKey();
+    var collapsed = state && typeof state.collapsed === "boolean" ? state.collapsed : vp === "mobile";
+    setRailCollapsed(rail, collapsed, false);
+    if (state && typeof state.x === "number" && typeof state.y === "number") {
+      requestAnimationFrame(function () {
+        setRailPosition(rail, state.x, state.y);
+      });
+    }
+  }
+
+  function refreshRailBounds() {
+    var rail = document.getElementById("gid-rail");
+    if (!rail) return;
+    var state = loadRailState();
+    if (!state) {
+      applyRailState(rail);
+      return;
+    }
+    setRailCollapsed(rail, !!state.collapsed, false);
+    requestAnimationFrame(function () {
+      setRailPosition(rail, state.x, state.y);
+    });
+  }
+
+  function installRailDrag(rail) {
+    var drag = null;
+    rail.addEventListener("click", function (event) {
+      if (rail.dataset.gidSuppressClick === "1") {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      if (rail.classList.contains("gid-rail-collapsed") && event.target === rail) {
+        setRailCollapsed(rail, false, true);
+      }
+    }, true);
+
+    rail.addEventListener("pointerdown", function (event) {
+      if (event.button !== undefined && event.button !== 0) return;
+      var target = event.target;
+      var collapsed = rail.classList.contains("gid-rail-collapsed");
+      var handle = target && target.closest ? target.closest(".gid-rail-handle") : null;
+      if (!collapsed && !handle) return;
+
+      var rect = rail.getBoundingClientRect();
+      drag = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        originX: rect.left,
+        originY: rect.top,
+        moved: false
+      };
+      rail.setPointerCapture(event.pointerId);
+      rail.classList.add("gid-rail-dragging");
+      if (!collapsed) event.preventDefault();
+    });
+
+    rail.addEventListener("pointermove", function (event) {
+      if (!drag || drag.pointerId !== event.pointerId) return;
+      var dx = event.clientX - drag.startX;
+      var dy = event.clientY - drag.startY;
+      if (Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true;
+      if (drag.moved) {
+        if (event.cancelable) event.preventDefault();
+        setRailPosition(rail, drag.originX + dx, drag.originY + dy);
+      }
+    });
+
+    function endDrag(event) {
+      if (!drag || drag.pointerId !== event.pointerId) return;
+      try {
+        rail.releasePointerCapture(event.pointerId);
+      } catch (e) {
+        // Pointer capture can already be cleared by the browser on cancel.
+      }
+      rail.classList.remove("gid-rail-dragging");
+      if (drag.moved) {
+        rail.dataset.gidSuppressClick = "1";
+        setTimeout(function () { delete rail.dataset.gidSuppressClick; }, 120);
+        saveRailState(rail);
+      }
+      drag = null;
+    }
+
+    rail.addEventListener("pointerup", endDrag);
+    rail.addEventListener("pointercancel", endDrag);
+  }
+
   function makeRailItem(tag, label, title, className) {
     var el = document.createElement(tag);
     el.textContent = label;
@@ -616,6 +798,11 @@
     rail.id = "gid-rail";
     rail.setAttribute("aria-label", "Quick tools");
     rail.style.setProperty("--gid-rail-progress", progress.pct);
+
+    var handle = makeRailItem("button", "::", "Déplacer la barre", "gid-rail-handle");
+    handle.type = "button";
+    handle.setAttribute("data-gid-drag-handle", "true");
+    rail.appendChild(handle);
 
     var home = makeRailItem("a", "IN", "Index", current === real[0].file ? "gid-active" : "");
     home.href = encodeURIComponent(real[0].file);
@@ -647,7 +834,17 @@
     gh.rel = "noreferrer";
     rail.appendChild(gh);
 
+    var toggle = makeRailItem("button", "-", "Rétracter la barre", "gid-rail-toggle");
+    toggle.type = "button";
+    toggle.addEventListener("click", function () {
+      if (rail.dataset.gidSuppressClick === "1") return;
+      setRailCollapsed(rail, !rail.classList.contains("gid-rail-collapsed"), true);
+    });
+    rail.appendChild(toggle);
+
     document.body.appendChild(rail);
+    installRailDrag(rail);
+    applyRailState(rail);
   }
 
   function boot() {
@@ -661,6 +858,7 @@
     function refreshViewport() {
       setViewportState();
       annotateInlineLayouts();
+      refreshRailBounds();
     }
 
     window.addEventListener("resize", refreshViewport, { passive: true });
