@@ -173,6 +173,7 @@ async function captureState(page, spec, status, viewport, pageErrors) {
 
     const nav = document.getElementById("gid-nav");
     const rail = document.getElementById("gid-rail");
+    const navTag = nav ? nav.querySelector(".gid-tag")?.textContent.trim() || "" : "";
     const title = document.querySelector("h1");
     const titleRect = title ? title.getBoundingClientRect() : null;
     const railRect = rail ? rail.getBoundingClientRect() : null;
@@ -197,6 +198,7 @@ async function captureState(page, spec, status, viewport, pageErrors) {
       icon,
       iconStatus,
       navExists: Boolean(nav),
+      navTag,
       railExists: Boolean(rail),
       titleRailOverlap: Boolean(overlap),
       railRect: railRect && {
@@ -273,12 +275,19 @@ async function checkContextSwitcher(page, spec) {
     const pressed = document.querySelector('button[data-context-focus="motion"]')?.getAttribute("aria-pressed");
     const title = document.querySelector("[data-context-title]")?.textContent.trim() || "";
     const activeNode = document.querySelector(".ctx-node.is-active")?.getAttribute("data-id") || "";
+    const sources = [...document.querySelectorAll(".ctx-mascot-stage img")].map((img) => img.getAttribute("src") || "");
+    const hasDeprecatedSource = sources.some((src) => /GNU\.IN%20Design%20System|GNU\.IN Design System|sys-ter-idle\.svg/i.test(src));
+    const hasCurrentRig = ["mascot/rig-shadow.png", "mascot/rig-screen.png", "mascot/rig-antenna.png", "mascot/rig-shell.png", "mascot/rig-beret.png"]
+      .every((src) => sources.includes(src));
     return {
-      ok: board?.getAttribute("data-focus") === "motion" && pressed === "true" && title === "Motion" && activeNode === "motion",
+      ok: board?.getAttribute("data-focus") === "motion" && pressed === "true" && title === "Motion" && activeNode === "motion" && hasCurrentRig && !hasDeprecatedSource,
       focus: board?.getAttribute("data-focus") || null,
       pressed: pressed || null,
       title,
-      activeNode
+      activeNode,
+      sources,
+      hasCurrentRig,
+      hasDeprecatedSource
     };
   });
 }
@@ -293,6 +302,7 @@ function validate(result) {
   if (result.brokenImages.length) issues.push(`brokenImages=${result.brokenImages.join(",")}`);
   if (result.icon !== "assets/symbols/cube.svg" || result.iconStatus !== 200) issues.push(`icon=${result.icon} status=${result.iconStatus}`);
   if (!result.navExists || !result.railExists) issues.push(`nav=${result.navExists} rail=${result.railExists}`);
+  if (/\b\d{1,2}\/\d{1,2}\b/.test(result.navTag || "")) issues.push(`nav-tag-debug=${result.navTag}`);
   if (result.titleRailOverlap) issues.push(`rail-title-overlap=${JSON.stringify({ rail: result.railRect, title: result.titleRect })}`);
   if (!result.focusOutline || result.focusOutline.outlineStyle === "none" || parseFloat(result.focusOutline.outlineWidth) < 2) {
     issues.push(`focus=${JSON.stringify(result.focusOutline)}`);

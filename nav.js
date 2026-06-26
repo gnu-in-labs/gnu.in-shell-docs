@@ -49,6 +49,10 @@
       "Context / références": "Context / references",
       "Full Plan": "Full Plan",
       "guides réactifs": "reactive guides",
+      "Corpus public": "Public corpus",
+      "Canevas Atlas": "Atlas canvases",
+      "Guides réactifs": "Reactive guides",
+      "Simulation live": "Live simulation",
       "Contextes": "Contexts",
       "Menus contextuels": "Context menus",
       "Docs / corpus": "Docs / corpus",
@@ -62,6 +66,7 @@
       "Syster kit": "Syster kit",
       "Atlas / parcours": "Atlas / path",
       "Fondations -> Handoff": "Foundations -> Handoff",
+      "Source publique": "Public source",
       "Menus / contextes": "Menus / contexts",
       "Projet -> preuves": "Project -> evidence",
       "ouvrir": "open",
@@ -237,24 +242,26 @@
       "#gid-nav{position:fixed;top:0;left:0;right:0;z-index:2147483600;display:flex;align-items:center;gap:2px;box-sizing:border-box;max-width:100vw;",
       "height:var(--gid-nav-h);padding:0 max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left));overflow-x:auto;overflow-y:hidden;scrollbar-width:none;",
       "font:500 12px/1 ui-monospace,'IBM Plex Mono','JetBrains Mono',SFMono-Regular,Menlo,monospace;",
-      "letter-spacing:.04em;color:#cdd3d0;background:rgba(13,17,20,.86);",
-      "-webkit-backdrop-filter:blur(10px) saturate(1.1);backdrop-filter:blur(10px) saturate(1.1);",
-      "border-bottom:1px solid rgba(245,238,221,.12);transition:transform .25s cubic-bezier(.2,.7,.2,1);}",
+      "letter-spacing:.04em;color:#cdd3d0;background:linear-gradient(180deg,rgba(37,41,40,.96),rgba(16,19,21,.94));",
+      "-webkit-backdrop-filter:blur(12px) saturate(1.16);backdrop-filter:blur(12px) saturate(1.16);",
+      "border-bottom:1px solid rgba(245,238,221,.14);box-shadow:0 10px 28px rgba(0,0,0,.22);transition:transform .25s cubic-bezier(.2,.7,.2,1);}",
       "#gid-nav::-webkit-scrollbar{display:none}",
       "#gid-nav.gid-hidden{transform:translateY(-100%)}",
       "#gid-nav-progress{position:fixed;top:calc(var(--gid-nav-h) - 3px);left:0;right:0;height:3px;z-index:2147483602;pointer-events:none;background:rgba(245,238,221,.04);transition:transform .25s cubic-bezier(.2,.7,.2,1),opacity .18s;}",
       "#gid-nav.gid-hidden+#gid-nav-progress{transform:translateY(-100%);opacity:0;}",
       "#gid-nav-progress span{display:block;width:var(--gid-progress-pct,8%);height:100%;background:linear-gradient(90deg,#FF6A00,#FF8E40);box-shadow:0 0 10px rgba(255,106,0,.38);transition:width .22s ease;}",
       "#gid-nav .gid-dot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;background:#FF6A00;box-shadow:0 0 9px #FF6A00;margin-right:8px}",
-      "#gid-nav a{flex:0 0 auto;color:#aeb6b2;text-decoration:none;padding:7px 10px;border-radius:7px;white-space:nowrap;transition:background .15s,color .15s}",
-      "#gid-nav a:hover{color:#f5eedd;background:rgba(245,238,221,.08)}",
-      "#gid-nav a.gid-active{color:#0d1114;background:#F5EEDD;font-weight:600}",
+      "#gid-nav a{flex:0 0 auto;color:#aeb6b2;text-decoration:none;padding:7px 10px;border:1px solid transparent;border-radius:7px;white-space:nowrap;transition:background .15s,color .15s,border-color .15s,box-shadow .15s}",
+      "#gid-nav a:hover{color:#f5eedd;background:rgba(245,238,221,.08);border-color:rgba(245,238,221,.09)}",
+      "#gid-nav a.gid-active{color:#0d1114;background:#F5EEDD;border-color:#F5EEDD;font-weight:700;box-shadow:0 0 0 1px rgba(255,106,0,.28)}",
       "#gid-nav a:focus,#gid-nav button:focus,#gid-rail a:focus,#gid-rail button:focus,#dc-root a:focus,#dc-root button:focus,#dc-root summary:focus{outline:3px solid #FF6A00!important;outline-offset:3px!important;}",
       "#gid-nav .gid-nav-group{position:relative;flex:0 0 auto;display:flex;align-items:center;gap:1px;}",
-      "#gid-nav .gid-nav-group>a{border-top-right-radius:3px;border-bottom-right-radius:3px;}",
-      "#gid-nav .gid-nav-group.gid-parent-active>a{color:#0d1114;background:#F5EEDD;font-weight:600;}",
-      "#gid-nav .gid-nav-trigger{flex:0 0 auto;width:24px;height:28px;display:grid;place-items:center;margin:0;padding:0;border:0;border-radius:3px;background:rgba(245,238,221,.05);color:#aeb6b2;font:800 10px/1 ui-monospace,'JetBrains Mono',monospace;cursor:pointer;}",
-      "#gid-nav .gid-nav-trigger:hover,#gid-nav .gid-nav-group:focus-within .gid-nav-trigger,#gid-nav .gid-nav-group.gid-open .gid-nav-trigger{color:#F5EEDD;background:rgba(245,238,221,.12);}",
+      "#gid-nav .gid-nav-group{padding:2px;border-radius:9px;background:rgba(245,238,221,.035);border:1px solid rgba(245,238,221,.055);}",
+      "#gid-nav .gid-nav-group>a{border-top-right-radius:4px;border-bottom-right-radius:4px;}",
+      "#gid-nav .gid-nav-group.gid-parent-active{background:rgba(245,238,221,.08);border-color:rgba(255,106,0,.22);}",
+      "#gid-nav .gid-nav-group.gid-parent-active>a{color:#0d1114;background:#F5EEDD;font-weight:700;}",
+      "#gid-nav .gid-nav-trigger{flex:0 0 auto;width:24px;height:28px;display:grid;place-items:center;margin:0;padding:0;border:0;border-radius:4px;background:rgba(245,238,221,.05);color:#aeb6b2;font:900 10px/1 ui-monospace,'JetBrains Mono',monospace;cursor:pointer;}",
+      "#gid-nav .gid-nav-trigger:hover,#gid-nav .gid-nav-group:focus-within .gid-nav-trigger,#gid-nav .gid-nav-group.gid-open .gid-nav-trigger{color:#F5EEDD;background:rgba(255,106,0,.18);}",
       ".gid-menu{position:fixed;top:calc(var(--gid-nav-h) + 8px);left:58px;z-index:2147483605;display:none;width:min(316px,calc(100vw - 72px));box-sizing:border-box;padding:10px;border:1px solid rgba(245,238,221,.14);border-radius:10px;background:rgba(13,17,20,.94);-webkit-backdrop-filter:blur(12px) saturate(1.12);backdrop-filter:blur(12px) saturate(1.12);box-shadow:0 18px 42px rgba(0,0,0,.34);}",
       ".gid-menu.gid-open{display:block;}",
       ".gid-menu-title{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 6px 10px;color:#7c828a;font:800 9px/1 ui-monospace,'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;}",
@@ -266,7 +273,7 @@
       ".gid-menu-step{color:#FF8E40;font-weight:800;}",
       ".gid-menu-copy{color:#7c828a;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.08em;}",
       "#gid-nav .gid-sep{flex:0 0 auto;width:1px;height:16px;background:rgba(245,238,221,.18);margin:0 6px}",
-      "#gid-nav .gid-tag{flex:0 0 auto;margin-left:auto;padding-left:14px;color:#6f7b76;font-size:11px;white-space:nowrap}",
+      "#gid-nav .gid-tag{flex:0 0 auto;margin-left:auto;padding:6px 9px;border:1px solid rgba(245,238,221,.1);border-radius:999px;color:#8f9994;background:rgba(245,238,221,.035);font-size:10px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}",
       "#gid-nav .gid-lang{flex:0 0 auto;display:flex;align-items:center;gap:2px;margin-left:6px;padding:3px;border:1px solid rgba(245,238,221,.12);border-radius:8px;background:rgba(245,238,221,.04);}",
       "#gid-nav .gid-lang button{width:28px;height:24px;border:0;border-radius:5px;background:transparent;color:#9aa3ae;font:800 9px/1 ui-monospace,'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}",
       "#gid-nav .gid-lang button[aria-pressed='true']{background:#F5EEDD;color:#0d1114;}",
@@ -407,6 +414,32 @@
       if (s.file === current) return s.label || "Index";
     }
     return current ? current.replace(/\.dc\.html$/i, "") : "Index";
+  }
+
+  function currentSurfaceScopeLabel() {
+    if (current === "Gnu.In-Shell - Index.dc.html") return "Corpus public";
+    for (var i = 0; i < SURFACES.length; i++) {
+      var surface = SURFACES[i];
+      if (!surface || surface.sep) continue;
+      if (surface.file === current) {
+        if (surface.label === "Docs") return "Corpus public";
+        if (surface.label === "Atlas") return "Canevas Atlas";
+        if (surface.label === "Context") return "Guides réactifs";
+        if (surface.label === "Central") return "Simulation live";
+        if (surface.label === "GitHub") return "Source publique";
+        return surface.label || "Corpus public";
+      }
+      if (surface.children && surface.children.length) {
+        for (var j = 0; j < surface.children.length; j++) {
+          if (surface.children[j].file !== current) continue;
+          if (surface.label === "Docs") return "Corpus public";
+          if (surface.label === "Atlas") return "Canevas Atlas";
+          if (surface.label === "Context") return "Guides réactifs";
+          return surface.label || "Corpus public";
+        }
+      }
+    }
+    return "Corpus public";
   }
 
   function flattenSurfaces(includeExternal) {
@@ -688,7 +721,7 @@
 
     var tag = document.createElement("span");
     tag.className = "gid-tag";
-    tag.textContent = t(currentSurfaceLabel()) + " · " + String(progress.index + 1).padStart(2, "0") + "/" + String(progress.total).padStart(2, "0") + " · v0.14.2";
+    tag.textContent = t(currentSurfaceScopeLabel()) + " · v0.14.2";
     nav.appendChild(tag);
 
     nav.appendChild(buildLangSwitch());
@@ -748,7 +781,7 @@
     var trigger = document.createElement("button");
     trigger.type = "button";
     trigger.className = "gid-nav-trigger";
-    trigger.textContent = "v";
+    trigger.textContent = "⌄";
     trigger.setAttribute("aria-label", "Menu " + t(surface.label));
     trigger.setAttribute("aria-expanded", "false");
     trigger.setAttribute("aria-controls", menuId);

@@ -176,6 +176,7 @@ async function getPageState(page, spec, status) {
 
     const nav = document.getElementById("gid-nav");
     const rail = document.getElementById("gid-rail");
+    const navTag = nav ? nav.querySelector(".gid-tag")?.textContent.trim() || "" : "";
     const docsTrigger = [...document.querySelectorAll("#gid-nav .gid-nav-group")]
       .find((group) => group.innerText.includes("Docs"));
     const topNavLabels = [...document.querySelectorAll("#gid-nav > a, #gid-nav > .gid-nav-group > a")]
@@ -204,6 +205,7 @@ async function getPageState(page, spec, status) {
       icon,
       iconStatus,
       navText: nav ? nav.innerText : "",
+      navTag,
       topNavLabels,
       topNavLinks,
       navExists: Boolean(nav),
@@ -259,6 +261,7 @@ function validateResult(result) {
   if (!result.navExists || !result.railExists) issues.push(`nav=${result.navExists} rail=${result.railExists}`);
   if (!result.docsTriggerExists) issues.push("docs-trigger=missing");
   if (!result.navText.includes("Docs")) issues.push("nav-docs=missing");
+  if (/\b\d{1,2}\/\d{1,2}\b/.test(result.navTag || "")) issues.push(`nav-tag-debug=${result.navTag}`);
   if (!result.topNavLabels.includes("Context")) issues.push(`top-nav-context=missing:${result.topNavLabels.join("/")}`);
   const contextTopLink = (result.topNavLinks || []).find((item) => item.label === "Context");
   if (!contextTopLink || contextTopLink.href.split("?")[0] !== "Context.dc.html") {
