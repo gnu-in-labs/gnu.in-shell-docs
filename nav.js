@@ -10,9 +10,12 @@
     { label: "Handoff", file: "Gnu.In-Shell - Handoff.dc.html", step: "05" }
   ];
 
-  var MENU_SURFACES = [
-    { label: "Contextes", file: "Gnu.In Context Menus.dc.html", step: "27" },
-    { label: "Renderer", file: "Molecule Renderer.dc.html", step: "MR" }
+  var CONTEXT_SURFACES = [
+    { label: "Menus contextuels", file: "Gnu.In Context Menus.dc.html", step: "C1", copy: "guide" },
+    { label: "Renderer", file: "Molecule Renderer.dc.html", step: "C2", copy: "data" },
+    { label: "Animations", file: "Animations.dc.html", step: "C3", copy: "states" },
+    { label: "Motion", file: "Motion.dc.html", step: "C4", copy: "rules" },
+    { label: "Syster kit", file: "Sys.ter Mascot Kit.dc.html", step: "C5", copy: "mascot" }
   ];
 
   var DOC_SURFACES = [
@@ -21,7 +24,9 @@
     { label: "Methodology", file: "Methodology.dc.html", step: "M" },
     { label: "Assets", file: "Assets.dc.html", step: "A" },
     { label: "Evidence", file: "Evidence.dc.html", step: "E" },
-    { label: "Communications", file: "Communications.dc.html", step: "C" }
+    { label: "Communications", file: "Communications.dc.html", step: "C" },
+    { label: "Roadmap", file: "Roadmap.dc.html", step: "R" },
+    { label: "Full Plan", file: "gnu.in-OS - Plan de Fusion (complet).dc.html", step: "FP" }
   ];
 
   var SURFACES = [
@@ -29,13 +34,9 @@
     { label: "Docs", file: "Project.dc.html", children: DOC_SURFACES, menuTitle: "Docs / corpus", menuHint: "Projet -> preuves" },
     { label: "Atlas", file: "Gnu.In-Shell - Atlas Unifié.dc.html", children: WIREFRAME_SURFACES, menuTitle: "Atlas / parcours", menuHint: "Fondations -> Handoff" },
     { sep: true },
+    { label: "Context", file: "Gnu.In Context Menus.dc.html", children: CONTEXT_SURFACES, menuTitle: "Context / références", menuHint: "guides réactifs" },
     { label: "Central", file: "Central.dc.html" },
-    { label: "Menus", file: "Gnu.In Context Menus.dc.html", children: MENU_SURFACES, menuTitle: "Menus / contextes", menuHint: "27 molecules" },
-    { label: "Animations", file: "Animations.dc.html" },
-    { label: "Roadmap", file: "Roadmap.dc.html" },
-    { label: "Syster kit", file: "Sys.ter Mascot Kit.dc.html" },
-    { label: "GitHub", href: "https://github.com/gnu-in-labs/gnu.in-shell-docs", external: true },
-    { label: "Plan complet", file: "gnu.in-OS - Plan de Fusion (complet).dc.html" }
+    { label: "GitHub", href: "https://github.com/gnu-in-labs/gnu.in-shell-docs", external: true }
   ];
 
   var LANGS = ["en", "fr"];
@@ -45,7 +46,11 @@
       "Atomes": "Atoms",
       "Central Live": "Central Live",
       "Communications": "Communications",
+      "Context / références": "Context / references",
+      "Full Plan": "Full Plan",
+      "guides réactifs": "reactive guides",
       "Contextes": "Contexts",
+      "Menus contextuels": "Context menus",
       "Docs / corpus": "Docs / corpus",
       "Fondations": "Foundations",
       "Intégration": "Integration",

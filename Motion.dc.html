@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gnu.in-OS - Motion</title>
+<link rel="icon" type="image/svg+xml" href="assets/symbols/cube.svg">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/colors_and_type.css">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..800&display=block" rel="stylesheet">
+<script src="nav.js" defer></script>
+<style>
+body{margin:0;background:#101318;color:#F5EEDD;font-family:Montreal,system-ui,sans-serif;}
+.mot-page{min-height:100dvh;background:radial-gradient(100% 80% at 18% 10%,#20262E 0%,#111418 58%,#0B0E12 100%);padding:48px 0 80px;}
+.mot-shell{width:min(1180px,calc(100% - 48px));margin:0 auto;}
+.mot-head{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:end;border-bottom:1px solid #2B3037;padding-bottom:28px;}
+.mot-kicker{font:800 11px/1 JetBrains Mono,ui-monospace,monospace;letter-spacing:.18em;text-transform:uppercase;color:#FF8E40;}
+.mot-title{font-size:clamp(54px,8vw,96px);line-height:.94;letter-spacing:0;margin:16px 0 0;}
+.mot-lede{font-size:17px;line-height:1.58;color:#B6BCC4;max-width:760px;margin:18px 0 0;}
+.mot-panel{border:1px solid #2B3037;border-radius:10px;background:rgba(17,20,24,.82);box-shadow:0 18px 42px rgba(0,0,0,.28);padding:18px;}
+.mot-panel b{display:block;font:800 11px/1 JetBrains Mono,ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:#FF8E40;margin-bottom:14px;}
+.mot-panel a{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#F5EEDD;text-decoration:none;border:1px solid #343B46;border-radius:8px;padding:12px 13px;font:800 11px/1.2 JetBrains Mono,ui-monospace,monospace;background:#151A20;}
+.mot-panel a+a{margin-top:10px;}
+.mot-lab{margin-top:26px;display:grid;grid-template-columns:330px minmax(0,1fr);border:1px solid #2B3037;border-radius:12px;overflow:hidden;background:#151A20;box-shadow:0 20px 48px rgba(0,0,0,.28);}
+.mot-copy{padding:26px;border-right:1px solid #2B3037;}
+.mot-copy h2{font-size:30px;line-height:1.05;margin:12px 0 0;letter-spacing:0;}
+.mot-copy p{font-size:13px;line-height:1.55;color:#AAB1BA;margin:12px 0 0;}
+.mot-controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.mot-controls button{border:1px solid #343B46;border-radius:8px;background:#101318;color:#CDD3D0;padding:9px 10px;font:800 10px/1 JetBrains Mono,ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}
+.mot-controls button[aria-pressed="true"]{background:#FF6A00;border-color:#FF6A00;color:#111418;}
+.mot-stage{position:relative;min-height:330px;background:#0D1116;overflow:hidden;}
+.mot-stage::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,106,0,.09) 1px,transparent 1px),linear-gradient(180deg,rgba(245,238,221,.06) 1px,transparent 1px);background-size:38px 38px;opacity:.42;}
+.mot-node{position:absolute;z-index:3;width:64px;height:64px;border-radius:14px;border:1px solid #343B46;background:#151A20;color:#F5EEDD;display:grid;place-items:center;font:900 11px/1 JetBrains Mono,ui-monospace,monospace;box-shadow:0 15px 30px rgba(0,0,0,.26);}
+.mot-node.hot{border-color:#FF6A00;color:#FF8E40;background:#1E1711;}
+.mot-line{position:absolute;z-index:2;height:2px;background:linear-gradient(90deg,#FF6A00,#5F7F52);opacity:.76;transform-origin:left center;}
+.mot-pulse{position:absolute;z-index:4;width:12px;height:12px;border-radius:999px;background:#FF6A00;box-shadow:0 0 20px rgba(255,106,0,.62);}
+.mot-stage-label{position:absolute;z-index:4;left:20px;bottom:18px;color:#7C858F;font:800 10px/1 JetBrains Mono,ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;}
+.mot-lab[data-mode="settle"] .mot-node[data-n="a"]{left:12%;top:34%}.mot-lab[data-mode="settle"] .mot-node[data-n="b"]{left:45%;top:34%}.mot-lab[data-mode="settle"] .mot-node[data-n="c"]{right:12%;top:34%}
+.mot-lab[data-mode="settle"] .mot-line{left:calc(12% + 64px);right:calc(12% + 64px);top:calc(34% + 32px)}.mot-lab[data-mode="settle"] .mot-pulse{left:calc(12% + 64px);top:calc(34% + 26px);animation:motTravel 2600ms cubic-bezier(.2,.7,.2,1) infinite;}
+.mot-lab[data-mode="reveal"] .mot-node[data-n="a"]{left:18%;top:22%}.mot-lab[data-mode="reveal"] .mot-node[data-n="b"]{left:43%;top:48%}.mot-lab[data-mode="reveal"] .mot-node[data-n="c"]{right:18%;top:22%}
+.mot-lab[data-mode="reveal"] .mot-line{left:24%;right:24%;top:50%;transform:rotate(8deg)}.mot-lab[data-mode="reveal"] .mot-pulse{left:43%;top:48%;animation:motPop 1400ms ease-in-out infinite;}
+.mot-lab[data-mode="handoff"] .mot-node[data-n="a"]{left:10%;bottom:24%}.mot-lab[data-mode="handoff"] .mot-node[data-n="b"]{left:45%;top:22%}.mot-lab[data-mode="handoff"] .mot-node[data-n="c"]{right:10%;bottom:24%}
+.mot-lab[data-mode="handoff"] .mot-line{left:17%;right:17%;top:50%;transform:rotate(-10deg)}.mot-lab[data-mode="handoff"] .mot-pulse{left:17%;top:calc(50% - 6px);animation:motTravel 2200ms cubic-bezier(.2,.7,.2,1) infinite;}
+.mot-lab[data-mode="reduced"] .mot-node[data-n="a"]{left:12%;top:36%}.mot-lab[data-mode="reduced"] .mot-node[data-n="b"]{left:45%;top:36%}.mot-lab[data-mode="reduced"] .mot-node[data-n="c"]{right:12%;top:36%}
+.mot-lab[data-mode="reduced"] .mot-line{left:calc(12% + 64px);right:calc(12% + 64px);top:calc(36% + 32px);background:#5F7F52}.mot-lab[data-mode="reduced"] .mot-pulse{display:none}.mot-lab[data-mode="reduced"] *{animation:none!important;transition:none!important;}
+.mot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:24px;}
+.mot-card{border:1px solid #2B3037;border-radius:10px;background:#151A20;padding:18px;min-height:162px;}
+.mot-card span{font:800 10px/1 JetBrains Mono,ui-monospace,monospace;color:#FF8E40;letter-spacing:.14em;text-transform:uppercase;}
+.mot-card h3{font-size:22px;line-height:1.05;margin:14px 0 0;letter-spacing:0;}
+.mot-card p{font-size:13px;line-height:1.5;color:#AAB1BA;margin:10px 0 0;}
+@keyframes motTravel{0%{transform:translateX(0);opacity:.2}12%{opacity:1}88%{opacity:1}100%{transform:translateX(min(520px,58vw));opacity:.2}}
+@keyframes motPop{0%,100%{transform:scale(.7);opacity:.48}50%{transform:scale(1.18);opacity:1}}
+@media(min-width:861px){.mot-shell{width:min(1080px,calc(100% - 148px));margin-left:max(116px,calc((100% - 1080px)/2));margin-right:auto;}}
+@media(max-width:860px){.mot-page{padding-top:28px}.mot-shell{width:min(100% - 32px,760px)}.mot-head,.mot-lab,.mot-grid{grid-template-columns:1fr}.mot-copy{border-right:0;border-bottom:1px solid #2B3037}.mot-stage{min-height:260px}.mot-panel{margin-top:12px}}
+@media(max-width:520px){.mot-shell{width:min(100% - 24px,520px)}.mot-title{font-size:48px}.mot-copy{padding:22px}.mot-stage{min-height:236px}.mot-node{width:56px;height:56px}.mot-lab[data-mode="settle"] .mot-line,.mot-lab[data-mode="reduced"] .mot-line{left:calc(12% + 56px);right:calc(12% + 56px)}}
+</style>
+</head>
+<body>
+<main class="mot-page">
+  <div class="mot-shell">
+    <section class="mot-head">
+      <div>
+        <div class="mot-kicker">context · reactive reference</div>
+        <h1 class="mot-title">Motion</h1>
+        <p class="mot-lede">Guide de référence pour les recettes de mouvement: settle, reveal, handoff et reduced motion. Cette surface appartient à Context parce qu'elle décrit des comportements actifs, pas un canevas statique.</p>
+      </div>
+      <aside class="mot-panel">
+        <b>sources</b>
+        <a href="uploads/Context.Spec/Gnu.In-Shell%20-%20Motion%20Spec.html">Motion Spec complète <span>open</span></a>
+        <a href="port-data/motion.spec.json">motion.spec.json <span>data</span></a>
+      </aside>
+    </section>
+
+    <section class="mot-lab" data-mode="settle" aria-label="Motion behavior switcher">
+      <div class="mot-copy">
+        <div class="mot-kicker">recipe switcher</div>
+        <h2>Comportement vérifiable</h2>
+        <p>Chaque recette garde un rôle: stabiliser une surface, révéler un contexte, transférer un état ou réduire le mouvement sans perdre l'information.</p>
+        <div class="mot-controls" role="group" aria-label="Motion recipes">
+          <button type="button" data-mode="settle" aria-pressed="true">settle</button>
+          <button type="button" data-mode="reveal" aria-pressed="false">reveal</button>
+          <button type="button" data-mode="handoff" aria-pressed="false">handoff</button>
+          <button type="button" data-mode="reduced" aria-pressed="false">reduced</button>
+        </div>
+      </div>
+      <div class="mot-stage" aria-hidden="true">
+        <div class="mot-node hot" data-n="a">IN</div>
+        <div class="mot-node" data-n="b">CTX</div>
+        <div class="mot-node" data-n="c">OUT</div>
+        <div class="mot-line"></div>
+        <div class="mot-pulse"></div>
+        <div class="mot-stage-label">motion contract sketch</div>
+      </div>
+    </section>
+
+    <section class="mot-grid" aria-label="Motion reference rules">
+      <article class="mot-card"><span>01</span><h3>Signal</h3><p>Le mouvement doit expliquer l'état: attention, confirmation, attente, erreur ou transfert.</p></article>
+      <article class="mot-card"><span>02</span><h3>Budget</h3><p>Une recette doit rester légère, bornée et compatible avec les surfaces compactes.</p></article>
+      <article class="mot-card"><span>03</span><h3>Réduction</h3><p>Le profil réduit conserve la hiérarchie sans pulsation ni déplacement décoratif.</p></article>
+      <article class="mot-card"><span>04</span><h3>Preuve</h3><p>Une recette promue doit être reliée à une capture, une donnée ou un gate.</p></article>
+    </section>
+  </div>
+</main>
+<script>
+(function () {
+  function init() {
+    var lab = document.querySelector(".mot-lab");
+    if (!lab || lab.dataset.ready === "true") return;
+    lab.dataset.ready = "true";
+    var buttons = Array.prototype.slice.call(lab.querySelectorAll("[data-mode]"));
+    function setMode(mode) {
+      lab.setAttribute("data-mode", mode);
+      buttons.forEach(function (button) {
+        button.setAttribute("aria-pressed", button.getAttribute("data-mode") === mode ? "true" : "false");
+      });
+    }
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () { setMode(button.getAttribute("data-mode")); });
+    });
+    setMode(lab.getAttribute("data-mode") || "settle");
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
+</script>
+</body>
+</html>

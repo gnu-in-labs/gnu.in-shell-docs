@@ -55,6 +55,12 @@ const PAGES = [
     checkMotion: true
   },
   {
+    file: "Motion.dc.html",
+    h1: "Motion",
+    requiredText: ["Comportement vérifiable", "settle", "reveal", "handoff", "reduced"],
+    checkRecipe: true
+  },
+  {
     file: "Gnu.In Context Menus.dc.html",
     h1: "Menus contextuels",
     requiredText: ["bornes", "clavier", "tactile", "preuve"]
@@ -233,6 +239,23 @@ async function checkMotionSwitcher(page, spec) {
   });
 }
 
+async function checkMotionRecipe(page, spec) {
+  if (!spec.checkRecipe) return null;
+  const button = page.locator('button[data-mode="handoff"]').first();
+  if (!(await button.count())) return { ok: false, reason: "handoff button missing" };
+  await button.click({ timeout: 5000 });
+  await page.waitForTimeout(100);
+  return page.evaluate(() => {
+    const lab = document.querySelector(".mot-lab");
+    const pressed = document.querySelector('button[data-mode="handoff"]')?.getAttribute("aria-pressed");
+    return {
+      ok: lab?.getAttribute("data-mode") === "handoff" && pressed === "true",
+      mode: lab?.getAttribute("data-mode") || null,
+      handoffPressed: pressed || null
+    };
+  });
+}
+
 function validate(result) {
   const issues = [];
   if (result.status !== 200) issues.push(`status=${result.status}`);
@@ -270,7 +293,7 @@ function validate(result) {
         page.on("pageerror", (error) => pageErrors.push(error.message || String(error)));
         const response = await page.goto(`${origin}${urlPath(spec.file)}`, { waitUntil: "domcontentloaded" });
         await page.waitForTimeout(700);
-        const motionState = await checkMotionSwitcher(page, spec);
+        const motionState = await checkMotionSwitcher(page, spec) || await checkMotionRecipe(page, spec);
         const state = await captureState(page, spec, response ? response.status() : 0, viewport, pageErrors);
         state.motionState = motionState;
         state.issues = validate(state);

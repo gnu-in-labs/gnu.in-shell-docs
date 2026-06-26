@@ -40,13 +40,13 @@ const DOC_PAGES = [
   {
     file: "Gnu.In-Shell - Index.dc.html",
     h1: "gnu.in-OS",
-    requiredText: ["Carte documentaire", "Projet", "Central Live", "Methodology", "Assets", "Evidence", "Communications"],
-    requiredLinks: ["Project.dc.html", "Central%20Live.dc.html", "Methodology.dc.html", "Assets.dc.html", "Evidence.dc.html", "Communications.dc.html"]
+    requiredText: ["Carte documentaire", "Projet", "Central Live", "Methodology", "Assets", "Evidence", "Communications", "Roadmap", "Full Plan"],
+    requiredLinks: ["Project.dc.html", "Central%20Live.dc.html", "Methodology.dc.html", "Assets.dc.html", "Evidence.dc.html", "Communications.dc.html", "Roadmap.dc.html", "gnu.in-OS%20-%20Plan%20de%20Fusion%20(complet).dc.html"]
   },
   {
     file: "Project.dc.html",
     h1: "Projet",
-    requiredText: ["Ce qui existe", "Central Live", "Documentation avant promesse"],
+    requiredText: ["Ce qui existe", "Central Live", "Documentation avant promesse", "Context"],
     requiredLinks: ["Central%20Live.dc.html"]
   },
   {
@@ -178,6 +178,9 @@ async function getPageState(page, spec, status) {
     const rail = document.getElementById("gid-rail");
     const docsTrigger = [...document.querySelectorAll("#gid-nav .gid-nav-group")]
       .find((group) => group.innerText.includes("Docs"));
+    const topNavLabels = [...document.querySelectorAll("#gid-nav > a, #gid-nav > .gid-nav-group > a")]
+      .map((node) => node.textContent.trim())
+      .filter(Boolean);
     const firstFocus = document.querySelector("a[href], button");
     if (firstFocus) firstFocus.focus();
     const focusStyle = firstFocus ? getComputedStyle(firstFocus) : null;
@@ -198,6 +201,7 @@ async function getPageState(page, spec, status) {
       icon,
       iconStatus,
       navText: nav ? nav.innerText : "",
+      topNavLabels,
       navExists: Boolean(nav),
       railExists: Boolean(rail),
       docsTriggerExists: Boolean(docsTrigger),
@@ -215,15 +219,15 @@ async function getPageState(page, spec, status) {
   });
 }
 
-async function getDocsMenuState(page) {
-  const group = page.locator("#gid-nav .gid-nav-group").filter({ hasText: "Docs" }).first();
+async function getMenuState(page, label) {
+  const group = page.locator("#gid-nav .gid-nav-group").filter({ hasText: label }).first();
   if (!(await group.count())) return null;
   const trigger = group.locator(".gid-nav-trigger").first();
   await trigger.click({ timeout: 5000 });
   await page.waitForTimeout(160);
-  const state = await page.evaluate(() => {
+  const state = await page.evaluate((groupLabel) => {
     const openGroup = [...document.querySelectorAll("#gid-nav .gid-nav-group")]
-      .find((groupNode) => groupNode.innerText.includes("Docs"));
+      .find((groupNode) => groupNode.innerText.includes(groupLabel));
     const trigger = openGroup ? openGroup.querySelector(".gid-nav-trigger") : null;
     const menu = trigger ? document.getElementById(trigger.getAttribute("aria-controls")) : null;
     const style = menu ? getComputedStyle(menu) : null;
@@ -232,7 +236,7 @@ async function getDocsMenuState(page) {
       visible: style ? style.display !== "none" && style.visibility !== "hidden" : false,
       text: menu ? menu.innerText : ""
     };
-  });
+  }, label);
   await page.keyboard.press("Escape").catch(() => {});
   await page.waitForTimeout(80);
   return state;
@@ -251,16 +255,31 @@ function validateResult(result) {
   if (!result.navExists || !result.railExists) issues.push(`nav=${result.navExists} rail=${result.railExists}`);
   if (!result.docsTriggerExists) issues.push("docs-trigger=missing");
   if (!result.navText.includes("Docs")) issues.push("nav-docs=missing");
+  if (!result.topNavLabels.includes("Context")) issues.push(`top-nav-context=missing:${result.topNavLabels.join("/")}`);
+  for (const hiddenTopLevel of ["Roadmap", "Full Plan", "Animations", "Syster kit"]) {
+    if (result.topNavLabels.includes(hiddenTopLevel)) issues.push(`top-nav-unscoped=${hiddenTopLevel}`);
+  }
   if (!result.focusOutline || result.focusOutline.outlineStyle === "none" || parseFloat(result.focusOutline.outlineWidth) < 2) {
     issues.push(`focus=${JSON.stringify(result.focusOutline)}`);
   }
   if (!result.titleShadow || result.titleShadow === "none") issues.push("title-shadow=missing");
   if (result.viewport.startsWith("mobile") && result.railState && !result.railState.collapsed) issues.push("mobile-rail-default=expanded");
   if (result.menuState) {
-    if (result.menuState.expanded !== "true") issues.push(`docs-menu-expanded=${result.menuState.expanded}`);
-    if (!result.menuState.visible) issues.push("docs-menu=hidden");
-    for (const labels of [["Projet", "Project"], ["Central Live"], ["Methodology"], ["Assets"], ["Evidence"], ["Communications"]]) {
-      if (!labels.some((label) => result.menuState.text.includes(label))) issues.push(`docs-menu-missing=${labels[0]}`);
+    if (!result.menuState.docs) issues.push("docs-menu=missing");
+    if (!result.menuState.context) issues.push("context-menu=missing");
+  }
+  if (result.menuState && result.menuState.docs) {
+    if (result.menuState.docs.expanded !== "true") issues.push(`docs-menu-expanded=${result.menuState.docs.expanded}`);
+    if (!result.menuState.docs.visible) issues.push("docs-menu=hidden");
+    for (const labels of [["Projet", "Project"], ["Central Live"], ["Methodology"], ["Assets"], ["Evidence"], ["Communications"], ["Roadmap"], ["Full Plan", "Plan complet"]]) {
+      if (!labels.some((label) => result.menuState.docs.text.includes(label))) issues.push(`docs-menu-missing=${labels[0]}`);
+    }
+  }
+  if (result.menuState && result.menuState.context) {
+    if (result.menuState.context.expanded !== "true") issues.push(`context-menu-expanded=${result.menuState.context.expanded}`);
+    if (!result.menuState.context.visible) issues.push("context-menu=hidden");
+    for (const labels of [["Menus contextuels", "Context menus"], ["Renderer"], ["Animations"], ["Motion"], ["Syster kit"]]) {
+      if (!labels.some((label) => result.menuState.context.text.includes(label))) issues.push(`context-menu-missing=${labels[0]}`);
     }
   }
   if (result.logs.some((line) => line.startsWith("error") || line.startsWith("pageerror"))) {
@@ -299,7 +318,10 @@ function validateResult(result) {
           const rail = document.getElementById("gid-rail");
           return rail ? { collapsed: rail.classList.contains("gid-rail-collapsed") } : null;
         });
-        const menuState = spec.file === "Gnu.In-Shell - Index.dc.html" ? await getDocsMenuState(page) : null;
+        const menuState = spec.file === "Gnu.In-Shell - Index.dc.html" ? {
+          docs: await getMenuState(page, "Docs"),
+          context: await getMenuState(page, "Context")
+        } : null;
         const result = { viewport: viewport.name, expectedH1: spec.h1, logs, ...state, railState, menuState };
         result.issues = validateResult(result);
         if (result.issues.length) failed = true;

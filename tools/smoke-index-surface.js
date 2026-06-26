@@ -396,7 +396,7 @@ async function getLiveInteractionState(page) {
   await page.locator("[data-idx-mode='composer']").click({ timeout: 5000 });
   await page.waitForTimeout(180);
   const afterComposer = await readLiveState(page);
-  await page.locator("[data-idx-node='Handoff']").click({ timeout: 5000 });
+  await page.locator("[data-idx-node='Context']").click({ timeout: 5000 });
   await page.waitForTimeout(180);
   const afterNode = await readLiveState(page);
   await page.locator("[data-idx-mode='orienter']").click({ timeout: 5000 });
@@ -488,7 +488,7 @@ function validateResult(result) {
       if (live.afterComposer.mode !== "composer") issues.push(`live-composer-mode=${live.afterComposer.mode}`);
       if (!live.afterComposer.pressed.includes("composer")) issues.push(`live-composer-pressed=${live.afterComposer.pressed.join("/")}`);
       if (live.afterComposer.title === live.initial.title) issues.push("live-title=unchanged-after-mode");
-      if (!live.afterNode.activeNodes.includes("Handoff")) issues.push(`live-node-active=${live.afterNode.activeNodes.join("/")}`);
+      if (!live.afterNode.activeNodes.includes("Context")) issues.push(`live-node-active=${live.afterNode.activeNodes.join("/")}`);
       if (live.final.mode !== "orienter") issues.push(`live-final-mode=${live.final.mode}`);
       if (!live.final.pressed.includes("orienter")) issues.push(`live-final-pressed=${live.final.pressed.join("/")}`);
     }
