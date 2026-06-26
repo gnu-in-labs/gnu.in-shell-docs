@@ -21,8 +21,8 @@
         <p>La preuve transforme une surface en documentation crédible: source, capture, fixture, interaction, gate et limite connue.</p>
       </div>
       <aside class="doc-hero-panel" aria-label="Evidence">
-        <div class="doc-fact"><b>gate</b><span>`tools/smoke-index-surface.js` vérifie l'Index, la nav, le rail, le favicon, le canvas et les interactions.</span></div>
-        <div class="doc-fact"><b>captures</b><span>`artifacts/index-smoke/` conserve les sorties visuelles locales du gate.</span></div>
+        <div class="doc-fact"><b>gates</b><span>Les smokes Index et Docs vérifient navigation, favicon, rail, canvas, pages, liens, focus, overflow et copie publique.</span></div>
+        <div class="doc-fact"><b>captures</b><span>`artifacts/index-smoke/` et `artifacts/docs-smoke/` conservent les sorties visuelles locales.</span></div>
         <div class="doc-fact"><b>fixtures</b><span>`port-data/scenes/` conserve les scènes et états à inspecter.</span></div>
       </aside>
     </div>
@@ -46,12 +46,13 @@
     <div class="doc-section-head">
       <span class="doc-num">01</span>
       <h2>Gates actuels</h2>
-      <p>Le premier gate publicement utile est centré sur l'Index parce que l'Index est la surface de départ.</p>
+      <p>Les gates actuels couvrent la porte d'entrée et les pages documentaires. Central demande encore des gates spécialisés par sous-système.</p>
     </div>
     <table class="doc-table">
       <thead><tr><th>Gate</th><th>Prouve</th><th>Limite</th></tr></thead>
       <tbody>
-        <tr><td>Index smoke</td><td>Favicon cube, nav, rail drag/collapse, Atlas menu, Carte vivante, canvas non vide, overflow.</td><td>Ne prouve pas encore chaque page secondaire.</td></tr>
+        <tr><td>Index smoke</td><td>Favicon cube, nav, rail drag/collapse, menus cascade, Carte vivante, canvas non vide, overflow.</td><td>Ne prouve pas chaque sous-système Central.</td></tr>
+        <tr><td>Docs smoke</td><td>Index, pages docs, menu Docs, liens, focus visible, favicon cube, copie publique, overflow desktop/mobile.</td><td>Ne remplace pas une passe rédactionnelle humaine.</td></tr>
         <tr><td>Central live state</td><td>Central compositor, engine inspector, settings, input, edge, diff/damage, motion, render, topbar et chantiers ouverts.</td><td>Doit être relié à des pages et gates spécifiques avant promotion complète.</td></tr>
         <tr><td>Visual captures</td><td>Desktop, tablet et mobile rendent la hiérarchie principale.</td><td>Une capture ne prouve pas seule la logique de contenu.</td></tr>
         <tr><td>Text checks</td><td>Les surfaces publiques évitent certains termes internes ou confus.</td><td>Ne remplace pas une vraie passe éditoriale.</td></tr>
@@ -62,6 +63,24 @@
   <section class="doc-wrap doc-section">
     <div class="doc-section-head">
       <span class="doc-num">02</span>
+      <h2>Matrice Central Live</h2>
+      <p>La matrice transforme les claims Central en éléments testables. Elle sert de checklist avant d'étendre Handoff ou une page spécialisée.</p>
+    </div>
+    <table class="doc-table">
+      <thead><tr><th>Claim</th><th>Preuve actuelle</th><th>Gate à ajouter</th></tr></thead>
+      <tbody>
+        <tr><td>Compositor vivant</td><td>Surface Central, huit surfaces simulées, frame loop et readouts.</td><td>Capture avant/après interaction + check scene graph.</td></tr>
+        <tr><td>Réglages inspectables</td><td>Control Center, tokens live-editables, renderer, density, reduce-motion.</td><td>Test de mutation d'état et validation du rendu modifié.</td></tr>
+        <tr><td>Géométrie robuste</td><td>Clamp, edge flip, input regions, submenu flip et workArea.</td><td>Fixtures viewport étroit, collision, menu near-edge et no-overflow.</td></tr>
+        <tr><td>Motion cohérente</td><td>MotionDriver, motion_core, Motion Lab, springs et no-jump lifecycle.</td><td>Mesure de transition et capture de states intermédiaires.</td></tr>
+        <tr><td>Registry extensible</td><td>Taskbar, dock, modules, bar slots et affordances Row/Stack/Fan.</td><td>Fixture module registry + snapshot de slots.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">03</span>
       <h2>Preuves par objet</h2>
       <p>Chaque objet canon doit pouvoir pointer vers au moins une preuve. Les objets importants devraient en avoir plusieurs.</p>
     </div>
@@ -74,12 +93,13 @@
 
   <section class="doc-wrap doc-section">
     <div class="doc-section-head">
-      <span class="doc-num">03</span>
+      <span class="doc-num">04</span>
       <h2>Commandes locales</h2>
       <p>Ces commandes forment la base minimale avant de publier ou d'absorber un nouveau drop.</p>
     </div>
     <pre class="doc-code">git diff --check
 node tools/smoke-index-surface.js
+node tools/smoke-doc-pages.js
 git status --short</pre>
   </section>
 

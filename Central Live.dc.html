@@ -18,11 +18,11 @@
       <div>
         <div class="doc-kicker">gnu.in labs · central live</div>
         <h1>Central Live</h1>
-        <p>État récent de la page Central: simulation vivante de gnu.in-OS, compositor live, inspecteur moteur, surfaces réglables et chantiers à documenter.</p>
+        <p>Surface de référence pour observer gnu.in-OS en composition: scènes, réglages, interactions, rendu, motion et preuves se répondent dans un même modèle vivant.</p>
       </div>
       <aside class="doc-hero-panel" aria-label="État courant">
         <div class="doc-fact"><b>central</b><span>Compositor live, inspector, motion, input, diff/damage, render, settings et contrôle avancé.</span></div>
-        <div class="doc-fact"><b>port-data</b><span>Corpus enrichi avec scènes, fixtures, modules miroir Rust et notes de parité.</span></div>
+        <div class="doc-fact"><b>données</b><span>Scènes, fixtures, modules miroir Rust et notes de parité donnent une base vérifiable au rendu.</span></div>
         <div class="doc-fact"><b>chantiers</b><span>Topbar/widgets stabilisé; profile compositor en cours; sidebar, familles de panels et pages settings à suivre.</span></div>
       </aside>
     </div>
@@ -32,7 +32,7 @@
     <div class="doc-section-head">
       <span class="doc-num">00</span>
       <h2>Lecture rapide</h2>
-      <p>Central sert ici de surface vivante: elle montre comment le shell se compose, se règle, se rend et se vérifie avant une documentation plus profonde.</p>
+      <p>Central sert ici de surface vivante: elle montre comment le shell se compose, se règle, se rend et se vérifie avant de devenir documentation spécialisée.</p>
     </div>
     <div class="doc-grid">
       <article class="doc-card"><span class="doc-tag">done</span><h3>Central compose</h3><p>Huit surfaces, MotionDriver spring, frame loop, diff/damage, interactions et tweaks live.</p></article>
@@ -64,6 +64,55 @@
   <section class="doc-wrap doc-section">
     <div class="doc-section-head">
       <span class="doc-num">02</span>
+      <h2>Contrat de simulation</h2>
+      <p>Central n'est utile que si chaque état visible peut être relié à une source, une intention et une preuve. Le contrat ci-dessous sert de lecture minimale.</p>
+    </div>
+    <div class="doc-flow" aria-label="Contrat de simulation Central Live">
+      <article class="doc-flow-node"><span>01</span><h3>Entrée</h3><p>L'utilisateur déclenche un intent: ouvrir, déplacer, régler, inspecter, changer de profil ou afficher une surface.</p></article>
+      <article class="doc-flow-node"><span>02</span><h3>État</h3><p>L'intent modifie un état nommé: scène active, token, surface, focus, edge, density, renderer ou motion profile.</p></article>
+      <article class="doc-flow-node"><span>03</span><h3>Composition</h3><p>Le compositor assemble les surfaces avec z-bands, geometry clamp, input regions et règles de menu lifecycle.</p></article>
+      <article class="doc-flow-node"><span>04</span><h3>Rendu</h3><p>render_core et motion_core produisent la transition visible, puis SceneDiff limite ce qui doit être redessiné.</p></article>
+      <article class="doc-flow-node"><span>05</span><h3>Preuve</h3><p>La documentation doit relier la scène à une capture, un gate, une fixture ou une note de décision.</p></article>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">03</span>
+      <h2>Sous-systèmes</h2>
+      <p>Chaque sous-système reçoit une responsabilité documentaire claire: ce qu'il prouve, ce qu'il expose et ce qui manque encore.</p>
+    </div>
+    <div class="doc-disclosures">
+      <details class="doc-disclosure" open>
+        <summary><span>compositor</span><b>Surface composition</b></summary>
+        <p>Le compositor organise les surfaces actives, leurs couches, leurs régions d'entrée et leurs transitions. Il doit prouver qu'une scène complexe reste lisible sans casser focus, stacking, edge constraints ou damage tracking.</p>
+      </details>
+      <details class="doc-disclosure">
+        <summary><span>inspector</span><b>Engine inspector</b></summary>
+        <p>L'inspector rend visibles scene graph, tokens, z-bands, protocol, fixtures et modules miroir. Sa valeur documentaire est de montrer pourquoi un rendu existe, pas seulement de l'afficher.</p>
+      </details>
+      <details class="doc-disclosure">
+        <summary><span>settings</span><b>Control Center</b></summary>
+        <p>Les sections General, Tokens, Motion, Atoms, Molecules et Behaviours doivent expliquer quels réglages sont interactifs, quels réglages sont candidats et quelles valeurs modifient réellement la scène.</p>
+      </details>
+      <details class="doc-disclosure">
+        <summary><span>geometry</span><b>Input, edge et menus</b></summary>
+        <p>Clamp, intersect, workArea, submenu flip, click intents et hit testing protègent la cohérence spatiale. Cette couche doit devenir un ensemble de preuves visuelles et de fixtures de régression.</p>
+      </details>
+      <details class="doc-disclosure">
+        <summary><span>motion</span><b>Diff, motion et render</b></summary>
+        <p>SceneDiff, damage region, motion_core, Motion Lab et render_core décrivent comment le système bouge sans saut incohérent. La preuve attendue est une transition contrôlée, pas seulement une capture statique.</p>
+      </details>
+      <details class="doc-disclosure">
+        <summary><span>registry</span><b>Taskbar, dock et modules</b></summary>
+        <p>Le registry de modules, les bar slots et les affordances Dock Row/Stack/Fan relient les surfaces à un modèle extensible. Assets et Handoff devront documenter cette couche comme contrat de portage.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">04</span>
       <h2>Chantiers ouverts</h2>
       <p>Cette section sépare ce qui est intégré de ce qui doit encore être promu, documenté ou propagé.</p>
     </div>
@@ -93,7 +142,7 @@
 
   <section class="doc-wrap doc-section">
     <div class="doc-section-head">
-      <span class="doc-num">03</span>
+      <span class="doc-num">05</span>
       <h2>Propagation documentaire</h2>
       <p>Les derniers items de la liste indiquent explicitement ce qui doit maintenant descendre dans les docs depuis Central.</p>
     </div>

@@ -52,13 +52,13 @@ const DOC_PAGES = [
   {
     file: "Central Live.dc.html",
     h1: "Central Live",
-    requiredText: ["simulation vivante", "Compositor live", "Chantiers ouverts", "Propagation documentaire"],
+    requiredText: ["surface vivante", "Contrat de simulation", "Sous-systèmes", "Chantiers ouverts", "Propagation documentaire"],
     requiredLinks: ["Evidence.dc.html"]
   },
   {
     file: "Methodology.dc.html",
     h1: "Methodology",
-    requiredText: ["Boucle de travail", "Taxonomie de statut", "Intake Central Live"],
+    requiredText: ["Boucle de travail", "Taxonomie de statut", "Intake Central Live", "Protocole de drop"],
     requiredLinks: ["Assets.dc.html"]
   },
   {
@@ -70,7 +70,7 @@ const DOC_PAGES = [
   {
     file: "Evidence.dc.html",
     h1: "Evidence",
-    requiredText: ["Force de preuve", "Central live state", "Commandes locales"],
+    requiredText: ["Force de preuve", "Docs smoke", "Matrice Central Live", "Commandes locales"],
     requiredLinks: ["Communications.dc.html"]
   },
   {
