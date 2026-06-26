@@ -19,7 +19,7 @@ body{margin:0;background:#F5EEDD;}
 .road-shell{width:min(1180px,calc(100% - 48px));margin:0 auto;}
 .road-top{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:28px;align-items:end;padding-bottom:26px;border-bottom:1px solid #D7DADF;}
 .road-kicker{font:700 11px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#C95400;}
-.road-title{font-size:clamp(48px,8vw,94px);line-height:.94;font-weight:700;letter-spacing:0;margin-top:16px;}
+.road-title{font-size:clamp(48px,8vw,94px);line-height:.94;font-weight:700;letter-spacing:0;margin:16px 0 0;}
 .road-sub{font-size:17px;line-height:1.55;color:#56606A;max-width:760px;margin-top:18px;}
 .road-status{border:1px solid #D7DADF;border-radius:10px;background:#fff;padding:18px;box-shadow:0 8px 24px rgba(17,20,24,.06);}
 .road-status b{display:block;font:700 12px/1 'JetBrains Mono',monospace;color:#FF6A00;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;}
@@ -45,14 +45,14 @@ body{margin:0;background:#F5EEDD;}
     <section class="road-top">
       <div>
         <div class="road-kicker">gnu.in shell · roadmap publique</div>
-        <div class="road-title">Roadmap</div>
-        <div class="road-sub">Une trajectoire beta lisible: gouvernance, durcissement source, limites de sécurité, discipline release, documentation architecture et chemin testeur externe. Les promesses publiques restent limitées à ce que le repo peut prouver.</div>
+        <h1 class="road-title">Roadmap</h1>
+        <div class="road-sub">Une trajectoire lisible pour la documentation, la stabilité du shell, les limites de sécurité, la discipline de publication, l'architecture et le chemin testeur externe. Les promesses publiques restent limitées aux comportements vérifiables.</div>
       </div>
       <aside class="road-status">
         <b>status</b>
-        <span>v0.14.2 beta</span>
-        <span>local-first runtime</span>
-        <span>public showcase surface</span>
+        <span>rail documentaire v0.14.2</span>
+        <span>shell local-first</span>
+        <span>surface documentaire publique</span>
       </aside>
     </section>
 
@@ -69,21 +69,21 @@ body{margin:0;background:#F5EEDD;}
 
     <section class="road-lane">
       <div>
-        <div class="road-kicker">active lane</div>
-        <h2>Shell visual and behavioral overhaul</h2>
-        <p>Rail actif v0.14.x: surfaces natives, moteur de composition, tokens canoniques et preuves runtime avant claims d'installation large.</p>
+        <div class="road-kicker">voie active</div>
+        <h2>Refonte visuelle et comportementale du shell</h2>
+        <p>Rail actif v0.14.x: surfaces natives, moteur de composition, tokens canoniques et preuves d'exécution avant toute promesse d'installation large.</p>
       </div>
       <ul>
-        <li>Composition engine: scene graph, z-order, motion primitives.</li>
-        <li>Settings renderer: controls routables, schema split, app boundary.</li>
-        <li>Release rail: manifests, signatures, rollback notes.</li>
-        <li>External tester path: distro assumptions, smoke tests, known issues.</li>
+        <li>Moteur de composition: graphe de scène, ordre de couches, primitives de mouvement.</li>
+        <li>Renderer settings: contrôles routables, séparation schema, limite d'app.</li>
+        <li>Rail de publication: manifests, signatures, notes de rollback.</li>
+        <li>Chemin testeur externe: prérequis système, smoke tests, problèmes connus.</li>
       </ul>
     </section>
 
     <div class="road-footer">
-      <span>&gt; roadmap principle: do not market what the repo cannot prove</span>
-      <span>source: public repo + showcase snapshot</span>
+      <span>&gt; principe roadmap: ne pas promettre ce qui n'est pas vérifié</span>
+      <span>source: corpus public + preuves locales</span>
     </div>
   </div>
 </main>
@@ -93,12 +93,12 @@ class Component extends DCLogic {
   renderVals() {
     return {
       phases: [
-        { id: "phase 0", title: "Governance baseline", status: "near complete", color: "#5F7F52", copy: "Charter, license, ownership and public stance before wider usage claims." },
-        { id: "phase 1", title: "Source hardening", status: "in progress", color: "#FF6A00", copy: "CI, formatting, dependency posture and checks that fail when source contracts fail." },
-        { id: "phase 2", title: "Security boundary", status: "planned", color: "#8DA982", copy: "Risk levels, local automation policy, socket contracts and privacy notes." },
-        { id: "phase 3", title: "Release discipline", status: "partly landed", color: "#C95400", copy: "Manifested builds, version signatures, rollback flow and release notes." },
-        { id: "phase 4", title: "Architecture docs", status: "partly landed", color: "#667085", copy: "Readable boundaries for shell surfaces, runtime services, data flow and limits." },
-        { id: "phase 6", title: "External tester path", status: "future", color: "#111418", copy: "Install assumptions, uninstall path, smoke tests, logs and feedback template." }
+        { id: "phase 0", title: "Base de gouvernance", status: "presque complet", color: "#5F7F52", copy: "Charte, licence, propriété et posture publique avant les promesses d'usage élargi." },
+        { id: "phase 1", title: "Durcissement source", status: "en cours", color: "#FF6A00", copy: "CI, formatage, dépendances et contrôles qui échouent quand un contrat source casse." },
+        { id: "phase 2", title: "Limite de sécurité", status: "prévu", color: "#8DA982", copy: "Niveaux de risque, politique d'automatisation locale, contrats socket et notes de confidentialité." },
+        { id: "phase 3", title: "Discipline release", status: "partiel", color: "#C95400", copy: "Builds manifestés, signatures de version, chemin de rollback et notes de publication." },
+        { id: "phase 4", title: "Architecture docs", status: "partiel", color: "#667085", copy: "Frontières lisibles pour les surfaces shell, services runtime, flux de données et limites." },
+        { id: "phase 5", title: "Chemin testeur externe", status: "futur", color: "#111418", copy: "Prérequis système, désinstallation, smoke tests, logs et gabarit de feedback." }
       ]
     };
   }

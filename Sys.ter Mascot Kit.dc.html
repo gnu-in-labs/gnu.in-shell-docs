@@ -26,6 +26,8 @@ body{margin:0;background:#F7F3ED;}
 .kit-intro{font-size:17px;line-height:1.55;color:#667085;max-width:760px;margin:14px 0 0;}
 .kit-warning{display:inline-flex;align-items:center;gap:8px;margin-top:18px;border:1px solid #E2D6C7;border-radius:8px;background:#fff;padding:10px 12px;font:700 11px/1.35 'IBM Plex Mono',monospace;color:#3D454E;letter-spacing:.05em;text-transform:uppercase;}
 .kit-warning b{color:#FF6A00;}
+.kit-redesign{margin-top:12px;border:1px solid #D7DADF;border-left:4px solid #FF6A00;border-radius:8px;background:#fff;padding:13px 14px;max-width:760px;font:600 12px/1.55 'IBM Plex Mono',monospace;color:#3D454E;}
+.kit-redesign b{color:#FF6A00;text-transform:uppercase;letter-spacing:.08em;}
 .kit-hero{margin-top:34px;background:#111418;border-radius:12px;display:grid;grid-template-columns:1.05fr 1fr;overflow:hidden;box-shadow:0 18px 40px rgba(17,20,24,.18);}
 .kit-mascot-stage{display:flex;align-items:center;justify-content:center;padding:40px 24px;background:radial-gradient(120% 120% at 32% 22%,#1C2128 0%,#111418 70%);}
 .kit-mascot-stage dc-import{filter:drop-shadow(0 22px 24px rgba(0,0,0,.3));}
@@ -51,8 +53,12 @@ body{margin:0;background:#F7F3ED;}
 .kit-iconbox{width:58px;height:58px;flex:none;background:#141313;border-radius:10px;display:flex;align-items:center;justify-content:center;}
 .kit-dock{display:flex;align-items:flex-end;justify-content:center;gap:12px;margin-top:28px;}
 .kit-dock div{width:60px;height:60px;background:#141313;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.kit-criteria{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:22px;}
+.kit-criterion{border:1px solid #D7DADF;border-radius:10px;background:#fff;padding:18px;min-height:178px;box-shadow:0 1px 2px rgba(17,20,24,.05);}
+.kit-criterion b{display:block;font:700 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#FF6A00;margin-bottom:12px;}
+.kit-criterion p{font:600 12px/1.55 'IBM Plex Mono',monospace;color:#3D454E;margin:0;}
 .kit-footer{margin-top:52px;border-top:1px solid #D7DADF;padding-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font:600 11px/1.45 'IBM Plex Mono',monospace;color:#667085;letter-spacing:.08em;text-transform:uppercase;}
-@media(max-width:860px){.kit-page{padding-top:28px}.kit-shell{width:min(100% - 32px,760px)}.kit-head,.kit-hero,.kit-shell-showcase{grid-template-columns:1fr;display:grid}.kit-note{text-align:left}.kit-spec{border-left:0;border-top:1px solid #2B3037;padding:26px}.kit-mascot-stage{padding:30px 18px}.kit-rule{align-items:flex-start;flex-direction:column}.kit-rule div:last-child{text-align:left}.kit-scale{gap:24px}.kit-bar{height:auto;min-height:50px;flex-wrap:wrap;padding:12px 14px}}
+@media(max-width:860px){.kit-page{padding-top:28px}.kit-shell{width:min(100% - 32px,760px)}.kit-head,.kit-hero,.kit-shell-showcase,.kit-criteria{grid-template-columns:1fr;display:grid}.kit-note{text-align:left}.kit-spec{border-left:0;border-top:1px solid #2B3037;padding:26px}.kit-mascot-stage{padding:30px 18px}.kit-rule{align-items:flex-start;flex-direction:column}.kit-rule div:last-child{text-align:left}.kit-scale{gap:24px}.kit-bar{height:auto;min-height:50px;flex-wrap:wrap;padding:12px 14px}}
 </style>
 </helmet>
 <main class="kit-page">
@@ -66,8 +72,9 @@ body{margin:0;background:#F7F3ED;}
       <h1>Sys<span style="color:#FF6A00;">.</span>ter</h1>
       <span>mascot kit surface for showcase</span>
     </section>
-    <p class="kit-intro">Cette page reprend la structure de présentation du kit de refonte pour montrer le flux UI/UX. Elle ne valide pas encore l'itération de mascotte du zip: les rendus ci-dessous utilisent toujours la mascotte actuelle du repo.</p>
+    <p class="kit-intro">Cette page reprend la structure de présentation du kit de refonte pour montrer le flux UI/UX. Elle ne valide pas encore l'itération de mascotte du zip: les rendus ci-dessous utilisent toujours la mascotte actuelle du corpus.</p>
     <div class="kit-warning"><b>lock:</b> current mascot artwork · showcase presentation layer</div>
+    <div class="kit-redesign"><b>avis:</b> la mascotte est en redesign. Cette page documente la grammaire actuelle et les critères d'acceptation; elle ne remplace pas encore l'artwork canonique.</div>
 
     <section class="kit-hero">
       <div class="kit-mascot-stage">
@@ -148,6 +155,31 @@ body{margin:0;background:#F7F3ED;}
             <div style="font:600 11px/1 'IBM Plex Mono',monospace;color:#948F94;text-align:center;margin-top:18px;">idle · work · sleep</div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="kit-block">
+      <div class="kit-rule">
+        <div>04 · acceptance rules</div>
+        <div>current mascot remains canonical until all checks pass</div>
+      </div>
+      <div class="kit-criteria">
+        <article class="kit-criterion">
+          <b>silhouette</b>
+          <p>La coque, le béret, les oreilles et l'antenne restent reconnaissables aux tailles tray, dock, carte et hero.</p>
+        </article>
+        <article class="kit-criterion">
+          <b>faceplate</b>
+          <p>Le caractère &gt; garde la même position. Le caractère voisin partage une baseline stable pour &gt;_, &gt;..., &gt;O et les flèches.</p>
+        </article>
+        <article class="kit-criterion">
+          <b>antenna</b>
+          <p>La lumière d'état est ancrée au bout de l'antenne, sans glisser hors axe lorsque la mascotte change d'échelle.</p>
+        </article>
+        <article class="kit-criterion">
+          <b>status grammar</b>
+          <p>Chaque état doit rester lisible sans légende: idle, listening, working, review, success, failed, sleep.</p>
+        </article>
       </div>
     </section>
 

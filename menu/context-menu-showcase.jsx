@@ -3,6 +3,17 @@ const { useMemo, useState } = React;
 const mono = 'ui-monospace, "JetBrains Mono", SFMono-Regular, Menlo, monospace';
 const sans = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
+function useNarrowViewport(limit = 760) {
+  const [narrow, setNarrow] = useState(() => window.innerWidth <= limit);
+  React.useEffect(() => {
+    const update = () => setNarrow(window.innerWidth <= limit);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, [limit]);
+  return narrow;
+}
+
 function IconBox({ label, active }) {
   return (
     <span style={{
@@ -69,7 +80,7 @@ function MenuPanel({ title, meta, rows, width = 300 }) {
   );
 }
 
-function CascadeStage({ density }) {
+function CascadeStage({ density, narrow }) {
   const rows = [
     { icon: '+', label: 'Add widget', hint: 'compose surface', active: true, sub: true },
     { icon: '#', label: 'Layout preset', hint: 'grid, radial, stack', sub: true },
@@ -81,22 +92,25 @@ function CascadeStage({ density }) {
     { icon: 'S', label: 'System stats' },
     { icon: 'N', label: 'Now playing' }
   ];
+  const scale = narrow ? 0.68 : 1;
   return (
-    <div style={{ position: 'relative', minHeight: density === 'compact' ? 260 : 310 }}>
-      <div style={{ position: 'absolute', left: 0, top: 18 }}><MenuPanel title="Empty workspace" meta="ROOT" rows={rows} /></div>
-      <div style={{ position: 'absolute', left: 256, top: 76 }}><MenuPanel title="Add widget" meta="L2" rows={childRows} width={230} /></div>
-      <div style={{
-        position: 'absolute',
-        right: 18,
-        bottom: 10,
-        padding: '7px 10px',
-        borderRadius: 999,
-        border: '1px solid rgba(255,106,0,.3)',
-        color: '#FF8E40',
-        background: 'rgba(255,106,0,.08)',
-        font: `800 10px/1 ${mono}`,
-        letterSpacing: '.08em'
-      }}>CASCADE BOUNDED</div>
+    <div style={{ position: 'relative', minHeight: narrow ? 230 : (density === 'compact' ? 260 : 310), overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', left: 0, top: 0, width: 512, height: 320, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+        <div style={{ position: 'absolute', left: 0, top: 18 }}><MenuPanel title="Empty workspace" meta="ROOT" rows={rows} /></div>
+        <div style={{ position: 'absolute', left: 256, top: 76 }}><MenuPanel title="Add widget" meta="L2" rows={childRows} width={230} /></div>
+        <div style={{
+          position: 'absolute',
+          right: 18,
+          bottom: 10,
+          padding: '7px 10px',
+          borderRadius: 999,
+          border: '1px solid rgba(255,106,0,.3)',
+          color: '#FF8E40',
+          background: 'rgba(255,106,0,.08)',
+          font: `800 10px/1 ${mono}`,
+          letterSpacing: '.08em'
+        }}>CASCADE BOUNDED</div>
+      </div>
     </div>
   );
 }
@@ -206,10 +220,41 @@ function Card({ title, meta, children }) {
   );
 }
 
+function RuleStrip({ narrow }) {
+  const rules = [
+    ['bornes', 'le menu reste dans le viewport'],
+    ['clavier', 'focus, retour et escape restent visibles'],
+    ['tactile', 'la densité minimale est nommée'],
+    ['preuve', 'chaque famille garde une surface bornée']
+  ];
+  return (
+    <section aria-label="Context menu rules" style={{
+      display: 'grid',
+      gridTemplateColumns: narrow ? '1fr' : 'repeat(4,minmax(0,1fr))',
+      gap: 10,
+      marginTop: 18
+    }}>
+      {rules.map(([title, body]) => (
+        <div key={title} style={{
+          border: '1px solid rgba(245,238,221,.12)',
+          borderRadius: 10,
+          background: '#0D1116',
+          padding: '13px 14px',
+          minHeight: 88
+        }}>
+          <div style={{ color: '#FF8E40', font: `900 10px/1 ${mono}`, letterSpacing: '.12em', textTransform: 'uppercase' }}>{title}</div>
+          <div style={{ marginTop: 10, color: 'rgba(244,237,223,.62)', fontSize: 12, lineHeight: 1.45 }}>{body}</div>
+        </div>
+      ))}
+    </section>
+  );
+}
+
 function ContextMenuShowcase() {
   const [density, setDensity] = useState('standard');
+  const narrow = useNarrowViewport();
   const cards = useMemo(() => [
-    ['Cascade', 'submenu chain', <CascadeStage density={density} />],
+    ['Cascade', 'submenu chain', <CascadeStage density={density} narrow={narrow} />],
     ['Radial', 'pointer origin', <RadialStage />],
     ['Dock affordance', 'bounded fan', <DockStage />],
     ['Command stack', 'keyboard first', <MenuPanel title="Command menu" meta="STACK" rows={[
@@ -219,7 +264,7 @@ function ContextMenuShowcase() {
       { icon: 'O', label: 'OSD preview', hint: 'volume and brightness' },
       { icon: 'R', label: 'Reload surface', danger: true }
     ]} />]
-  ], [density]);
+  ], [density, narrow]);
 
   return (
     <main style={{
@@ -227,7 +272,8 @@ function ContextMenuShowcase() {
       background: '#07090B',
       color: '#F4EDDF',
       fontFamily: sans,
-      padding: '26px 30px 72px 92px'
+      padding: narrow ? '20px 12px 64px 12px' : '26px 30px 72px 92px',
+      overflowX: 'hidden'
     }}>
       <header style={{
         display: 'flex',
@@ -242,7 +288,7 @@ function ContextMenuShowcase() {
           <div style={{ color: '#FF8E40', font: `900 10px/1 ${mono}`, letterSpacing: '.14em', marginBottom: 8 }}>CONTEXT.SPEC SURFACE</div>
           <h1 style={{ margin: 0, fontSize: 'clamp(30px,4vw,48px)', lineHeight: 1.02, letterSpacing: 0 }}>Menus contextuels</h1>
           <p style={{ maxWidth: 780, margin: '10px 0 0', color: 'rgba(244,237,223,.64)', fontSize: 14, lineHeight: 1.6 }}>
-            Interaction layer for shell menus: cascade, radial, dock fan and command stack rendered as bounded showcase surfaces.
+            Couche d'interaction pour les menus du shell: cascade, radial, dock fan et pile de commandes rendus comme surfaces bornées.
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8, padding: 4, borderRadius: 12, border: '1px solid rgba(245,238,221,.12)', background: '#11161B' }}>
@@ -255,10 +301,12 @@ function ContextMenuShowcase() {
               color: density === value ? '#15100a' : '#F4EDDF',
               font: `900 11px/1 ${mono}`,
               cursor: 'pointer'
-            }}>{value}</button>
+            }} aria-pressed={density === value}>{value}</button>
           ))}
         </div>
       </header>
+
+      <RuleStrip narrow={narrow} />
 
       <div style={{
         display: 'grid',

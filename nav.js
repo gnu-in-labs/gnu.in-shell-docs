@@ -32,15 +32,176 @@
     { label: "Central", file: "Central.dc.html" },
     { label: "Menus", file: "Gnu.In Context Menus.dc.html", children: MENU_SURFACES, menuTitle: "Menus / contextes", menuHint: "27 molecules" },
     { label: "Animations", file: "Animations.dc.html" },
-    { label: "Film", file: "Trigger Film.dc.html" },
     { label: "Roadmap", file: "Roadmap.dc.html" },
     { label: "Syster kit", file: "Sys.ter Mascot Kit.dc.html" },
     { label: "GitHub", href: "https://github.com/gnu-in-labs/gnu.in-shell-docs", external: true },
     { label: "Plan complet", file: "gnu.in-OS - Plan de Fusion (complet).dc.html" }
   ];
 
+  var LANGS = ["en", "fr"];
+  var DEFAULT_LANG = "en";
+  var TRANSLATIONS = {
+    en: {
+      "Atomes": "Atoms",
+      "Central Live": "Central Live",
+      "Communications": "Communications",
+      "Contextes": "Contexts",
+      "Docs / corpus": "Docs / corpus",
+      "Fondations": "Foundations",
+      "Intégration": "Integration",
+      "Méthodologie": "Methodology",
+      "Methodology": "Methodology",
+      "Molécules": "Molecules",
+      "Plan complet": "Full plan",
+      "Projet": "Project",
+      "Syster kit": "Syster kit",
+      "Atlas / parcours": "Atlas / path",
+      "Fondations -> Handoff": "Foundations -> Handoff",
+      "Menus / contextes": "Menus / contexts",
+      "Projet -> preuves": "Project -> evidence",
+      "ouvrir": "open",
+      "Ouvrir la barre": "Open rail",
+      "Rétracter la barre": "Collapse rail",
+      "Surfaces Gnu.In-Shell": "Gnu.In-Shell surfaces"
+    },
+    fr: {}
+  };
+
+  var currentLang = resolveLanguage();
   var current = "";
   try { current = decodeURIComponent(location.pathname.split("/").pop() || ""); } catch (e) { current = location.pathname.split("/").pop() || ""; }
+
+  function t(value) {
+    var text = String(value || "");
+    return (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][text]) || text;
+  }
+
+  function langFromUrl() {
+    try {
+      var value = new URLSearchParams(location.search).get("lang");
+      value = normalizeLang(value);
+      return LANGS.indexOf(value) >= 0 ? value : "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function normalizeLang(value) {
+    value = String(value || "").toLowerCase();
+    if (value === "eng") return "en";
+    if (value === "fra" || value === "fre") return "fr";
+    return value.slice(0, 2);
+  }
+
+  function browserLanguage() {
+    var languages = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+    for (var i = 0; i < languages.length; i++) {
+      var lang = normalizeLang(languages[i]);
+      if (LANGS.indexOf(lang) >= 0) return lang;
+    }
+    return DEFAULT_LANG;
+  }
+
+  function resolveLanguage() {
+    var explicit = langFromUrl();
+    if (explicit) {
+      try { localStorage.setItem("gid-lang", explicit); } catch (e) {}
+      return explicit;
+    }
+    var stored = "";
+    try { stored = normalizeLang(localStorage.getItem("gid-lang")); } catch (e) {}
+    if (LANGS.indexOf(stored) >= 0) return stored;
+    return browserLanguage() || DEFAULT_LANG;
+  }
+
+  function ensureLanguageProfile() {
+    document.documentElement.lang = currentLang;
+    document.documentElement.dataset.gidLang = currentLang;
+    ensureAlternateLang("en");
+    ensureAlternateLang("fr");
+    if (!langFromUrl()) {
+      try {
+        var url = new URL(location.href);
+        url.searchParams.set("lang", currentLang || DEFAULT_LANG);
+        history.replaceState(null, "", url.pathname + url.search + url.hash);
+      } catch (e) {}
+    }
+  }
+
+  function ensureAlternateLang(lang) {
+    var id = "gid-alt-" + lang;
+    if (document.getElementById(id)) return;
+    var link = document.createElement("link");
+    link.id = id;
+    link.rel = "alternate";
+    link.hreflang = lang;
+    link.href = withLang(location.pathname.split("/").pop() || current || "Gnu.In-Shell - Index.dc.html", lang);
+    document.head.appendChild(link);
+  }
+
+  function withLang(href, lang) {
+    if (!href || /^https?:/i.test(href) || /^mailto:/i.test(href) || href.charAt(0) === "#") return href;
+    var parts = String(href).split("#");
+    var base = parts[0];
+    var hash = parts.length > 1 ? "#" + parts.slice(1).join("#") : "";
+    var queryIndex = base.indexOf("?");
+    var pathPart = queryIndex >= 0 ? base.slice(0, queryIndex) : base;
+    var queryPart = queryIndex >= 0 ? base.slice(queryIndex + 1) : "";
+    var params = new URLSearchParams(queryPart);
+    params.set("lang", lang || currentLang || DEFAULT_LANG);
+    return pathPart + "?" + params.toString() + hash;
+  }
+
+  function setLanguage(lang) {
+    lang = normalizeLang(lang);
+    if (LANGS.indexOf(lang) < 0 || lang === currentLang) return;
+    try { localStorage.setItem("gid-lang", lang); } catch (e) {}
+    try {
+      var url = new URL(location.href);
+      url.searchParams.set("lang", lang);
+      location.href = url.pathname + url.search + url.hash;
+    } catch (e) {
+      location.search = "lang=" + encodeURIComponent(lang);
+    }
+  }
+
+  function installPretextApi() {
+    window.GnuInPretext = {
+      lang: currentLang,
+      defaultLang: DEFAULT_LANG,
+      t: t,
+      setLanguage: setLanguage,
+      withLang: withLang,
+      register: function (lang, map) {
+        lang = normalizeLang(lang);
+        if (LANGS.indexOf(lang) < 0 || !map) return;
+        TRANSLATIONS[lang] = Object.assign(TRANSLATIONS[lang] || {}, map);
+        applyPretext();
+      },
+      apply: applyPretext
+    };
+  }
+
+  function applyPretext() {
+    var nodes = document.querySelectorAll("[data-pretext-key]");
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      var key = node.getAttribute("data-pretext-key");
+      var value = t(key);
+      if (value && value !== key) node.textContent = value;
+    }
+  }
+
+  function localizePageLinks() {
+    var links = document.querySelectorAll("a[href]");
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      var href = a.getAttribute("href") || "";
+      if (!href || href.charAt(0) === "#" || /^https?:/i.test(href) || /^mailto:/i.test(href)) continue;
+      var next = withLang(href, currentLang);
+      if (next !== href) a.setAttribute("href", next);
+    }
+  }
 
   function ensureFavicon() {
     var href = "assets/symbols/cube.svg";
@@ -83,6 +244,7 @@
       "#gid-nav a{flex:0 0 auto;color:#aeb6b2;text-decoration:none;padding:7px 10px;border-radius:7px;white-space:nowrap;transition:background .15s,color .15s}",
       "#gid-nav a:hover{color:#f5eedd;background:rgba(245,238,221,.08)}",
       "#gid-nav a.gid-active{color:#0d1114;background:#F5EEDD;font-weight:600}",
+      "#gid-nav a:focus,#gid-nav button:focus,#gid-rail a:focus,#gid-rail button:focus,#dc-root a:focus,#dc-root button:focus,#dc-root summary:focus{outline:3px solid #FF6A00!important;outline-offset:3px!important;}",
       "#gid-nav .gid-nav-group{position:relative;flex:0 0 auto;display:flex;align-items:center;gap:1px;}",
       "#gid-nav .gid-nav-group>a{border-top-right-radius:3px;border-bottom-right-radius:3px;}",
       "#gid-nav .gid-nav-group.gid-parent-active>a{color:#0d1114;background:#F5EEDD;font-weight:600;}",
@@ -100,6 +262,9 @@
       ".gid-menu-copy{color:#7c828a;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.08em;}",
       "#gid-nav .gid-sep{flex:0 0 auto;width:1px;height:16px;background:rgba(245,238,221,.18);margin:0 6px}",
       "#gid-nav .gid-tag{flex:0 0 auto;margin-left:auto;padding-left:14px;color:#6f7b76;font-size:11px;white-space:nowrap}",
+      "#gid-nav .gid-lang{flex:0 0 auto;display:flex;align-items:center;gap:2px;margin-left:6px;padding:3px;border:1px solid rgba(245,238,221,.12);border-radius:8px;background:rgba(245,238,221,.04);}",
+      "#gid-nav .gid-lang button{width:28px;height:24px;border:0;border-radius:5px;background:transparent;color:#9aa3ae;font:800 9px/1 ui-monospace,'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}",
+      "#gid-nav .gid-lang button[aria-pressed='true']{background:#F5EEDD;color:#0d1114;}",
       "#gid-rail{box-sizing:border-box;position:fixed;left:clamp(16px,2vw,28px);top:calc(var(--gid-nav-h) + 18px);z-index:2147483590;display:flex;flex-direction:column;gap:7px;padding:7px;border:1px solid rgba(245,238,221,.16);border-radius:16px;background:rgba(13,17,20,.74);-webkit-backdrop-filter:blur(16px) saturate(1.14);backdrop-filter:blur(16px) saturate(1.14);box-shadow:0 22px 46px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.04) inset;opacity:.9;isolation:isolate;touch-action:none;user-select:none;will-change:left,top,width,height,border-radius,box-shadow;transition:opacity .15s,border-color .15s,box-shadow .18s,background .18s,border-radius .18s,padding .18s}",
       "#gid-rail::before{content:\"\";position:absolute;inset:3px;border-radius:13px;border:1px solid rgba(255,255,255,.05);pointer-events:none;transition:border-radius .18s;}",
       "#gid-rail::after{content:\"\";position:absolute;right:3px;top:11px;width:2px;height:var(--gid-rail-progress,8%);max-height:calc(100% - 22px);border-radius:999px;background:#FF6A00;box-shadow:0 0 10px rgba(255,106,0,.45);transition:width .18s,height .18s,top .18s,right .18s;}",
@@ -113,11 +278,25 @@
       "#gid-rail .gid-rail-toggle{color:#FF8E40}",
       "#gid-rail.gid-rail-dragging{opacity:1;cursor:grabbing;border-color:rgba(255,106,0,.42);box-shadow:0 26px 54px rgba(0,0,0,.38),0 0 0 1px rgba(255,106,0,.22) inset}",
       "#gid-rail.gid-rail-dragging a,#gid-rail.gid-rail-dragging button{cursor:grabbing}",
-      "#gid-rail.gid-rail-collapsed{width:46px;height:46px;padding:6px;gap:0;border-radius:999px;background:rgba(13,17,20,.82);box-shadow:0 20px 46px rgba(0,0,0,.36),0 0 0 1px rgba(255,106,0,.22) inset}",
+      "#gid-rail.gid-rail-collapsed{width:58px;height:58px;padding:7px;gap:0;border-radius:999px;background:rgba(13,17,20,.86);box-shadow:0 22px 48px rgba(0,0,0,.38),0 0 0 1px rgba(255,106,0,.26) inset}",
       "#gid-rail.gid-rail-collapsed::before{border-radius:999px;inset:4px}",
       "#gid-rail.gid-rail-collapsed::after{width:8px;height:8px;right:5px;top:5px;max-height:none}",
       "#gid-rail.gid-rail-collapsed>*:not(.gid-rail-toggle){display:none!important}",
-      "#gid-rail.gid-rail-collapsed .gid-rail-toggle{width:32px;height:32px;border-radius:999px;background:rgba(255,106,0,.12);border-color:rgba(255,106,0,.34);box-shadow:0 0 20px rgba(255,106,0,.12);font-size:9px;color:#F5EEDD}",
+      "#gid-rail.gid-rail-collapsed .gid-rail-toggle{width:42px;height:42px;border-radius:999px;background:radial-gradient(circle at 34% 24%,rgba(255,142,64,.24),rgba(255,106,0,.08) 58%,rgba(245,238,221,.04));border-color:rgba(255,106,0,.38);box-shadow:0 0 22px rgba(255,106,0,.18);font-size:0;color:#F5EEDD;overflow:visible;position:relative;}",
+      "#gid-rail .gid-rail-mascot{display:none;position:relative;width:36px;height:41px;filter:drop-shadow(0 9px 9px rgba(0,0,0,.42));}",
+      "#gid-rail.gid-rail-collapsed .gid-rail-mascot{display:block;animation:gidMascotFloat 2600ms ease-in-out infinite;}",
+      "#gid-rail .gid-rail-mascot-shell{position:absolute;left:8%;top:24%;width:84%;height:64%;border-radius:7px;background:#FF6A00;box-shadow:inset 0 0 0 1px rgba(17,20,24,.28);}",
+      "#gid-rail .gid-rail-mascot-screen{position:absolute;left:20%;top:35%;width:60%;height:43%;border-radius:4px;background:#151515;box-shadow:inset 0 0 0 1px rgba(245,238,221,.2);}",
+      "#gid-rail .gid-rail-mascot-beret{position:absolute;left:17%;top:3%;width:66%;height:25%;border-radius:50% 56% 42% 48%;background:#5F7F52;transform:rotate(-6deg);box-shadow:inset 0 -1px 0 rgba(0,0,0,.24);}",
+      "#gid-rail .gid-rail-mascot-antenna{position:absolute;right:2%;top:22%;width:3px;height:48%;border-radius:999px;background:#B6BCC4;}",
+      "#gid-rail .gid-rail-mascot-antenna::after{content:\"\";position:absolute;left:50%;top:-2px;width:6px;height:6px;border-radius:50%;background:#3DDA6A;transform:translateX(-50%);box-shadow:0 0 10px rgba(61,218,106,.7);animation:gidMascotPing 1500ms ease-in-out infinite;}",
+      "#gid-rail .gid-rail-mascot-face{position:absolute;left:28%;top:42%;color:#F5EEDD;font:900 11px/1 ui-monospace,'JetBrains Mono',monospace;letter-spacing:-.04em;}",
+      "#gid-rail .gid-rail-mascot-cue{position:absolute;left:54%;top:49%;display:flex;gap:2px;}",
+      "#gid-rail .gid-rail-mascot-cue span{width:2px;height:2px;border-radius:50%;background:#FF8E40;animation:gidMascotDot 1200ms ease-in-out infinite;}",
+      "#gid-rail .gid-rail-mascot-cue span:nth-child(2){animation-delay:160ms;}#gid-rail .gid-rail-mascot-cue span:nth-child(3){animation-delay:320ms;}",
+      "@keyframes gidMascotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}",
+      "@keyframes gidMascotPing{0%,100%{opacity:.55;transform:translateX(-50%) scale(.86)}50%{opacity:1;transform:translateX(-50%) scale(1.12)}}",
+      "@keyframes gidMascotDot{0%,100%{opacity:.25}50%{opacity:1}}",
       ".gid-container{max-width:min(var(--gid-container-native,1280px),calc(100vw - var(--gid-edge) - var(--gid-edge)))!important;padding-left:var(--gid-edge)!important;padding-right:var(--gid-edge)!important;}",
       ".gid-grid{gap:var(--gid-card-gap)!important;}",
       ".gid-grid-3{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))!important;}",
@@ -153,11 +332,13 @@
       "html[data-gid-vp='mobile'] #gid-rail::after{right:3px;top:10px;max-height:calc(100% - 20px)}",
       "html[data-gid-vp='mobile'] #gid-rail a,html[data-gid-vp='mobile'] #gid-rail button{width:30px;height:30px;border-radius:9px;font-size:9px}",
       "html[data-gid-vp='mobile'] #gid-rail .gid-rail-handle{height:14px}",
-      "html[data-gid-vp='mobile'] #gid-rail.gid-rail-collapsed{width:48px;height:48px;padding:7px;border-radius:999px}",
+      "html[data-gid-vp='mobile'] #gid-rail.gid-rail-collapsed{width:58px;height:58px;padding:7px;border-radius:999px}",
       "html[data-gid-vp='mobile'].gid-rail-collapsed-mode #dc-root:not(.gid-canvas-root){padding-left:0!important;}",
       "html[data-gid-vp='mobile'].gid-rail-collapsed-mode #dc-root.gid-canvas-root{padding-left:10px!important;}",
       "html[data-gid-vp='mobile'] #dc-root:not(.gid-canvas-root){padding-left:64px!important;}",
       "html.gid-surface-central:not([data-gid-vp='desktop']) #dc-root{padding-left:0!important;}",
+      "html:not([data-gid-vp='mobile']).gid-surface-roadmap #dc-root .road-shell,html:not([data-gid-vp='mobile']).gid-surface-syster-kit #dc-root .kit-shell,html:not([data-gid-vp='mobile']).gid-surface-animations #dc-root .ani-shell{width:min(1180px,calc(100% - 156px))!important;margin-left:clamp(92px,8vw,118px)!important;margin-right:auto!important;}",
+      "html.gid-surface-renderer #dc-root,html.gid-surface-menus #dc-root,html.gid-surface-film #dc-root{overflow-x:hidden!important;}",
       "html[data-gid-vp='mobile'] .gid-container{padding-left:var(--gid-edge)!important;padding-right:var(--gid-edge)!important;}",
       "html[data-gid-vp='mobile'] .gid-flexline{flex-wrap:wrap!important;}",
       "html[data-gid-vp='mobile'] .gid-hero-type{font-size:clamp(38px,13vw,var(--gid-font-native,80px))!important;line-height:1.02!important;}",
@@ -470,7 +651,7 @@
 
     var nav = document.createElement("nav");
     nav.id = "gid-nav";
-    nav.setAttribute("aria-label", "Surfaces Gnu.In-Shell");
+    nav.setAttribute("aria-label", t("Surfaces Gnu.In-Shell"));
 
     var dot = document.createElement("span");
     dot.className = "gid-dot";
@@ -490,20 +671,22 @@
       }
 
       var a = document.createElement("a");
-      a.href = s.href || encodeURIComponent(s.file);
+      a.href = s.href || withLang(encodeURIComponent(s.file), currentLang);
       if (s.external) {
         a.target = "_blank";
         a.rel = "noreferrer";
       }
-      a.textContent = s.label;
+      a.textContent = t(s.label);
       if (s.file === current) a.className = "gid-active";
       nav.appendChild(a);
     });
 
     var tag = document.createElement("span");
     tag.className = "gid-tag";
-    tag.textContent = currentSurfaceLabel() + " · " + String(progress.index + 1).padStart(2, "0") + "/" + String(progress.total).padStart(2, "0") + " · v0.14.2";
+    tag.textContent = t(currentSurfaceLabel()) + " · " + String(progress.index + 1).padStart(2, "0") + "/" + String(progress.total).padStart(2, "0") + " · v0.14.2";
     nav.appendChild(tag);
+
+    nav.appendChild(buildLangSwitch());
 
     document.body.appendChild(nav);
 
@@ -528,6 +711,23 @@
     }, { passive: true });
   }
 
+  function buildLangSwitch() {
+    var wrap = document.createElement("span");
+    wrap.className = "gid-lang";
+    wrap.setAttribute("role", "group");
+    wrap.setAttribute("aria-label", currentLang === "fr" ? "Langue" : "Language");
+    LANGS.forEach(function (lang) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.textContent = lang;
+      button.setAttribute("aria-pressed", lang === currentLang ? "true" : "false");
+      button.setAttribute("aria-label", lang === "fr" ? "Français" : "English");
+      button.addEventListener("click", function () { setLanguage(lang); });
+      wrap.appendChild(button);
+    });
+    return wrap;
+  }
+
   function buildNavGroup(surface) {
     var group = document.createElement("span");
     group.className = "gid-nav-group";
@@ -535,8 +735,8 @@
     var menuId = "gid-menu-" + slug(surface.label || surface.file);
 
     var primary = document.createElement("a");
-    primary.href = encodeURIComponent(surface.file);
-    primary.textContent = surface.label;
+    primary.href = withLang(encodeURIComponent(surface.file), currentLang);
+    primary.textContent = t(surface.label);
     if (surface.file === current) primary.classList.add("gid-active");
     group.appendChild(primary);
 
@@ -544,7 +744,7 @@
     trigger.type = "button";
     trigger.className = "gid-nav-trigger";
     trigger.textContent = "v";
-    trigger.setAttribute("aria-label", "Menu " + surface.label);
+    trigger.setAttribute("aria-label", "Menu " + t(surface.label));
     trigger.setAttribute("aria-expanded", "false");
     trigger.setAttribute("aria-controls", menuId);
     group.appendChild(trigger);
@@ -553,21 +753,21 @@
     menu.id = menuId;
     menu.className = "gid-menu";
     menu.setAttribute("role", "menu");
-    menu.setAttribute("aria-label", "Menu " + surface.label);
+    menu.setAttribute("aria-label", "Menu " + t(surface.label));
 
     var title = document.createElement("div");
     title.className = "gid-menu-title";
     var label = document.createElement("span");
-    label.textContent = surface.menuTitle || (surface.label + " / surfaces");
+    label.textContent = t(surface.menuTitle || (surface.label + " / surfaces"));
     var hint = document.createElement("span");
-    hint.textContent = surface.menuHint || "";
+    hint.textContent = t(surface.menuHint || "");
     title.appendChild(label);
     title.appendChild(hint);
     menu.appendChild(title);
 
     surface.children.forEach(function (child) {
       var a = document.createElement("a");
-      a.href = encodeURIComponent(child.file);
+      a.href = withLang(encodeURIComponent(child.file), currentLang);
       a.setAttribute("role", "menuitem");
       if (child.file === current) a.className = "gid-active";
 
@@ -577,12 +777,12 @@
       a.appendChild(step);
 
       var text = document.createElement("span");
-      text.textContent = child.label;
+      text.textContent = t(child.label);
       a.appendChild(text);
 
       var copy = document.createElement("span");
       copy.className = "gid-menu-copy";
-      copy.textContent = child.copy || "ouvrir";
+      copy.textContent = t(child.copy || "ouvrir");
       a.appendChild(copy);
 
       menu.appendChild(a);
@@ -655,8 +855,8 @@
   function clampRailXY(rail, x, y) {
     var rect = rail.getBoundingClientRect();
     var navH = px(getComputedStyle(document.documentElement).getPropertyValue("--gid-nav-h")) || 40;
-    var width = rect.width || (rail.classList.contains("gid-rail-collapsed") ? 48 : 46);
-    var height = rect.height || (rail.classList.contains("gid-rail-collapsed") ? 48 : 210);
+    var width = rect.width || (rail.classList.contains("gid-rail-collapsed") ? 58 : 46);
+    var height = rect.height || (rail.classList.contains("gid-rail-collapsed") ? 58 : 210);
     var pad = 8;
     var minX = pad;
     var minY = navH + pad;
@@ -678,8 +878,12 @@
     var toggle = rail ? rail.querySelector(".gid-rail-toggle") : null;
     if (!toggle) return;
     var collapsed = rail.classList.contains("gid-rail-collapsed");
-    toggle.textContent = collapsed ? "IN" : "-";
-    toggle.title = collapsed ? "Ouvrir la barre" : "Rétracter la barre";
+    if (collapsed) {
+      toggle.innerHTML = '<span class="gid-rail-mascot" aria-hidden="true"><span class="gid-rail-mascot-beret"></span><span class="gid-rail-mascot-shell"></span><span class="gid-rail-mascot-screen"></span><span class="gid-rail-mascot-antenna"></span><span class="gid-rail-mascot-face">&gt;</span><span class="gid-rail-mascot-cue"><span></span><span></span><span></span></span></span>';
+    } else {
+      toggle.textContent = "-";
+    }
+    toggle.title = collapsed ? t("Ouvrir la barre") : t("Rétracter la barre");
     toggle.setAttribute("aria-label", toggle.title);
     toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
     rail.setAttribute("aria-expanded", collapsed ? "false" : "true");
@@ -706,6 +910,18 @@
     if (state && typeof state.x === "number" && typeof state.y === "number") {
       requestAnimationFrame(function () {
         setRailPosition(rail, state.x, state.y);
+      });
+    } else {
+      requestAnimationFrame(function () {
+        var navH = px(getComputedStyle(document.documentElement).getPropertyValue("--gid-nav-h")) || 40;
+        var rect = rail.getBoundingClientRect();
+        var x = vp === "mobile"
+          ? Math.max(14, window.innerWidth - (rect.width || 58) - 14)
+          : (parseFloat(getComputedStyle(rail).left) || 24);
+        var y = vp === "mobile"
+          ? Math.max(navH + 8, window.innerHeight - (rect.height || 48) - 18)
+          : (parseFloat(getComputedStyle(rail).top) || navH + 18);
+        setRailPosition(rail, x, y);
       });
     }
   }
@@ -806,27 +1022,27 @@
 
     var rail = document.createElement("aside");
     rail.id = "gid-rail";
-    rail.setAttribute("aria-label", "Quick tools");
+    rail.setAttribute("aria-label", currentLang === "fr" ? "Outils rapides" : "Quick tools");
     rail.style.setProperty("--gid-rail-progress", progress.pct);
 
-    var handle = makeRailItem("button", "::", "Déplacer la barre", "gid-rail-handle");
+    var handle = makeRailItem("button", "::", currentLang === "fr" ? "Déplacer la barre" : "Move rail", "gid-rail-handle");
     handle.type = "button";
     handle.setAttribute("data-gid-drag-handle", "true");
     rail.appendChild(handle);
 
     var home = makeRailItem("a", "IN", "Index", current === real[0].file ? "gid-active" : "");
-    home.href = encodeURIComponent(real[0].file);
+    home.href = withLang(encodeURIComponent(real[0].file), currentLang);
     rail.appendChild(home);
 
-    var prev = makeRailItem("a", "<", "Surface précédente", "");
-    prev.href = encodeURIComponent(real[(currentIndex + real.length - 1) % real.length].file);
+    var prev = makeRailItem("a", "<", currentLang === "fr" ? "Surface précédente" : "Previous surface", "");
+    prev.href = withLang(encodeURIComponent(real[(currentIndex + real.length - 1) % real.length].file), currentLang);
     rail.appendChild(prev);
 
-    var next = makeRailItem("a", ">", "Surface suivante", "");
-    next.href = encodeURIComponent(real[(currentIndex + 1) % real.length].file);
+    var next = makeRailItem("a", ">", currentLang === "fr" ? "Surface suivante" : "Next surface", "");
+    next.href = withLang(encodeURIComponent(real[(currentIndex + 1) % real.length].file), currentLang);
     rail.appendChild(next);
 
-    var top = makeRailItem("button", "^", "Retour en haut", "gid-accent");
+    var top = makeRailItem("button", "^", currentLang === "fr" ? "Retour en haut" : "Back to top", "gid-accent");
     top.type = "button";
     top.addEventListener("click", function () {
       var canvas = document.getElementById("gid-canvas-viewport");
@@ -844,7 +1060,7 @@
     gh.rel = "noreferrer";
     rail.appendChild(gh);
 
-    var toggle = makeRailItem("button", "-", "Rétracter la barre", "gid-rail-toggle");
+    var toggle = makeRailItem("button", "-", t("Rétracter la barre"), "gid-rail-toggle");
     toggle.type = "button";
     toggle.addEventListener("click", function () {
       if (rail.dataset.gidSuppressClick === "1") return;
@@ -859,15 +1075,20 @@
 
   function boot() {
     ensureFavicon();
+    ensureLanguageProfile();
+    installPretextApi();
     injectCss();
     setViewportState();
     buildNav();
     buildRail();
     annotateInlineLayouts();
+    applyPretext();
+    localizePageLinks();
 
     function refreshViewport() {
       setViewportState();
       annotateInlineLayouts();
+      localizePageLinks();
       refreshRailBounds();
     }
 
@@ -879,11 +1100,17 @@
       if (!document.getElementById("gid-nav") && document.body) buildNav();
       if (!document.getElementById("gid-rail") && document.body) buildRail();
       annotateInlineLayouts();
+      applyPretext();
+      localizePageLinks();
       if (++tries > 30) clearInterval(iv);
     }, 350);
 
     if (window.MutationObserver) {
-      var mo = new MutationObserver(function () { annotateInlineLayouts(); });
+      var mo = new MutationObserver(function () {
+        annotateInlineLayouts();
+        applyPretext();
+        localizePageLinks();
+      });
       mo.observe(document.body, { childList: true, subtree: true });
     }
   }

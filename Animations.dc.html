@@ -21,7 +21,7 @@ body{margin:0;background:#111418;}
 .ani-panel{border:1px solid #2B3037;border-radius:10px;background:#171B21;box-shadow:0 18px 42px rgba(0,0,0,.28);overflow:hidden;}
 .ani-copy{padding:34px;display:flex;flex-direction:column;justify-content:space-between;min-height:390px;}
 .ani-kicker{font:700 11px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#FF8E40;}
-.ani-title{font-weight:700;font-size:clamp(44px,8vw,92px);line-height:.94;letter-spacing:0;margin-top:18px;}
+.ani-title{font-weight:700;font-size:clamp(44px,8vw,92px);line-height:.94;letter-spacing:0;margin:18px 0 0;}
 .ani-sub{font-size:17px;line-height:1.55;color:#B6BCC4;max-width:680px;margin-top:18px;}
 .ani-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px;}
 .ani-tags span{font:700 11px/1 'JetBrains Mono',monospace;color:#C8CED6;border:1px solid #303741;border-radius:7px;padding:8px 10px;background:#111418;}
@@ -46,6 +46,32 @@ body{margin:0;background:#111418;}
 .ani-proof-radial .ani-proof-node:nth-child(3){left:50%;top:50%;transform:translate(-50%,-50%)}.ani-proof-radial .ani-proof-node:nth-child(4){left:21%;top:24%}.ani-proof-radial .ani-proof-node:nth-child(5){right:21%;bottom:24%}
 .ani-proof-flow .ani-proof-node:nth-child(1){left:14px;top:50%;transform:translateY(-50%)}.ani-proof-flow .ani-proof-node:nth-child(2){left:50%;top:50%;transform:translate(-50%,-50%)}.ani-proof-flow .ani-proof-node:nth-child(3){right:14px;top:50%;transform:translateY(-50%)}
 .ani-proof-flow .ani-proof-line{position:absolute;z-index:1;left:43px;right:43px;top:50%;height:2px;background:linear-gradient(90deg,#FF6A00,#5F7F52);opacity:.72;}
+.ani-lab{margin-top:24px;border:1px solid #2B3037;border-radius:10px;background:#171B21;display:grid;grid-template-columns:310px minmax(0,1fr);gap:0;overflow:hidden;box-shadow:0 18px 42px rgba(0,0,0,.24);}
+.ani-lab-copy{padding:24px;border-right:1px solid #2B3037;}
+.ani-lab-copy h2{font-size:28px;line-height:1.04;margin:12px 0 0;color:#F5EEDD;letter-spacing:0;}
+.ani-lab-copy p{font-size:13px;line-height:1.55;color:#AAB1BA;margin:12px 0 0;}
+.ani-lab-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;}
+.ani-lab-controls button{border:1px solid #303741;border-radius:8px;background:#101318;color:#C8CED6;padding:9px 10px;font:800 10px/1 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}
+.ani-lab-controls button[aria-pressed="true"]{background:#FF6A00;border-color:#FF6A00;color:#111418;}
+.ani-live{position:relative;min-height:260px;background:radial-gradient(120% 90% at 22% 12%,#242B34 0%,#101318 66%);overflow:hidden;}
+.ani-live::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,106,0,.08) 1px,transparent 1px),linear-gradient(180deg,rgba(245,238,221,.05) 1px,transparent 1px);background-size:36px 36px;opacity:.42;}
+.ani-live-node{position:absolute;z-index:2;width:58px;height:58px;border-radius:13px;border:1px solid #303741;background:#151A20;color:#F5EEDD;display:grid;place-items:center;font:900 12px/1 'JetBrains Mono',monospace;box-shadow:0 14px 30px rgba(0,0,0,.24);}
+.ani-live-node.is-hot{border-color:#FF6A00;color:#FF8E40;background:#1C1712;box-shadow:0 0 0 1px rgba(255,106,0,.18),0 18px 34px rgba(0,0,0,.28);}
+.ani-live-line{position:absolute;z-index:1;height:2px;background:linear-gradient(90deg,#FF6A00,#5F7F52);opacity:.76;transform-origin:left center;}
+.ani-live-pulse{position:absolute;z-index:3;width:12px;height:12px;border-radius:999px;background:#FF6A00;box-shadow:0 0 20px rgba(255,106,0,.58);animation:aniTravel 2400ms cubic-bezier(.2,.7,.2,1) infinite;}
+.ani-live-ring{position:absolute;z-index:1;border:1px solid rgba(255,106,0,.28);border-radius:999px;animation:aniPulse 3200ms ease-in-out infinite;}
+.ani-live-label{position:absolute;left:22px;bottom:18px;z-index:4;color:#7C858F;font:800 10px/1 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;}
+.ani-lab[data-motion-mode="sequence"] .ani-live-node[data-node="in"]{left:9%;top:28%}.ani-lab[data-motion-mode="sequence"] .ani-live-node[data-node="fx"]{left:42%;top:28%}.ani-lab[data-motion-mode="sequence"] .ani-live-node[data-node="out"]{right:9%;top:28%}
+.ani-lab[data-motion-mode="sequence"] .ani-live-line{left:calc(9% + 58px);right:calc(9% + 58px);top:calc(28% + 29px)}
+.ani-lab[data-motion-mode="sequence"] .ani-live-pulse{left:calc(9% + 58px);top:calc(28% + 23px)}
+.ani-lab[data-motion-mode="radial"] .ani-live-node[data-node="in"]{left:50%;top:50%;transform:translate(-50%,-50%)}.ani-lab[data-motion-mode="radial"] .ani-live-node[data-node="fx"]{left:25%;top:24%}.ani-lab[data-motion-mode="radial"] .ani-live-node[data-node="out"]{right:25%;bottom:24%}
+.ani-lab[data-motion-mode="radial"] .ani-live-line{display:none}.ani-lab[data-motion-mode="radial"] .ani-live-ring:nth-of-type(1){inset:42px 140px}.ani-lab[data-motion-mode="radial"] .ani-live-ring:nth-of-type(2){inset:70px 168px;border-color:rgba(95,127,82,.38);animation-delay:380ms}.ani-lab[data-motion-mode="radial"] .ani-live-pulse{left:50%;top:50%;animation:aniOrbit 3000ms linear infinite;}
+.ani-lab[data-motion-mode="handoff"] .ani-live-node[data-node="in"]{left:11%;bottom:24%}.ani-lab[data-motion-mode="handoff"] .ani-live-node[data-node="fx"]{left:45%;top:24%}.ani-lab[data-motion-mode="handoff"] .ani-live-node[data-node="out"]{right:11%;bottom:24%}
+.ani-lab[data-motion-mode="handoff"] .ani-live-line{left:18%;right:18%;top:50%;transform:rotate(-8deg)}.ani-lab[data-motion-mode="handoff"] .ani-live-pulse{left:18%;top:calc(50% - 6px)}
+.ani-lab[data-motion-mode="reduced"] .ani-live-node[data-node="in"]{left:11%;top:34%}.ani-lab[data-motion-mode="reduced"] .ani-live-node[data-node="fx"]{left:42%;top:34%}.ani-lab[data-motion-mode="reduced"] .ani-live-node[data-node="out"]{right:11%;top:34%}
+.ani-lab[data-motion-mode="reduced"] .ani-live-line{left:calc(11% + 58px);right:calc(11% + 58px);top:calc(34% + 29px);background:#5F7F52}.ani-lab[data-motion-mode="reduced"] .ani-live-pulse,.ani-lab[data-motion-mode="reduced"] .ani-live-ring{display:none}.ani-lab[data-motion-mode="reduced"] *{animation:none!important;transition:none!important;}
+@keyframes aniTravel{0%{transform:translateX(0);opacity:.2}12%{opacity:1}88%{opacity:1}100%{transform:translateX(min(520px,58vw));opacity:.2}}
+@keyframes aniOrbit{0%{transform:translate(-50%,-50%) rotate(0deg) translateX(96px)}100%{transform:translate(-50%,-50%) rotate(360deg) translateX(96px)}}
 .ani-label{font:700 12px/1 'JetBrains Mono',monospace;color:#FF8E40;letter-spacing:.12em;text-transform:uppercase;}
 .ani-card h2{font-size:23px;line-height:1.08;margin:12px 0 0;color:#F5EEDD;}
 .ani-card p{font-size:13px;line-height:1.5;color:#AAB1BA;margin:10px 0 0;}
@@ -54,7 +80,7 @@ body{margin:0;background:#111418;}
 .ani-state dc-import{display:block;margin:0 auto;filter:drop-shadow(0 12px 14px rgba(0,0,0,.18));}
 .ani-state div{font:700 11px/1 'JetBrains Mono',monospace;color:#C8CED6;letter-spacing:.12em;text-transform:uppercase;margin-top:8px;}
 @keyframes aniPulse{0%,100%{transform:scale(1);opacity:.54}50%{transform:scale(1.04);opacity:.9}}
-@media(max-width:860px){.ani-page{padding-top:28px}.ani-shell{width:min(100% - 32px,720px)}.ani-hero,.ani-grid{grid-template-columns:1fr}.ani-copy{min-height:auto;padding:24px}.ani-stage{min-height:320px}.ani-card{min-height:auto}}
+@media(max-width:860px){.ani-page{padding-top:28px}.ani-shell{width:min(100% - 32px,720px)}.ani-hero,.ani-grid,.ani-lab{grid-template-columns:1fr}.ani-copy{min-height:auto;padding:24px}.ani-stage{min-height:320px}.ani-card{min-height:auto}.ani-lab-copy{border-right:0;border-bottom:1px solid #2B3037}.ani-live{min-height:236px}.ani-lab[data-motion-mode="radial"] .ani-live-ring:nth-of-type(1){inset:36px 80px}.ani-lab[data-motion-mode="radial"] .ani-live-ring:nth-of-type(2){inset:64px 108px}}
 @media(max-width:520px){.ani-page{padding-top:18px}.ani-shell{width:min(100% - 24px,520px)}.ani-hero{gap:14px}.ani-copy{padding:20px}.ani-title{font-size:42px;line-height:1;overflow-wrap:anywhere}.ani-sub{font-size:15px;line-height:1.5}.ani-tags{gap:6px;margin-top:18px}.ani-tags span{padding:7px 8px}.ani-stage{min-height:238px;padding:16px}.ani-orbit{inset:34px}.ani-orbit:nth-child(2){inset:62px}.ani-orbit:nth-child(3){inset:90px}.ani-mascot{width:min(178px,54vw)}.ani-grid{gap:12px;margin-top:14px}.ani-card{padding:14px}.ani-proof{margin-top:10px}.ani-states{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}.ani-state{padding:10px 8px 11px;border-radius:9px}.ani-state dc-import{width:82px!important;height:94px!important}.ani-state div{font-size:10px;margin-top:6px;letter-spacing:.14em}}
 @media(max-width:380px){.ani-title{font-size:38px}}
 @media(max-width:340px){.ani-title{font-size:34px}}
@@ -65,8 +91,8 @@ body{margin:0;background:#111418;}
     <section class="ani-hero">
       <div class="ani-panel ani-copy">
         <div>
-          <div class="ani-kicker">motion board · v0.14.2 beta</div>
-          <div class="ani-title">Animations</div>
+          <div class="ani-kicker">motion board · v0.14.2</div>
+          <h1 class="ani-title">Animations</h1>
           <div class="ani-sub">Surface de lecture pour les états, transitions et preuves visuelles du shell. Les mouvements restent au service de la hiérarchie: signal, focus, confirmation, échec, attente.</div>
           <div class="ani-tags">
             <span>state grammar</span>
@@ -82,6 +108,30 @@ body{margin:0;background:#111418;}
         <div class="ani-orbit"></div>
         <div class="ani-orbit"></div>
         <div class="ani-mascot"><dc-import name="Syster" state="work" hint-size="260px,296px"></dc-import></div>
+      </div>
+    </section>
+
+    <section class="ani-lab" data-motion-mode="sequence" aria-label="Motion proof controls">
+      <div class="ani-lab-copy">
+        <div class="ani-label">04 · proof switcher</div>
+        <h2>Motion proof</h2>
+        <p>Une même grammaire doit couvrir la séquence, le spatial, le transfert et le mode réduit. Le contrôle ci-dessous expose le comportement attendu sans changer de page.</p>
+        <div class="ani-lab-controls" role="group" aria-label="Motion proof modes">
+          <button type="button" data-motion-mode="sequence" aria-pressed="true">sequence</button>
+          <button type="button" data-motion-mode="radial" aria-pressed="false">radial</button>
+          <button type="button" data-motion-mode="handoff" aria-pressed="false">handoff</button>
+          <button type="button" data-motion-mode="reduced" aria-pressed="false">reduced</button>
+        </div>
+      </div>
+      <div class="ani-live" aria-hidden="true">
+        <div class="ani-live-ring"></div>
+        <div class="ani-live-ring"></div>
+        <div class="ani-live-node is-hot" data-node="in">IN</div>
+        <div class="ani-live-node" data-node="fx">FX</div>
+        <div class="ani-live-node" data-node="out">OUT</div>
+        <div class="ani-live-line"></div>
+        <div class="ani-live-pulse"></div>
+        <div class="ani-live-label">live behavior sketch</div>
       </div>
     </section>
 
@@ -155,6 +205,37 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+(function () {
+  function initMotionLab() {
+    var lab = document.querySelector(".ani-lab");
+    if (!lab || lab.dataset.motionReady === "true") return Boolean(lab);
+    lab.dataset.motionReady = "true";
+    var buttons = Array.prototype.slice.call(lab.querySelectorAll("[data-motion-mode]"));
+    function setMode(mode) {
+      lab.setAttribute("data-motion-mode", mode);
+      buttons.forEach(function (button) {
+        button.setAttribute("aria-pressed", button.getAttribute("data-motion-mode") === mode ? "true" : "false");
+      });
+    }
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        setMode(button.getAttribute("data-motion-mode"));
+      });
+    });
+    setMode(lab.getAttribute("data-motion-mode") || "sequence");
+    return true;
+  }
+  function boot() { initMotionLab(); }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+  var observer = new MutationObserver(boot);
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+})();
 </script>
 </body>
 </html>

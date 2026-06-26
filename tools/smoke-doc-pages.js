@@ -58,7 +58,7 @@ const DOC_PAGES = [
   {
     file: "Methodology.dc.html",
     h1: "Methodology",
-    requiredText: ["Boucle de travail", "Taxonomie de statut", "Intake Central Live", "Protocole de drop"],
+    requiredText: ["Boucle de travail", "Taxonomie de statut", "Pretext multilingue", "Intake Central Live", "Protocole de drop"],
     requiredLinks: ["Assets.dc.html"]
   },
   {
@@ -162,6 +162,7 @@ async function getPageState(page, spec, status) {
     const h1 = [...document.querySelectorAll("h1")].map((node) => node.innerText.trim());
     const h2 = [...document.querySelectorAll("h2")].map((node) => node.innerText.trim());
     const links = [...document.querySelectorAll("a[href]")].map((node) => node.getAttribute("href"));
+    const normalizedLinks = links.map((href) => String(href || "").split("#")[0].split("?")[0]);
     const brokenImages = [...document.images]
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.currentSrc || img.src || img.alt);
@@ -190,7 +191,7 @@ async function getPageState(page, spec, status) {
       h1,
       h2,
       requiredTextMissing: spec.requiredText.filter((item) => !text.includes(item)),
-      requiredLinksMissing: spec.requiredLinks.filter((href) => !links.includes(href)),
+      requiredLinksMissing: spec.requiredLinks.filter((href) => !links.includes(href) && !normalizedLinks.includes(href)),
       forbidden,
       overflowX: Math.max(html.scrollWidth, body.scrollWidth) - html.clientWidth,
       brokenImages,
@@ -258,8 +259,8 @@ function validateResult(result) {
   if (result.menuState) {
     if (result.menuState.expanded !== "true") issues.push(`docs-menu-expanded=${result.menuState.expanded}`);
     if (!result.menuState.visible) issues.push("docs-menu=hidden");
-    for (const label of ["Projet", "Central Live", "Methodology", "Assets", "Evidence", "Communications"]) {
-      if (!result.menuState.text.includes(label)) issues.push(`docs-menu-missing=${label}`);
+    for (const labels of [["Projet", "Project"], ["Central Live"], ["Methodology"], ["Assets"], ["Evidence"], ["Communications"]]) {
+      if (!labels.some((label) => result.menuState.text.includes(label))) issues.push(`docs-menu-missing=${labels[0]}`);
     }
   }
   if (result.logs.some((line) => line.startsWith("error") || line.startsWith("pageerror"))) {

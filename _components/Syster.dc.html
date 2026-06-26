@@ -24,10 +24,10 @@
 @keyframes sysPing{0%{transform:scale(.3);opacity:.9}100%{transform:scale(2.3);opacity:0}}
 @keyframes sysDot{0%,100%{opacity:.2}50%{opacity:1}}
 @keyframes sysCue{0%,100%{transform:scale(.82);opacity:.6}50%{transform:scale(1.12);opacity:1}}
-@keyframes sysSlideR{0%,100%{transform:translateX(-0.12em)}50%{transform:translateX(0.12em)}}
-@keyframes sysSlideL{0%,100%{transform:translateX(0.12em)}50%{transform:translateX(-0.12em)}}
+@keyframes sysSlideR{0%,100%{transform:translate(-0.12em,0.20em)}50%{transform:translate(0.12em,0.20em)}}
+@keyframes sysSlideL{0%,100%{transform:translate(0.12em,0.20em)}50%{transform:translate(-0.12em,0.20em)}}
 @keyframes sysSpin{to{transform:rotate(360deg)}}
-@keyframes sysPop{0%{transform:scale(0.5);opacity:0}55%{transform:scale(1.12);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes sysPop{0%{transform:translateY(0.20em) scale(0.5);opacity:0}55%{transform:translateY(0.20em) scale(1.12);opacity:1}100%{transform:translateY(0.20em) scale(1);opacity:1}}
 @keyframes sysZ{0%{opacity:0;transform:translateY(0.2em) scale(.7)}30%{opacity:1}100%{opacity:0;transform:translateY(-1.1em) scale(1.1)}}
 </style>
 </helmet>
@@ -80,7 +80,9 @@
           </sc-if>
 
           <sc-if value="{{ isHello }}" hint-placeholder-val="{{ false }}">
-            <span style="width:0.28em;height:0.28em;border-radius:50%;background:#3DDA6A;transform-box:fill-box;transform-origin:center;animation:sysCue 1300ms ease-in-out infinite;"></span>
+            <span style="display:inline-grid;place-items:center;transform:translateY(0.20em);">
+              <span style="width:0.28em;height:0.28em;border-radius:50%;background:#3DDA6A;transform-box:fill-box;transform-origin:center;animation:sysCue 1300ms ease-in-out infinite;"></span>
+            </span>
           </sc-if>
 
           <sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
@@ -100,7 +102,9 @@
           </sc-if>
 
           <sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
-            <span style="width:0.5em;height:0.5em;border-radius:50%;border:0.09em solid rgba(243,236,220,0.28);border-top-color:#F3ECDC;box-sizing:border-box;animation:sysSpin 850ms linear infinite;"></span>
+            <span style="display:inline-grid;place-items:center;transform:translateY(0.20em);">
+              <span style="width:0.5em;height:0.5em;border-radius:50%;border:0.09em solid rgba(243,236,220,0.28);border-top-color:#F3ECDC;box-sizing:border-box;animation:sysSpin 850ms linear infinite;"></span>
+            </span>
           </sc-if>
 
           <sc-if value="{{ isSuccess }}" hint-placeholder-val="{{ false }}">
@@ -115,7 +119,7 @@
           </sc-if>
 
           <sc-if value="{{ isFail }}" hint-placeholder-val="{{ false }}">
-            <span style="display:inline-flex;align-items:center;color:#E5484D;">&times;&times;</span>
+            <span style="display:inline-flex;align-items:center;color:#E5484D;transform:translateY(0.20em);">&times;&times;</span>
           </sc-if>
           </div>
         </div>
