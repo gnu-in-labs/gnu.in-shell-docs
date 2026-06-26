@@ -39,6 +39,12 @@ const VIEWPORTS = [
 
 const PAGES = [
   {
+    file: "Context.dc.html",
+    h1: "Context",
+    requiredText: ["dynamic reference layer", "Menus contextuels", "Renderer", "Animations", "Motion", "Syster kit"],
+    checkContext: true
+  },
+  {
     file: "Roadmap.dc.html",
     h1: "Roadmap",
     requiredText: ["surface documentaire publique", "phase 5", "principe roadmap"]
@@ -256,6 +262,27 @@ async function checkMotionRecipe(page, spec) {
   });
 }
 
+async function checkContextSwitcher(page, spec) {
+  if (!spec.checkContext) return null;
+  const button = page.locator('button[data-context-focus="motion"]').first();
+  if (!(await button.count())) return { ok: false, reason: "motion context button missing" };
+  await button.click({ timeout: 5000 });
+  await page.waitForTimeout(100);
+  return page.evaluate(() => {
+    const board = document.querySelector("[data-context-board]");
+    const pressed = document.querySelector('button[data-context-focus="motion"]')?.getAttribute("aria-pressed");
+    const title = document.querySelector("[data-context-title]")?.textContent.trim() || "";
+    const activeNode = document.querySelector(".ctx-node.is-active")?.getAttribute("data-id") || "";
+    return {
+      ok: board?.getAttribute("data-focus") === "motion" && pressed === "true" && title === "Motion" && activeNode === "motion",
+      focus: board?.getAttribute("data-focus") || null,
+      pressed: pressed || null,
+      title,
+      activeNode
+    };
+  });
+}
+
 function validate(result) {
   const issues = [];
   if (result.status !== 200) issues.push(`status=${result.status}`);
@@ -293,7 +320,7 @@ function validate(result) {
         page.on("pageerror", (error) => pageErrors.push(error.message || String(error)));
         const response = await page.goto(`${origin}${urlPath(spec.file)}`, { waitUntil: "domcontentloaded" });
         await page.waitForTimeout(700);
-        const motionState = await checkMotionSwitcher(page, spec) || await checkMotionRecipe(page, spec);
+        const motionState = await checkMotionSwitcher(page, spec) || await checkMotionRecipe(page, spec) || await checkContextSwitcher(page, spec);
         const state = await captureState(page, spec, response ? response.status() : 0, viewport, pageErrors);
         state.motionState = motionState;
         state.issues = validate(state);

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gnu.in-OS - Context</title>
+<link rel="icon" type="image/svg+xml" href="assets/symbols/cube.svg">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/colors_and_type.css">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-25..0&display=block" rel="stylesheet">
+<script src="nav.js" defer></script>
+<style>
+:root{--ctx-bg:#0B0E12;--ctx-panel:#14191F;--ctx-panel-2:#101419;--ctx-line:#2B3037;--ctx-text:#F5EEDD;--ctx-muted:#AAB1BA;--ctx-dim:#737D88;--ctx-orange:#FF6A00;--ctx-orange-2:#FF9A4C;--ctx-green:#6F8E62;--ctx-blue:#3D8DCC;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ctx-bg);color:var(--ctx-text);font-family:Montreal,system-ui,sans-serif;}
+.ctx-page{min-height:100dvh;padding:58px 0 84px;background:linear-gradient(180deg,#11161D 0%,#0B0E12 42%,#07090B 100%);}
+.ctx-shell{width:min(1080px,calc(100% - 148px));margin-left:max(116px,calc((100% - 1080px)/2));margin-right:auto;}
+.ctx-hero{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px;align-items:end;border-bottom:1px solid var(--ctx-line);padding:20px 0 30px;}
+.ctx-kicker{font:800 11px/1 JetBrains Mono,ui-monospace,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--ctx-orange-2);}
+.ctx-title{font-size:clamp(58px,9vw,104px);line-height:.92;letter-spacing:0;margin:16px 0 0;text-shadow:7px 7px 0 #000;}
+.ctx-lede{max-width:780px;margin:18px 0 0;color:#C2C8D0;font-size:18px;line-height:1.56;}
+.ctx-ledger{border:1px solid var(--ctx-line);border-radius:10px;background:rgba(20,25,31,.82);box-shadow:0 20px 42px rgba(0,0,0,.28);padding:16px;}
+.ctx-ledger-row{display:grid;grid-template-columns:38px minmax(0,1fr);gap:12px;padding:12px 0;border-top:1px solid rgba(245,238,221,.08);}
+.ctx-ledger-row:first-child{border-top:0;padding-top:0}
+.ctx-ledger-row:last-child{padding-bottom:0}
+.ctx-ledger-num{font:900 13px/1 JetBrains Mono,ui-monospace,monospace;color:var(--ctx-orange);}
+.ctx-ledger b{display:block;font:800 11px/1.2 JetBrains Mono,ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;}
+.ctx-ledger span span{display:block;margin-top:5px;color:var(--ctx-muted);font-size:12px;line-height:1.45;}
+.ctx-board{margin-top:26px;display:grid;grid-template-columns:310px minmax(0,1fr);border:1px solid var(--ctx-line);border-radius:12px;overflow:hidden;background:var(--ctx-panel);box-shadow:0 22px 54px rgba(0,0,0,.34);}
+.ctx-console{padding:24px;border-right:1px solid var(--ctx-line);background:linear-gradient(180deg,#151A20,#101419);}
+.ctx-console h2{font-size:30px;line-height:1.05;letter-spacing:0;margin:12px 0 0;}
+.ctx-console p{color:var(--ctx-muted);font-size:13px;line-height:1.55;margin:12px 0 0;}
+.ctx-switches{display:grid;gap:8px;margin-top:20px;}
+.ctx-switches button{width:100%;display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;border:1px solid #333B46;border-radius:8px;background:#0E1217;color:#CCD3DC;padding:10px 11px;font:800 11px/1.2 JetBrains Mono,ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;}
+.ctx-switches button[aria-pressed="true"]{border-color:var(--ctx-orange);background:#21160D;color:#F5EEDD;box-shadow:inset 3px 0 0 var(--ctx-orange);}
+.ctx-step{color:var(--ctx-orange-2)}
+.ctx-state{font-size:10px;color:var(--ctx-dim)}
+.ctx-stage{position:relative;min-height:430px;background:#0C1015;overflow:hidden;}
+.ctx-stage::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,106,0,.08) 1px,transparent 1px),linear-gradient(180deg,rgba(245,238,221,.05) 1px,transparent 1px);background-size:36px 36px;opacity:.55;}
+.ctx-stage::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 0 38%,rgba(255,106,0,.08) 38% 38.4%,transparent 38.4% 100%);}
+.ctx-node{position:absolute;z-index:2;width:86px;height:70px;border:1px solid #343D49;border-radius:12px;background:#151A20;display:grid;place-items:center;text-align:center;font:900 10px/1.25 JetBrains Mono,ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#E5E9EE;box-shadow:0 16px 32px rgba(0,0,0,.32);}
+.ctx-node::before{content:attr(data-step);display:block;color:var(--ctx-orange-2);font-size:10px;margin-bottom:4px;}
+.ctx-node[data-id="menus"]{left:9%;top:19%}.ctx-node[data-id="renderer"]{left:37%;top:12%}.ctx-node[data-id="animations"]{right:12%;top:24%}.ctx-node[data-id="motion"]{left:29%;bottom:30%}.ctx-node[data-id="syster"]{right:20%;bottom:35%}
+.ctx-node.is-active{border-color:var(--ctx-orange);color:#fff;background:#1D1712;box-shadow:0 0 0 1px rgba(255,106,0,.28),0 22px 38px rgba(0,0,0,.34);}
+.ctx-line{position:absolute;z-index:1;height:2px;background:linear-gradient(90deg,var(--ctx-orange),var(--ctx-green));opacity:.64;transform-origin:left center;}
+.ctx-line.l1{left:18%;right:51%;top:31%;transform:rotate(-12deg)}.ctx-line.l2{left:47%;right:22%;top:31%;transform:rotate(13deg)}.ctx-line.l3{left:34%;right:51%;top:56%;transform:rotate(58deg)}.ctx-line.l4{left:43%;right:27%;top:70%;transform:rotate(-7deg)}
+.ctx-readout{position:absolute;z-index:3;left:24px;right:24px;bottom:22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:end;border:1px solid rgba(245,238,221,.12);border-radius:10px;background:rgba(12,16,21,.9);padding:15px 16px;backdrop-filter:blur(2px);}
+.ctx-readout h3{margin:0;font-size:26px;line-height:1.05;letter-spacing:0;}
+.ctx-readout p{margin:8px 0 0;color:var(--ctx-muted);font-size:13px;line-height:1.5;max-width:580px;}
+.ctx-badge{align-self:start;border:1px solid rgba(255,106,0,.42);border-radius:999px;color:var(--ctx-orange-2);padding:8px 10px;font:900 10px/1 JetBrains Mono,ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;background:#1B130D;}
+.ctx-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:24px;}
+.ctx-card{min-height:236px;border:1px solid var(--ctx-line);border-radius:10px;background:var(--ctx-panel);padding:17px;display:flex;flex-direction:column;justify-content:space-between;color:inherit;text-decoration:none;box-shadow:0 14px 32px rgba(0,0,0,.18);}
+.ctx-card:hover,.ctx-card:focus-visible{border-color:var(--ctx-orange);outline:3px solid rgba(255,106,0,.24);outline-offset:2px;}
+.ctx-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--ctx-orange-2);font:900 10px/1 JetBrains Mono,ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;}
+.ctx-card .material-symbols-rounded{font-size:22px;color:var(--ctx-orange);}
+.ctx-card h3{font-size:22px;line-height:1.05;letter-spacing:0;margin:18px 0 0;}
+.ctx-card p{font-size:12.5px;line-height:1.5;color:var(--ctx-muted);margin:10px 0 0;}
+.ctx-card small{display:block;margin-top:18px;color:var(--ctx-dim);font:800 10px/1.4 JetBrains Mono,ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;}
+.ctx-mascot{margin-top:24px;display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:18px;align-items:stretch;}
+.ctx-note{border:1px solid var(--ctx-line);border-left:4px solid var(--ctx-orange);border-radius:10px;background:#151A20;padding:20px;}
+.ctx-note h2{font-size:26px;letter-spacing:0;line-height:1.05;margin:0;}
+.ctx-note p{color:var(--ctx-muted);font-size:13px;line-height:1.55;margin:12px 0 0;}
+.ctx-note a{display:inline-flex;align-items:center;gap:8px;color:#F5EEDD;text-decoration:none;border:1px solid #343D49;border-radius:8px;padding:10px 12px;margin-top:16px;font:900 11px/1 JetBrains Mono,ui-monospace,monospace;text-transform:uppercase;letter-spacing:.08em;background:#0D1116;}
+.ctx-mascot-stage{border:1px solid var(--ctx-line);border-radius:10px;background:radial-gradient(100% 90% at 40% 12%,#222A33 0%,#101419 66%);display:grid;place-items:center;padding:20px;min-height:250px;}
+.ctx-mascot-stage img{width:min(180px,52vw);height:auto;filter:drop-shadow(0 22px 22px rgba(0,0,0,.38));}
+.ctx-foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:28px;border-top:1px solid var(--ctx-line);padding-top:16px;color:#757F8A;font:800 10px/1.5 JetBrains Mono,ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;}
+@media(prefers-reduced-motion:no-preference){.ctx-node,.ctx-card{transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}.ctx-card:hover{transform:translateY(-2px)}.ctx-node.is-active{animation:ctxPulse 1600ms ease-in-out infinite}@keyframes ctxPulse{0%,100%{box-shadow:0 0 0 1px rgba(255,106,0,.24),0 22px 38px rgba(0,0,0,.34)}50%{box-shadow:0 0 0 6px rgba(255,106,0,.08),0 22px 38px rgba(0,0,0,.34)}}}
+@media(max-width:980px){.ctx-page{padding-top:46px}.ctx-shell{width:min(100% - 32px,760px);margin:0 auto}.ctx-hero,.ctx-board,.ctx-mascot{grid-template-columns:1fr}.ctx-console{border-right:0;border-bottom:1px solid var(--ctx-line)}.ctx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ctx-stage{min-height:390px}}
+@media(max-width:560px){.ctx-page{padding-top:30px}.ctx-shell{width:min(100% - 24px,520px)}.ctx-title{font-size:48px;text-shadow:5px 5px 0 #000}.ctx-lede{font-size:16px}.ctx-ledger{padding:14px}.ctx-switches button{width:calc(100% - 62px)}.ctx-stage{min-height:360px}.ctx-node{width:74px;height:62px;font-size:9px}.ctx-node[data-id="menus"]{left:5%;top:16%}.ctx-node[data-id="renderer"]{left:37%;top:10%}.ctx-node[data-id="animations"]{right:4%;top:22%}.ctx-node[data-id="motion"]{left:13%;bottom:36%}.ctx-node[data-id="syster"]{right:10%;bottom:31%}.ctx-readout{left:16px;right:16px;grid-template-columns:1fr}.ctx-readout h3{font-size:24px}.ctx-grid{grid-template-columns:1fr}.ctx-card{min-height:178px}.ctx-mascot-stage{min-height:210px}}
+</style>
+</head>
+<body>
+<main class="ctx-page">
+  <div class="ctx-shell">
+    <section class="ctx-hero">
+      <div>
+        <div class="ctx-kicker">context · dynamic reference layer</div>
+        <h1 class="ctx-title">Context</h1>
+        <p class="ctx-lede">Couche de guides réactifs pour les comportements consultables du corpus: menus contextuels, renderer hydraté, états animés, recettes Motion et kit Syster en redesign.</p>
+      </div>
+      <aside class="ctx-ledger" aria-label="Rôle de Context">
+        <div class="ctx-ledger-row"><span class="ctx-ledger-num">01</span><span><b>Regrouper</b><span>Les surfaces dynamiques ne se mélangent plus aux canevas statiques Atlas.</span></span></div>
+        <div class="ctx-ledger-row"><span class="ctx-ledger-num">02</span><span><b>Référencer</b><span>Chaque guide expose un comportement, un statut et une preuve attendue.</span></span></div>
+        <div class="ctx-ledger-row"><span class="ctx-ledger-num">03</span><span><b>Limiter</b><span>Les pistes non validées restent visibles comme candidates, pas comme canon.</span></span></div>
+      </aside>
+    </section>
+
+    <section class="ctx-board" data-context-board data-focus="menus" aria-label="Context reference switcher">
+      <div class="ctx-console">
+        <div class="ctx-kicker">reference switcher</div>
+        <h2 data-context-title>Menus contextuels</h2>
+        <p data-context-copy>Guide des cascades, radials, dock affordances et piles de commandes. Le comportement doit rester borné, lisible au clavier et tactile.</p>
+        <div class="ctx-switches" role="group" aria-label="Guides Context">
+          <button type="button" data-context-focus="menus" aria-pressed="true"><span class="ctx-step">C1</span><span>Menus contextuels</span><span class="ctx-state">guide</span></button>
+          <button type="button" data-context-focus="renderer" aria-pressed="false"><span class="ctx-step">C2</span><span>Renderer</span><span class="ctx-state">data</span></button>
+          <button type="button" data-context-focus="animations" aria-pressed="false"><span class="ctx-step">C3</span><span>Animations</span><span class="ctx-state">states</span></button>
+          <button type="button" data-context-focus="motion" aria-pressed="false"><span class="ctx-step">C4</span><span>Motion</span><span class="ctx-state">rules</span></button>
+          <button type="button" data-context-focus="syster" aria-pressed="false"><span class="ctx-step">C5</span><span>Syster kit</span><span class="ctx-state">mascot</span></button>
+        </div>
+      </div>
+      <div class="ctx-stage" aria-hidden="true">
+        <div class="ctx-line l1"></div>
+        <div class="ctx-line l2"></div>
+        <div class="ctx-line l3"></div>
+        <div class="ctx-line l4"></div>
+        <div class="ctx-node is-active" data-id="menus" data-step="C1">menus</div>
+        <div class="ctx-node" data-id="renderer" data-step="C2">renderer</div>
+        <div class="ctx-node" data-id="animations" data-step="C3">states</div>
+        <div class="ctx-node" data-id="motion" data-step="C4">motion</div>
+        <div class="ctx-node" data-id="syster" data-step="C5">syster</div>
+        <div class="ctx-readout">
+          <div>
+            <h3 data-context-readout>guide borné</h3>
+            <p data-context-detail>Entrée par commandes visibles, sortie par preuve: focus, tactile, clavier, statut et fallback.</p>
+          </div>
+          <div class="ctx-badge" data-context-badge>active</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ctx-grid" aria-label="Context guides">
+      <a class="ctx-card" href="Gnu.In%20Context%20Menus.dc.html">
+        <div><div class="ctx-card-top"><span>C1 · guide</span><span class="material-symbols-rounded" aria-hidden="true">menu_open</span></div><h3>Menus contextuels</h3><p>Cascade, radial, dock fan et command stack comme comportements bornés.</p></div>
+        <small>clavier · tactile · bornes</small>
+      </a>
+      <a class="ctx-card" href="Molecule%20Renderer.dc.html">
+        <div><div class="ctx-card-top"><span>C2 · data</span><span class="material-symbols-rounded" aria-hidden="true">data_object</span></div><h3>Renderer</h3><p>Molécules hydratées par données pour vérifier layout, densité et états.</p></div>
+        <small>source · layouts · données</small>
+      </a>
+      <a class="ctx-card" href="Animations.dc.html">
+        <div><div class="ctx-card-top"><span>C3 · states</span><span class="material-symbols-rounded" aria-hidden="true">animation</span></div><h3>Animations</h3><p>États Sys.ter, preuves visuelles, séquence, radial, handoff et reduced.</p></div>
+        <small>idle · working · success</small>
+      </a>
+      <a class="ctx-card" href="Motion.dc.html">
+        <div><div class="ctx-card-top"><span>C4 · rules</span><span class="material-symbols-rounded" aria-hidden="true">motion_photos_auto</span></div><h3>Motion</h3><p>Recettes settle, reveal, handoff et reduced reliées à une preuve.</p></div>
+        <small>settle · reveal · reduced</small>
+      </a>
+      <a class="ctx-card" href="Sys.ter%20Mascot%20Kit.dc.html">
+        <div><div class="ctx-card-top"><span>C5 · mascot</span><span class="material-symbols-rounded" aria-hidden="true">smart_toy</span></div><h3>Syster kit</h3><p>Surface de présentation: la mascotte reste en redesign, canon courant conservé.</p></div>
+        <small>showcase · redesign</small>
+      </a>
+    </section>
+
+    <section class="ctx-mascot">
+      <div class="ctx-note">
+        <h2>Canon actuel, redesign visible</h2>
+        <p>Context montre les surfaces de référence qui peuvent évoluer sans contaminer le canon. Le kit Syster documente la grammaire et les critères d'acceptation, mais ne remplace pas encore l'artwork courant.</p>
+        <a href="Assets.dc.html"><span class="material-symbols-rounded" aria-hidden="true">inventory_2</span> ouvrir Assets</a>
+      </div>
+      <div class="ctx-mascot-stage" aria-label="Mascotte courante">
+        <img src="uploads/GNU.IN%20Design%20System/uploads/sys-ter-idle.svg" alt="Sys.ter current mascot artwork">
+      </div>
+    </section>
+
+    <footer class="ctx-foot">
+      <span>&gt;_ Context · guides réactifs · menus / renderer / animations / motion / syster</span>
+      <span>Atlas = canevas statiques · Docs = corpus public</span>
+    </footer>
+  </div>
+</main>
+<script>
+(function () {
+  var DATA = {
+    menus: {
+      title: "Menus contextuels",
+      copy: "Guide des cascades, radials, dock affordances et piles de commandes. Le comportement doit rester borné, lisible au clavier et tactile.",
+      readout: "guide borné",
+      detail: "Entrée par commandes visibles, sortie par preuve: focus, tactile, clavier, statut et fallback.",
+      badge: "guide"
+    },
+    renderer: {
+      title: "Renderer",
+      copy: "Référence data-first: les molécules sont hydratées par les données pour vérifier densité, layout, états et variantes.",
+      readout: "donnée rendue",
+      detail: "La page renderer sépare source, fixture, layout et rendu pour éviter les captures décoratives.",
+      badge: "data"
+    },
+    animations: {
+      title: "Animations",
+      copy: "Surface des états vivants: séquence, radial, handoff et reduced-motion doivent expliquer un changement de statut.",
+      readout: "états visibles",
+      detail: "La mascotte actuelle sert de témoin pour idle, listening, working, success et error.",
+      badge: "states"
+    },
+    motion: {
+      title: "Motion",
+      copy: "Guide des recettes de mouvement: settle, reveal, handoff et reduced. Chaque recette doit rester mesurable et bornée.",
+      readout: "recette vérifiée",
+      detail: "Motion documente le contrat d'animation avant toute intégration plus lourde dans Central.",
+      badge: "rules"
+    },
+    syster: {
+      title: "Syster kit",
+      copy: "Surface de présentation pour le flux UI/UX du kit. La mascotte est en redesign; l'artwork canonique courant reste conservé.",
+      readout: "showcase contrôlé",
+      detail: "Le kit expose les critères d'acceptation sans déclarer la nouvelle itération comme vraie.",
+      badge: "candidate"
+    }
+  };
+  function init() {
+    var board = document.querySelector("[data-context-board]");
+    if (!board || board.dataset.ready === "true") return;
+    board.dataset.ready = "true";
+    var title = board.querySelector("[data-context-title]");
+    var copy = board.querySelector("[data-context-copy]");
+    var readout = board.querySelector("[data-context-readout]");
+    var detail = board.querySelector("[data-context-detail]");
+    var badge = board.querySelector("[data-context-badge]");
+    var buttons = Array.prototype.slice.call(board.querySelectorAll("[data-context-focus]"));
+    var nodes = Array.prototype.slice.call(board.querySelectorAll(".ctx-node"));
+    function setFocus(id) {
+      var data = DATA[id] || DATA.menus;
+      board.setAttribute("data-focus", id);
+      title.textContent = data.title;
+      copy.textContent = data.copy;
+      readout.textContent = data.readout;
+      detail.textContent = data.detail;
+      badge.textContent = data.badge;
+      buttons.forEach(function (button) {
+        button.setAttribute("aria-pressed", button.getAttribute("data-context-focus") === id ? "true" : "false");
+      });
+      nodes.forEach(function (node) {
+        node.classList.toggle("is-active", node.getAttribute("data-id") === id);
+      });
+    }
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () { setFocus(button.getAttribute("data-context-focus")); });
+    });
+    setFocus(board.getAttribute("data-focus") || "menus");
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
+</script>
+</body>
+</html>

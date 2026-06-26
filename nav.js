@@ -34,7 +34,7 @@
     { label: "Docs", file: "Project.dc.html", children: DOC_SURFACES, menuTitle: "Docs / corpus", menuHint: "Projet -> preuves" },
     { label: "Atlas", file: "Gnu.In-Shell - Atlas Unifié.dc.html", children: WIREFRAME_SURFACES, menuTitle: "Atlas / parcours", menuHint: "Fondations -> Handoff" },
     { sep: true },
-    { label: "Context", file: "Gnu.In Context Menus.dc.html", children: CONTEXT_SURFACES, menuTitle: "Context / références", menuHint: "guides réactifs" },
+    { label: "Context", file: "Context.dc.html", children: CONTEXT_SURFACES, menuTitle: "Context / références", menuHint: "guides réactifs" },
     { label: "Central", file: "Central.dc.html" },
     { label: "GitHub", href: "https://github.com/gnu-in-labs/gnu.in-shell-docs", external: true }
   ];

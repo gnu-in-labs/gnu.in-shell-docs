@@ -181,6 +181,9 @@ async function getPageState(page, spec, status) {
     const topNavLabels = [...document.querySelectorAll("#gid-nav > a, #gid-nav > .gid-nav-group > a")]
       .map((node) => node.textContent.trim())
       .filter(Boolean);
+    const topNavLinks = [...document.querySelectorAll("#gid-nav > a, #gid-nav > .gid-nav-group > a")]
+      .map((node) => ({ label: node.textContent.trim(), href: node.getAttribute("href") || "" }))
+      .filter((item) => item.label);
     const firstFocus = document.querySelector("a[href], button");
     if (firstFocus) firstFocus.focus();
     const focusStyle = firstFocus ? getComputedStyle(firstFocus) : null;
@@ -202,6 +205,7 @@ async function getPageState(page, spec, status) {
       iconStatus,
       navText: nav ? nav.innerText : "",
       topNavLabels,
+      topNavLinks,
       navExists: Boolean(nav),
       railExists: Boolean(rail),
       docsTriggerExists: Boolean(docsTrigger),
@@ -256,6 +260,10 @@ function validateResult(result) {
   if (!result.docsTriggerExists) issues.push("docs-trigger=missing");
   if (!result.navText.includes("Docs")) issues.push("nav-docs=missing");
   if (!result.topNavLabels.includes("Context")) issues.push(`top-nav-context=missing:${result.topNavLabels.join("/")}`);
+  const contextTopLink = (result.topNavLinks || []).find((item) => item.label === "Context");
+  if (!contextTopLink || contextTopLink.href.split("?")[0] !== "Context.dc.html") {
+    issues.push(`top-nav-context-href=${contextTopLink ? contextTopLink.href : "missing"}`);
+  }
   for (const hiddenTopLevel of ["Roadmap", "Full Plan", "Animations", "Syster kit"]) {
     if (result.topNavLabels.includes(hiddenTopLevel)) issues.push(`top-nav-unscoped=${hiddenTopLevel}`);
   }
