@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gnu.in-OS - Central Live</title>
+<link rel="icon" type="image/svg+xml" href="assets/symbols/cube.svg">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/colors_and_type.css">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="docs.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="doc-page">
+  <section class="doc-hero">
+    <div class="doc-wrap doc-hero-inner">
+      <div>
+        <div class="doc-kicker">gnu.in labs · central live</div>
+        <h1>Central Live</h1>
+        <p>État récent de la page Central: simulation vivante de gnu.in-OS, compositor live, inspecteur moteur, surfaces réglables et chantiers à documenter.</p>
+      </div>
+      <aside class="doc-hero-panel" aria-label="État courant">
+        <div class="doc-fact"><b>central</b><span>Compositor live, inspector, motion, input, diff/damage, render, settings et contrôle avancé.</span></div>
+        <div class="doc-fact"><b>port-data</b><span>Corpus enrichi avec scènes, fixtures, modules miroir Rust et notes de parité.</span></div>
+        <div class="doc-fact"><b>chantiers</b><span>Topbar/widgets stabilisé; profile compositor en cours; sidebar, familles de panels et pages settings à suivre.</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">00</span>
+      <h2>Lecture rapide</h2>
+      <p>Central sert ici de surface vivante: elle montre comment le shell se compose, se règle, se rend et se vérifie avant une documentation plus profonde.</p>
+    </div>
+    <div class="doc-grid">
+      <article class="doc-card"><span class="doc-tag">done</span><h3>Central compose</h3><p>Huit surfaces, MotionDriver spring, frame loop, diff/damage, interactions et tweaks live.</p></article>
+      <article class="doc-card"><span class="doc-tag">done</span><h3>Engine inspector</h3><p>Scene graph, tokens, z-bands, protocol, fixtures Rust, input model, edge clamp et render abstraction.</p></article>
+      <article class="doc-card"><span class="doc-tag">actif</span><h3>Settings expansion</h3><p>Topbar/widgets et compositor profile avancent vers un vrai modèle de réglages multi-sections.</p></article>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">01</span>
+      <h2>Accomplissements groupés</h2>
+      <p>La liste source de Central est regroupée ici par domaine pour devenir lisible et exploitable dans la documentation publique.</p>
+    </div>
+    <table class="doc-table">
+      <thead><tr><th>Domaine</th><th>État terminé</th><th>Impact documentaire</th></tr></thead>
+      <tbody>
+        <tr><td>Central</td><td>Compositor live, 8 surfaces, frame loop, interactions launcher/osd/sidebar/modal/notif/context-menu.</td><td>Central doit être présenté comme simulateur de référence, pas comme simple galerie.</td></tr>
+        <tr><td>Settings</td><td>Accent, density, renderer, reduce-motion, wall-source, night, damage, Window surface et wire launcher/dock/menu.</td><td>La documentation doit distinguer réglages simulés, surface Window et handoff settings.</td></tr>
+        <tr><td>Control Center</td><td>Sections General, Tokens, Motion, Atoms, Molecules, Behaviours; tokens live-editables; spring editor.</td><td>Methodology et Assets doivent expliquer comment les tokens et états sont inspectables.</td></tr>
+        <tr><td>Menus</td><td>GnuMenu redesign, 23 MenuStyles, MenuRow hittable, z-bands canoniques, input-region et click intents.</td><td>Menus mérite une page de spécification comportementale plus détaillée.</td></tr>
+        <tr><td>Geometry</td><td>Clamp, intersect, workArea, submenu flip, ring clip, edge-aware fixtures.</td><td>Evidence doit exposer les régressions visuelles corrigées et les invariants géométriques.</td></tr>
+        <tr><td>Diff/Motion/Render</td><td>SceneDiff fidèle, damage region, motion_core, Motion Lab, render_core, menu lifecycle no-jump.</td><td>Handoff et Evidence doivent relier mouvement, damage et rendu à des preuves fortes.</td></tr>
+        <tr><td>Taskbar/Dock</td><td>Registry modules, bar slots, taskbar editor, Dock affordance Row/Stack/Fan, manifest et fixture.</td><td>Assets/System doivent documenter module registry et affordance model.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">02</span>
+      <h2>Chantiers ouverts</h2>
+      <p>Cette section sépare ce qui est intégré de ce qui doit encore être promu, documenté ou propagé.</p>
+    </div>
+    <div class="doc-grid two">
+      <article class="doc-card dark">
+        <span class="doc-tag">stabilisé</span>
+        <h3>Chantier #1 — Topbar + Widgets</h3>
+        <p>Douze clés topbar et douze toggles widgets sont branchés live à la bar, avec `topbar_settings.rs` côté port.</p>
+      </article>
+      <article class="doc-card dark">
+        <span class="doc-tag">actif</span>
+        <h3>Chantier #2 — Compositor Profile</h3>
+        <p>Profil compositor, focus, edge, capture et portal health sont en cours de structuration.</p>
+      </article>
+      <article class="doc-card dark">
+        <span class="doc-tag">prochain</span>
+        <h3>Chantier #3 — Left sidebar + Booru</h3>
+        <p>Remplacer la sidebar générique par une vraie famille left-sidebar, avec provider, filtre de sécurité, limit et username.</p>
+      </article>
+      <article class="doc-card dark">
+        <span class="doc-tag">prochain</span>
+        <h3>Chantier #4/#5 — Panel family + settings app</h3>
+        <p>Promouvoir `shellMode` en switch de famille visuelle et préparer les pages Displays, Input, Services et Developer.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">03</span>
+      <h2>Propagation documentaire</h2>
+      <p>Les derniers items de la liste indiquent explicitement ce qui doit maintenant descendre dans les docs depuis Central.</p>
+    </div>
+    <ul class="doc-list">
+      <li>Réconcilier la ladder motion: régénérer `motion.spec.json` depuis la source autoritaire ou étiqueter la couche UI kit.</li>
+      <li>Propager le modèle dock à deux couches et la map `shell_settings` dans Fondations et Surfaces.</li>
+      <li>Mettre à jour Handoff pour couvrir render_core, motion_core, host protocol, taskbar, dock, topbar et compositor profile.</li>
+      <li>Mettre à jour Evidence pour prouver les comportements: edge flip, no-jump, damage region, input intents, module registry.</li>
+      <li>Mettre à jour Communications pour transformer cette progression en changelog et launch note lisibles.</li>
+    </ul>
+  </section>
+
+  <section class="doc-wrap">
+    <div class="doc-next">
+      <div><b>Prochaine lecture</b><span>Evidence montre quels éléments de ce travail courant peuvent être prouvés et lesquels doivent encore être reliés à un gate.</span></div>
+      <a href="Evidence.dc.html">ouvrir Evidence</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

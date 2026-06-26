@@ -15,8 +15,18 @@
     { label: "Renderer", file: "Molecule Renderer.dc.html", step: "MR" }
   ];
 
+  var DOC_SURFACES = [
+    { label: "Projet", file: "Project.dc.html", step: "P" },
+    { label: "Central Live", file: "Central Live.dc.html", step: "CL" },
+    { label: "Methodology", file: "Methodology.dc.html", step: "M" },
+    { label: "Assets", file: "Assets.dc.html", step: "A" },
+    { label: "Evidence", file: "Evidence.dc.html", step: "E" },
+    { label: "Communications", file: "Communications.dc.html", step: "C" }
+  ];
+
   var SURFACES = [
     { label: "Index", file: "Gnu.In-Shell - Index.dc.html", home: true },
+    { label: "Docs", file: "Project.dc.html", children: DOC_SURFACES, menuTitle: "Docs / corpus", menuHint: "Projet -> preuves" },
     { label: "Atlas", file: "Gnu.In-Shell - Atlas Unifié.dc.html", children: WIREFRAME_SURFACES, menuTitle: "Atlas / parcours", menuHint: "Fondations -> Handoff" },
     { sep: true },
     { label: "Central", file: "Central.dc.html" },

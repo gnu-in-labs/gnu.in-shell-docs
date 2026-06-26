@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gnu.in-OS - Assets</title>
+<link rel="icon" type="image/svg+xml" href="assets/symbols/cube.svg">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/colors_and_type.css">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="docs.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="doc-page">
+  <section class="doc-hero">
+    <div class="doc-wrap doc-hero-inner">
+      <div>
+        <div class="doc-kicker">gnu.in labs · asset registry</div>
+        <h1>Assets</h1>
+        <p>Inventaire public des matériaux: symboles, mascotte, tokens, captures, specs, scènes et sources visuelles qui soutiennent le corpus.</p>
+      </div>
+      <aside class="doc-hero-panel" aria-label="Assets">
+        <div class="doc-fact"><b>favicon</b><span>`assets/symbols/cube.svg` est le symbole de navigation canonique.</span></div>
+        <div class="doc-fact"><b>mascotte</b><span>La mascotte actuelle reste canon; les itérations non promues restent candidates.</span></div>
+        <div class="doc-fact"><b>données</b><span>`port-data/` relie les surfaces au modèle de composition et aux fixtures.</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">00</span>
+      <h2>Classes d'assets</h2>
+      <p>Un asset n'est pas seulement un fichier. Il possède un rôle, un statut, un usage et une relation au canon.</p>
+    </div>
+    <div class="doc-grid">
+      <article class="doc-card"><span class="doc-tag">visual</span><h3>Visuels</h3><p>Cube, mascotte, screenshots, symboles, previews UI et images de surfaces.</p></article>
+      <article class="doc-card"><span class="doc-tag">data</span><h3>Données</h3><p>Tokens, scènes, motion specs, molecule specs, manifests et fixtures.</p></article>
+      <article class="doc-card"><span class="doc-tag">proof</span><h3>Preuves</h3><p>Captures générées, gates, protocoles, outputs locaux et validations de rendu.</p></article>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">01</span>
+      <h2>Inventaire canonique</h2>
+      <p>Ces entrées doivent rester stables pendant les drops et les refontes.</p>
+    </div>
+    <table class="doc-table">
+      <thead><tr><th>Asset</th><th>Fichier</th><th>Statut</th><th>Usage</th></tr></thead>
+      <tbody>
+        <tr><td>Cube favicon</td><td>assets/symbols/cube.svg</td><td>Current</td><td>Identité navigateur et repère partagé.</td></tr>
+        <tr><td>Mascotte courante</td><td>_components/Syster.dc.html + mascot/*</td><td>Current</td><td>Repère visuel utilisé par l'Index et les états.</td></tr>
+        <tr><td>Tokens</td><td>port-data/tokens.json</td><td>Current</td><td>Palette, rayons, spacing, durées, couches et springs.</td></tr>
+        <tr><td>Scenes</td><td>port-data/scenes/*.json</td><td>Current</td><td>Fixtures de surfaces et de comportements.</td></tr>
+        <tr><td>Captures</td><td>screenshots/*.png</td><td>Evidence</td><td>Preuves visuelles à rattacher aux pages.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">02</span>
+      <h2>Règles d'usage</h2>
+      <p>Les assets doivent servir le corpus sans créer de confusion sur ce qui est validé.</p>
+    </div>
+    <div class="doc-grid two">
+      <article class="doc-card dark"><span class="doc-tag">canon</span><h3>Remplacement explicite</h3><p>Un symbole ou une mascotte ne remplace le canon que si la décision est écrite et reliée aux pages concernées.</p></article>
+      <article class="doc-card dark"><span class="doc-tag">candidate</span><h3>Exploration nommée</h3><p>Un asset candidat peut être exposé, mais il doit être marqué comme tel et isolé des sources courantes.</p></article>
+      <article class="doc-card dark"><span class="doc-tag">proof</span><h3>Capture contextualisée</h3><p>Une capture doit dire quelle surface, quel viewport et quel état elle montre.</p></article>
+      <article class="doc-card dark"><span class="doc-tag">reuse</span><h3>Réutilisation traçable</h3><p>Un asset réutilisé par plusieurs pages doit pointer vers une source unique ou une règle de duplication claire.</p></article>
+    </div>
+  </section>
+
+  <section class="doc-wrap">
+    <div class="doc-next">
+      <div><b>Prochaine lecture</b><span>Evidence explique comment les assets, fixtures et captures deviennent des preuves.</span></div>
+      <a href="Evidence.dc.html">ouvrir Evidence</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

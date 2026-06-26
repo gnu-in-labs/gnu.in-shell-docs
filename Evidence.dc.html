@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gnu.in-OS - Evidence</title>
+<link rel="icon" type="image/svg+xml" href="assets/symbols/cube.svg">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/colors_and_type.css">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="docs.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="doc-page">
+  <section class="doc-hero">
+    <div class="doc-wrap doc-hero-inner">
+      <div>
+        <div class="doc-kicker">gnu.in labs · evidence layer</div>
+        <h1>Evidence</h1>
+        <p>La preuve transforme une surface en documentation crédible: source, capture, fixture, interaction, gate et limite connue.</p>
+      </div>
+      <aside class="doc-hero-panel" aria-label="Evidence">
+        <div class="doc-fact"><b>gate</b><span>`tools/smoke-index-surface.js` vérifie l'Index, la nav, le rail, le favicon, le canvas et les interactions.</span></div>
+        <div class="doc-fact"><b>captures</b><span>`artifacts/index-smoke/` conserve les sorties visuelles locales du gate.</span></div>
+        <div class="doc-fact"><b>fixtures</b><span>`port-data/scenes/` conserve les scènes et états à inspecter.</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">00</span>
+      <h2>Force de preuve</h2>
+      <p>Une phrase seule n'est pas une preuve. Une preuve robuste combine généralement plusieurs sources.</p>
+    </div>
+    <pre class="doc-code">Strong claim
+  = source file
+  + rendered state
+  + interaction or fixture
+  + gate output
+  + known limitation</pre>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">01</span>
+      <h2>Gates actuels</h2>
+      <p>Le premier gate publicement utile est centré sur l'Index parce que l'Index est la surface de départ.</p>
+    </div>
+    <table class="doc-table">
+      <thead><tr><th>Gate</th><th>Prouve</th><th>Limite</th></tr></thead>
+      <tbody>
+        <tr><td>Index smoke</td><td>Favicon cube, nav, rail drag/collapse, Atlas menu, Carte vivante, canvas non vide, overflow.</td><td>Ne prouve pas encore chaque page secondaire.</td></tr>
+        <tr><td>Central live state</td><td>Central compositor, engine inspector, settings, input, edge, diff/damage, motion, render, topbar et chantiers ouverts.</td><td>Doit être relié à des pages et gates spécifiques avant promotion complète.</td></tr>
+        <tr><td>Visual captures</td><td>Desktop, tablet et mobile rendent la hiérarchie principale.</td><td>Une capture ne prouve pas seule la logique de contenu.</td></tr>
+        <tr><td>Text checks</td><td>Les surfaces publiques évitent certains termes internes ou confus.</td><td>Ne remplace pas une vraie passe éditoriale.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">02</span>
+      <h2>Preuves par objet</h2>
+      <p>Chaque objet canon doit pouvoir pointer vers au moins une preuve. Les objets importants devraient en avoir plusieurs.</p>
+    </div>
+    <div class="doc-grid">
+      <article class="doc-card"><span class="doc-tag">Index</span><h3>Smoke + captures</h3><p>Le gate local vérifie les viewports et les interactions critiques de l'Index.</p></article>
+      <article class="doc-card"><span class="doc-tag">Central</span><h3>Simulation + données</h3><p>Central est relié aux scènes, settings, input, motion, diff/damage et au modèle décrit dans `port-data/`.</p></article>
+      <article class="doc-card"><span class="doc-tag">Menus</span><h3>Taxonomie + fixtures</h3><p>Les menus s'appuient sur styles, row kinds, hit testing et scènes dédiées.</p></article>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">03</span>
+      <h2>Commandes locales</h2>
+      <p>Ces commandes forment la base minimale avant de publier ou d'absorber un nouveau drop.</p>
+    </div>
+    <pre class="doc-code">git diff --check
+node tools/smoke-index-surface.js
+git status --short</pre>
+  </section>
+
+  <section class="doc-wrap">
+    <div class="doc-next">
+      <div><b>Prochaine lecture</b><span>Central Live regroupe les preuves de progression de la simulation avant qu'elles deviennent changelog ou page spécialisée.</span></div>
+      <a href="Central%20Live.dc.html">ouvrir Central Live</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

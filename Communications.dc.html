@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gnu.in-OS - Communications</title>
+<link rel="icon" type="image/svg+xml" href="assets/symbols/cube.svg">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/colors_and_type.css">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="docs.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="doc-page">
+  <section class="doc-hero">
+    <div class="doc-wrap doc-hero-inner">
+      <div>
+        <div class="doc-kicker">gnu.in labs · communications</div>
+        <h1>Communications</h1>
+        <p>Les communications expliquent le projet sans le réduire: notes de lancement, changelog, messages professionnels et résumés reliés aux preuves.</p>
+      </div>
+      <aside class="doc-hero-panel" aria-label="Communications">
+        <div class="doc-fact"><b>audience</b><span>Visiteurs, contacts professionnels, collaborateurs potentiels, lecteurs techniques.</span></div>
+        <div class="doc-fact"><b>ton</b><span>Clair, sérieux, personnel sans devenir privé, concret sans surpromettre.</span></div>
+        <div class="doc-fact"><b>preuve</b><span>Chaque annonce devrait pointer vers une page, un gate, une capture ou une décision.</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">00</span>
+      <h2>Rôle</h2>
+      <p>Un projet important a besoin d'un langage public. Cette page définit ce que les communications doivent contenir.</p>
+    </div>
+    <div class="doc-grid">
+      <article class="doc-card"><span class="doc-tag">launch</span><h3>Note de lancement</h3><p>Présente le projet, son périmètre courant, les surfaces à inspecter et les limites assumées.</p></article>
+      <article class="doc-card"><span class="doc-tag">change</span><h3>Changelog</h3><p>Explique ce qui change en termes de contenu, comportement, architecture et preuve.</p></article>
+      <article class="doc-card"><span class="doc-tag">profile</span><h3>Résumé professionnel</h3><p>Formule le projet comme preuve de démarche: design, architecture, documentation, vérification.</p></article>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">01</span>
+      <h2>Cadre de message</h2>
+      <p>Chaque communication devrait pouvoir être courte, utile et traçable.</p>
+    </div>
+    <pre class="doc-code">Message public
+  = what changed
+  + why it matters
+  + what can be inspected
+  + what remains non-canon or unfinished
+  + link to evidence</pre>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">02</span>
+      <h2>Messages prêts à durcir</h2>
+      <p>Ces formats pourront devenir de vraies entrées publiques après la prochaine passe de contenu.</p>
+    </div>
+    <table class="doc-table">
+      <thead><tr><th>Format</th><th>Contenu</th><th>Preuve attendue</th></tr></thead>
+      <tbody>
+        <tr><td>Launch note</td><td>Présentation du projet, lecture conseillée, statut canon, prochaine étape.</td><td>Index, Project, Central Live, Evidence, Roadmap.</td></tr>
+        <tr><td>Release note</td><td>Changements de surfaces, nav, assets, gates, Central et contenu.</td><td>Commit, Pages, smoke local, capture, état Central Live.</td></tr>
+        <tr><td>Professional summary</td><td>Résumé court pour portfolio ou contact professionnel.</td><td>Project, Methodology, Assets.</td></tr>
+        <tr><td>Progress journal</td><td>Décisions prises, risques, points non résolus et prochain focus.</td><td>Decision record ou protocole lié.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">03</span>
+      <h2>Ton public</h2>
+      <p>Le style peut rester personnel, mais le lecteur doit sentir une maîtrise et une responsabilité.</p>
+    </div>
+    <div class="doc-grid two">
+      <article class="doc-card dark"><span class="doc-tag">faire</span><h3>Dire ce qui est inspectable</h3><p>Nommer les pages, les assets, les captures, les gates et les limites visibles.</p></article>
+      <article class="doc-card dark"><span class="doc-tag">éviter</span><h3>Écrire depuis le fil privé</h3><p>Éviter les formulations qui supposent que le lecteur connaît les sessions internes.</p></article>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">04</span>
+      <h2>Central Live en message</h2>
+      <p>Le travail récent dans Central peut être communiqué comme progrès structuré, pas comme liste brute.</p>
+    </div>
+    <pre class="doc-code">Central now has:
+  - live compositor and inspector
+  - settings/window/taskbar/dock surfaces
+  - input, edge-awareness, diff/damage, motion and render proofs
+  - topbar/widgets chantier stabilisé
+  - compositor profile and sidebar/settings next work</pre>
+  </section>
+
+  <section class="doc-wrap">
+    <div class="doc-next">
+      <div><b>Retour au système</b><span>La Roadmap relie les communications aux priorités et preuves attendues.</span></div>
+      <a href="Roadmap.dc.html">ouvrir Roadmap</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

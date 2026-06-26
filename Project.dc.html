@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gnu.in-OS - Projet</title>
+<link rel="icon" type="image/svg+xml" href="assets/symbols/cube.svg">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/colors_and_type.css">
+<link rel="stylesheet" href="_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="docs.css">
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="doc-page">
+  <section class="doc-hero">
+    <div class="doc-wrap doc-hero-inner">
+      <div>
+        <div class="doc-kicker">gnu.in labs · projet public</div>
+        <h1>Projet</h1>
+        <p>gnu.in-OS documente une recherche de shell où surfaces, moteur, motion, assets et preuves visuelles avancent dans un même système lisible.</p>
+      </div>
+      <aside class="doc-hero-panel" aria-label="Statut du projet">
+        <div class="doc-fact"><b>état</b><span>Corpus public en construction, avec Index stabilisé comme porte d'entrée.</span></div>
+        <div class="doc-fact"><b>version</b><span>v0.14.2 comme signature actuelle dans la navigation et les surfaces.</span></div>
+        <div class="doc-fact"><b>canon</b><span>Le cube, l'Index, la navigation partagée et la mascotte actuelle sont les repères publics.</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">00</span>
+      <h2>Définition</h2>
+      <p>Le projet doit être compréhensible par quelqu'un qui n'a pas suivi le fil de construction. Cette page nomme le périmètre, les limites et les chemins de lecture.</p>
+    </div>
+    <div class="doc-grid">
+      <article class="doc-card">
+        <span class="doc-tag">objet</span>
+        <h3>Un shell comme système de surfaces</h3>
+        <p>Le shell est décrit comme un ensemble de surfaces composées: menus, barres, états, scènes, motions, données et preuves. Chaque surface doit avoir un rôle lisible.</p>
+      </article>
+      <article class="doc-card">
+        <span class="doc-tag">méthode</span>
+        <h3>Documentation avant promesse</h3>
+        <p>Le site ne doit pas vendre plus que ce qu'il peut expliquer. Une idée devient plus forte lorsqu'elle a un rôle, un statut, une source et une preuve.</p>
+      </article>
+      <article class="doc-card">
+        <span class="doc-tag">signal</span>
+        <h3>Projet professionnel et personnel</h3>
+        <p>Le corpus sert aussi de preuve de démarche: conception, architecture, rédaction, vérification, itération, direction visuelle et discipline de livraison.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">01</span>
+      <h2>Ce qui existe</h2>
+      <p>Le projet contient déjà plusieurs couches utiles: surfaces visibles, données moteur, assets, captures, protocole de portage et gates locaux.</p>
+    </div>
+    <table class="doc-table">
+      <thead><tr><th>Couche</th><th>Contenu</th><th>Pourquoi ça compte</th></tr></thead>
+      <tbody>
+        <tr><td>Surfaces</td><td>Index, Atlas, Central, Central Live, Menus, Renderer, Animations, Film, Roadmap, Syster kit.</td><td>Le lecteur peut inspecter le système par rôle plutôt que par fichier isolé.</td></tr>
+        <tr><td>Central</td><td>Compositor live, Control Center, settings, Window, taskbar, dock, input, diff/damage, motion et render.</td><td>Central devient la preuve vivante du modèle de surfaces et non une simple planche.</td></tr>
+        <tr><td>Données</td><td>Tokens, scènes, specs molécules, motion spec, manifest, modules miroir et fixtures Rust.</td><td>Les pages peuvent relier le visuel à un modèle de données explicite.</td></tr>
+        <tr><td>Preuves</td><td>Smoke Index, captures, protocole de drop, fixtures, notes de parité et état Central Live.</td><td>Les claims importants peuvent être attachés à des éléments vérifiables.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">02</span>
+      <h2>Ce qui n'est pas promis</h2>
+      <p>Le site doit être ambitieux sans devenir flou. Les limites protègent la crédibilité du lancement.</p>
+    </div>
+    <div class="doc-grid two">
+      <article class="doc-card dark">
+        <span class="doc-tag">limite</span>
+        <h3>Pas tout canon</h3>
+        <p>Les surfaces candidates, le kit Syster et les anciennes archives ne remplacent pas automatiquement le canon courant. Le statut doit être visible.</p>
+      </article>
+      <article class="doc-card dark">
+        <span class="doc-tag">limite</span>
+        <h3>Pas de promesse sans preuve</h3>
+        <p>Une section peut annoncer une direction, mais elle doit distinguer ce qui existe, ce qui est simulé, ce qui est candidat et ce qui demande encore preuve.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="doc-wrap doc-section">
+    <div class="doc-section-head">
+      <span class="doc-num">03</span>
+      <h2>Chemins de lecture</h2>
+      <p>Le projet doit servir plusieurs lecteurs sans les forcer à lire tout le corpus.</p>
+    </div>
+    <div class="doc-grid">
+      <article class="doc-card"><span class="doc-tag">5 min</span><h3>Comprendre</h3><p>Lire l'Index, cette page Projet, puis Roadmap pour saisir le périmètre et la trajectoire.</p></article>
+      <article class="doc-card"><span class="doc-tag">30 min</span><h3>Inspecter</h3><p>Ouvrir Atlas, Central, Menus, Renderer et Assets pour voir le système et les matériaux.</p></article>
+      <article class="doc-card"><span class="doc-tag">deep</span><h3>Vérifier</h3><p>Lire Methodology, Evidence, Handoff et port-data pour comprendre la logique de preuve.</p></article>
+    </div>
+  </section>
+
+  <section class="doc-wrap">
+    <div class="doc-next">
+      <div><b>Prochaine lecture</b><span>Central Live expose l'état concret de la simulation Central et les chantiers qui doivent nourrir la documentation.</span></div>
+      <a href="Central%20Live.dc.html">ouvrir Central Live</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>
