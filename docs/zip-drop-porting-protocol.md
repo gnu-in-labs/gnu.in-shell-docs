@@ -4,6 +4,11 @@ Purpose: keep the current `gnu.in-shell-docs` work portable when a new archive l
 
 ## Baseline To Preserve
 
+- `docs/documentation-architecture-set-taxonomy.md`
+  - documentation architecture for the public corpus;
+  - set-theory taxonomy for project, method, architecture, assets, surfaces, evidence, communications, roadmap, experiments, and archive;
+  - canonicality rules for current, candidate, showcase-only, and archive material;
+  - page-level contracts for future documentation work.
 - `nav.js`
   - shared top navigation;
   - Atlas cascade for Fondations, Atomes, Molécules, Intégration, Handoff;
@@ -23,24 +28,24 @@ Purpose: keep the current `gnu.in-shell-docs` work portable when a new archive l
 
 1. Extract the new archive into a scratch folder, not directly over the current repo.
 2. Compare root HTML filenames and asset paths before copying files into place.
-3. Bring forward `assets/symbols/cube.svg` if the drop does not already contain the canonical cube.
-4. Reapply `nav.js` first so every page gets the same navigation, favicon, rail, and cascade behavior.
-5. Reapply the Index structure next: hero, grammar, parcours, registry, live map, spine, gates, footer.
-6. Preserve any new useful content from the archive only after the shared navigation and Index contracts are stable.
-7. Run the gates before touching secondary pages.
+3. Re-read `docs/documentation-architecture-set-taxonomy.md` and classify incoming material as canon, candidate, showcase-only, or archive.
+4. Bring forward `assets/symbols/cube.svg` if the drop does not already contain the canonical cube.
+5. Reapply `nav.js` first so every page gets the same navigation, favicon, rail, and cascade behavior.
+6. Reapply the Index structure next: hero, grammar, parcours, registry, live map, spine, gates, footer.
+7. Preserve any new useful content from the archive only after the shared navigation, Index contract, and documentation taxonomy are stable.
+8. Run the gates before touching secondary pages.
 
 ## Local Gate
 
 ```bash
 git diff --check
-find . -maxdepth 1 -name '*.html' -print0 | xargs -0 rg -n "\\bQML\\b|\\bdemo\\b|Démo|demo" || true
 node tools/smoke-index-surface.js
 ```
 
 Expected:
 
 - `git diff --check` is clean.
-- The text scan has no root-page hits.
+- The smoke script's forbidden-copy checks have no root-page hits.
 - The smoke script reports `ok` for all viewports.
 - `artifacts/index-smoke/mobile-393.png` shows the rail as a bubble by default.
 - `artifacts/index-smoke/desktop.png` shows the rail expanded and separated from the main content.
@@ -74,7 +79,8 @@ If the new drop regresses multiple areas, repair in this order:
 2. Shared navigation, favicon, Atlas cascade, and rail behavior.
 3. Index mobile layout.
 4. Index live map and canvas bounds.
-5. Copy cleanup and public wording.
-6. Secondary page polish.
+5. Documentation taxonomy and canon/candidate/archive labels.
+6. Copy cleanup and public wording.
+7. Secondary page polish.
 
 Do not propagate the new drop across every page until the Index gate is green.
