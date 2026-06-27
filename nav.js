@@ -198,7 +198,11 @@
       var node = nodes[i];
       var key = node.getAttribute("data-pretext-key");
       var value = t(key);
-      if (value && value !== key) node.textContent = value;
+      // Idempotency guard: only write on a real change. Assigning textContent is itself a childList
+      // mutation, so an unconditional write here re-triggers the MutationObserver that calls this
+      // function -> infinite loop (page freezes blank) once any translation is registered. Skipping
+      // no-op writes breaks that loop and lets React-rendered pages settle after a re-render.
+      if (value && value !== key && node.textContent !== value) node.textContent = value;
     }
   }
 

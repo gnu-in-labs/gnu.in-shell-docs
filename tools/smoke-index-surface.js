@@ -631,7 +631,9 @@ function validateResult(result) {
       });
       page.on("pageerror", (error) => logs.push(`pageerror: ${error.message}`));
 
-      const response = await page.goto(origin + INDEX_PATH, { waitUntil: "networkidle" });
+      // Pin the French profile so the French requiredText contract still asserts after the
+      // bilingual Pretext swap (default profile is English). EN coverage is checked by smoke-pretext-surface.js.
+      const response = await page.goto(origin + INDEX_PATH + "?lang=fr", { waitUntil: "networkidle" });
       await page.waitForSelector("#gid-nav", { timeout: 5000 });
       await page.waitForSelector("#gid-rail", { timeout: 5000 });
       await page.waitForTimeout(350);

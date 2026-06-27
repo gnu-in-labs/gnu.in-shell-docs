@@ -328,7 +328,8 @@ function validate(result) {
         const page = await context.newPage();
         const pageErrors = [];
         page.on("pageerror", (error) => pageErrors.push(error.message || String(error)));
-        const response = await page.goto(`${origin}${urlPath(spec.file)}`, { waitUntil: "domcontentloaded" });
+        // Pin the French profile so French requiredText still asserts after the bilingual Pretext swap.
+        const response = await page.goto(`${origin}${urlPath(spec.file)}?lang=fr`, { waitUntil: "domcontentloaded" });
         await page.waitForTimeout(700);
         const motionState = await checkMotionSwitcher(page, spec) || await checkMotionRecipe(page, spec) || await checkContextSwitcher(page, spec);
         const state = await captureState(page, spec, response ? response.status() : 0, viewport, pageErrors);

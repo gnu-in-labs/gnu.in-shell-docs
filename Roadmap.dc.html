@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="assets/symbols/cube.svg">
-<script src="./support.js"></script>
+<script src="./dc-boot.js"></script>
 <script src="nav.js" defer></script>
 </head>
 <body>
@@ -25,12 +25,14 @@ body{margin:0;background:#F5EEDD;}
 .road-status b{display:block;font:700 12px/1 'JetBrains Mono',monospace;color:#FF6A00;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;}
 .road-status span{display:block;font:600 13px/1.45 'JetBrains Mono',monospace;color:#3D454E;}
 .road-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:26px;}
-.road-card{position:relative;border:1px solid #D7DADF;border-radius:10px;background:#fff;padding:18px;min-height:220px;box-shadow:0 7px 18px rgba(17,20,24,.05);overflow:hidden;}
+.road-card{position:relative;border:1px solid #D7DADF;border-radius:10px;background:#fff;padding:18px;min-height:232px;box-shadow:0 7px 18px rgba(17,20,24,.05);overflow:hidden;display:flex;flex-direction:column;}
 .road-card::after{content:"";position:absolute;left:18px;right:18px;bottom:0;height:4px;background:linear-gradient(90deg,#FF6A00,var(--accent,#5F7F52));}
 .road-num{font:700 12px/1 'JetBrains Mono',monospace;color:#FF6A00;letter-spacing:.12em;text-transform:uppercase;}
 .road-card h2{font-size:25px;line-height:1.05;margin:14px 0 0;color:#111418;}
 .road-card p{font-size:13.5px;line-height:1.52;color:#56606A;margin:10px 0 0;}
-.road-chip{display:inline-block;margin-top:16px;font:700 10px/1 'JetBrains Mono',monospace;color:#3D454E;border:1px solid #E6E8EB;border-radius:7px;padding:8px 10px;background:#F8FAFB;}
+.road-proof{margin:12px 0 0;padding-top:12px;border-top:1px solid #EEF0F2;font:600 11px/1.45 'JetBrains Mono',monospace;color:#5F7F52;}
+.road-proof b{color:#3D454E;font-weight:700;}
+.road-chip{display:inline-block;margin-top:14px;align-self:flex-start;font:700 10px/1 'JetBrains Mono',monospace;color:#3D454E;border:1px solid #E6E8EB;border-radius:7px;padding:8px 10px;background:#F8FAFB;}
 .road-lane{display:grid;grid-template-columns:220px minmax(0,1fr);gap:22px;margin-top:30px;border:1px solid #2B3037;border-radius:10px;background:#111418;color:#F5EEDD;padding:22px;}
 .road-lane h2{font-size:28px;line-height:1.05;margin:0;}
 .road-lane p{font-size:14px;line-height:1.55;color:#B6BCC4;margin:10px 0 0;}
@@ -44,15 +46,15 @@ body{margin:0;background:#F5EEDD;}
   <div class="road-shell">
     <section class="road-top">
       <div>
-        <div class="road-kicker">gnu.in shell · roadmap publique</div>
+        <div class="road-kicker" data-pretext-key="rm.kicker">gnu.in shell · roadmap publique</div>
         <h1 class="road-title">Roadmap</h1>
-        <div class="road-sub">Une trajectoire lisible pour la documentation, la stabilité du shell, les limites de sécurité, la discipline de publication, l'architecture et le chemin testeur externe. Les promesses publiques restent limitées aux comportements vérifiables.</div>
+        <div class="road-sub" data-pretext-key="rm.sub">Une trajectoire lisible pour la documentation, la stabilité du shell, les limites de sécurité, la discipline de publication, l'architecture et le chemin testeur externe. Les promesses publiques restent limitées aux comportements vérifiables.</div>
       </div>
       <aside class="road-status">
-        <b>status</b>
-        <span>rail documentaire v0.14.2</span>
-        <span>shell local-first</span>
-        <span>surface documentaire publique</span>
+        <b data-pretext-key="rm.statk">status</b>
+        <span data-pretext-key="rm.stat1">rail documentaire v0.14.2</span>
+        <span data-pretext-key="rm.stat2">shell local-first</span>
+        <span data-pretext-key="rm.stat3">surface documentaire publique</span>
       </aside>
     </section>
 
@@ -60,30 +62,31 @@ body{margin:0;background:#F5EEDD;}
       <sc-for list="{{ phases }}" as="phase" hint-placeholder-count="6">
         <article class="road-card" style="--accent:{{ phase.color }}">
           <div class="road-num">{{ phase.id }}</div>
-          <h2>{{ phase.title }}</h2>
-          <p>{{ phase.copy }}</p>
-          <span class="road-chip">{{ phase.status }}</span>
+          <h2 data-pretext-key="{{ phase.tkey }}">{{ phase.title }}</h2>
+          <p data-pretext-key="{{ phase.ckey }}">{{ phase.copy }}</p>
+          <div class="road-proof"><b data-pretext-key="rm.prooflbl">preuve attendue</b> · <span data-pretext-key="{{ phase.pkey }}">{{ phase.proof }}</span></div>
+          <span class="road-chip" data-pretext-key="{{ phase.skey }}">{{ phase.status }}</span>
         </article>
       </sc-for>
     </section>
 
     <section class="road-lane">
       <div>
-        <div class="road-kicker">voie active</div>
-        <h2>Refonte visuelle et comportementale du shell</h2>
-        <p>Rail actif v0.14.x: surfaces natives, moteur de composition, tokens canoniques et preuves d'exécution avant toute promesse d'installation large.</p>
+        <div class="road-kicker" data-pretext-key="rm.lanekick">voie active</div>
+        <h2 data-pretext-key="rm.laneh">Refonte visuelle et comportementale du shell</h2>
+        <p data-pretext-key="rm.lanep">Rail actif v0.14.x: surfaces natives, moteur de composition, tokens canoniques et preuves d'exécution avant toute promesse d'installation large.</p>
       </div>
       <ul>
-        <li>Moteur de composition: graphe de scène, ordre de couches, primitives de mouvement.</li>
-        <li>Renderer settings: contrôles routables, séparation schema, limite d'app.</li>
-        <li>Rail de publication: manifests, signatures, notes de rollback.</li>
-        <li>Chemin testeur externe: prérequis système, smoke tests, problèmes connus.</li>
+        <li data-pretext-key="rm.l1">Moteur de composition: graphe de scène, ordre de couches, primitives de mouvement.</li>
+        <li data-pretext-key="rm.l2">Renderer settings: contrôles routables, séparation schema, limite d'app.</li>
+        <li data-pretext-key="rm.l3">Rail de publication: manifests, signatures, notes de rollback.</li>
+        <li data-pretext-key="rm.l4">Chemin testeur externe: prérequis système, smoke tests, problèmes connus.</li>
       </ul>
     </section>
 
     <div class="road-footer">
-      <span>&gt; principe roadmap: ne pas promettre ce qui n'est pas vérifié</span>
-      <span>source: corpus public + preuves locales</span>
+      <span data-pretext-key="rm.foot1">&gt; principe roadmap: ne pas promettre ce qui n'est pas vérifié</span>
+      <span data-pretext-key="rm.foot2">source: corpus public + preuves locales</span>
     </div>
   </div>
 </main>
@@ -93,16 +96,46 @@ class Component extends DCLogic {
   renderVals() {
     return {
       phases: [
-        { id: "phase 0", title: "Base de gouvernance", status: "presque complet", color: "#5F7F52", copy: "Charte, licence, propriété et posture publique avant les promesses d'usage élargi." },
-        { id: "phase 1", title: "Durcissement source", status: "en cours", color: "#FF6A00", copy: "CI, formatage, dépendances et contrôles qui échouent quand un contrat source casse." },
-        { id: "phase 2", title: "Limite de sécurité", status: "prévu", color: "#8DA982", copy: "Niveaux de risque, politique d'automatisation locale, contrats socket et notes de confidentialité." },
-        { id: "phase 3", title: "Discipline release", status: "partiel", color: "#C95400", copy: "Builds manifestés, signatures de version, chemin de rollback et notes de publication." },
-        { id: "phase 4", title: "Architecture docs", status: "partiel", color: "#667085", copy: "Frontières lisibles pour les surfaces shell, services runtime, flux de données et limites." },
-        { id: "phase 5", title: "Chemin testeur externe", status: "futur", color: "#111418", copy: "Prérequis système, désinstallation, smoke tests, logs et gabarit de feedback." }
+        { id: "phase 0", tkey:"rm.p0t", ckey:"rm.p0c", skey:"rm.p0s", pkey:"rm.p0p", title: "Base de gouvernance", status: "presque complet", color: "#5F7F52", copy: "Charte, licence, propriété et posture publique avant les promesses d'usage élargi.", proof: "LICENSE, CODEOWNERS, profil public." },
+        { id: "phase 1", tkey:"rm.p1t", ckey:"rm.p1c", skey:"rm.p1s", pkey:"rm.p1p", title: "Durcissement source", status: "en cours", color: "#FF6A00", copy: "CI, formatage, dépendances et contrôles qui échouent quand un contrat source casse.", proof: "git diff --check + node --check + smokes verts." },
+        { id: "phase 2", tkey:"rm.p2t", ckey:"rm.p2c", skey:"rm.p2s", pkey:"rm.p2p", title: "Limite de sécurité", status: "prévu", color: "#8DA982", copy: "Niveaux de risque, politique d'automatisation locale, contrats socket et notes de confidentialité.", proof: "modèle de risque + contrat host_protocol." },
+        { id: "phase 3", tkey:"rm.p3t", ckey:"rm.p3c", skey:"rm.p3s", pkey:"rm.p3p", title: "Discipline release", status: "partiel", color: "#C95400", copy: "Builds manifestés, signatures de version, chemin de rollback et notes de publication.", proof: "manifest de drop + REGRESSION_GATES." },
+        { id: "phase 4", tkey:"rm.p4t", ckey:"rm.p4c", skey:"rm.p4s", pkey:"rm.p4p", title: "Architecture docs", status: "partiel", color: "#667085", copy: "Frontières lisibles pour les surfaces shell, services runtime, flux de données et limites.", proof: "Handoff + port-data PARITY + taxonomie." },
+        { id: "phase 5", tkey:"rm.p5t", ckey:"rm.p5c", skey:"rm.p5s", pkey:"rm.p5p", title: "Chemin testeur externe", status: "futur", color: "#111418", copy: "Prérequis système, désinstallation, smoke tests, logs et gabarit de feedback.", proof: "guide testeur + smoke reproductible." }
       ]
     };
   }
 }
+</script>
+<script>
+(function () {
+  var EN = {
+    "rm.kicker": "gnu.in shell · public roadmap",
+    "rm.sub": "A legible trajectory for documentation, shell stability, security limits, publication discipline, architecture, and the external-tester path. Public promises stay limited to verifiable behaviours.",
+    "rm.statk": "status",
+    "rm.stat1": "documentation rail v0.14.2",
+    "rm.stat2": "local-first shell",
+    "rm.stat3": "public documentation surface",
+    "rm.prooflbl": "evidence expected",
+    "rm.p0t": "Governance base", "rm.p0c": "Charter, license, ownership, and public posture before any broad-usage promise.", "rm.p0s": "almost complete", "rm.p0p": "LICENSE, CODEOWNERS, public profile.",
+    "rm.p1t": "Source hardening", "rm.p1c": "CI, formatting, dependencies, and checks that fail when a source contract breaks.", "rm.p1s": "in progress", "rm.p1p": "git diff --check + node --check + green smokes.",
+    "rm.p2t": "Security boundary", "rm.p2c": "Risk levels, local automation policy, socket contracts, and privacy notes.", "rm.p2s": "planned", "rm.p2p": "risk model + host_protocol contract.",
+    "rm.p3t": "Release discipline", "rm.p3c": "Manifested builds, version signatures, rollback path, and release notes.", "rm.p3s": "partial", "rm.p3p": "drop manifest + REGRESSION_GATES.",
+    "rm.p4t": "Docs architecture", "rm.p4c": "Legible boundaries for shell surfaces, runtime services, data flow, and limits.", "rm.p4s": "partial", "rm.p4p": "Handoff + port-data PARITY + taxonomy.",
+    "rm.p5t": "External-tester path", "rm.p5c": "System prerequisites, uninstall, smoke tests, logs, and a feedback template.", "rm.p5s": "future", "rm.p5p": "tester guide + reproducible smoke.",
+    "rm.lanekick": "active lane",
+    "rm.laneh": "Visual and behavioural shell redesign",
+    "rm.lanep": "Active rail v0.14.x: native surfaces, composition engine, canonical tokens, and runtime proof before any broad-install promise.",
+    "rm.l1": "Composition engine: scene graph, layer order, motion primitives.",
+    "rm.l2": "Renderer settings: routable controls, schema separation, app limit.",
+    "rm.l3": "Publication rail: manifests, signatures, rollback notes.",
+    "rm.l4": "External-tester path: system prerequisites, smoke tests, known issues.",
+    "rm.foot1": "> roadmap principle: do not promise what is not verified",
+    "rm.foot2": "source: public corpus + local proof"
+  };
+  function go(){ if (window.GnuInPretext && GnuInPretext.register) { GnuInPretext.register("en", EN); } else { setTimeout(go, 20); } }
+  go();
+})();
 </script>
 </body>
 </html>
