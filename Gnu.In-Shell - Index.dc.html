@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="assets/symbols/cube.svg">
-<script src="./support.js"></script>
+<script src="./dc-boot.js"></script>
 <script src="nav.js" defer></script>
 </head>
 <body>
@@ -196,36 +196,34 @@ body { margin:0; background:var(--idx-paper); }
       <div>
         <div class="idx-brand-row">
           <div style="width:46px;height:52px;"><dc-import name="Syster" state="hello" hint-size="46px,52px"></dc-import></div>
-          <div class="idx-kicker">Gnu.in Labs · documentation & showcase</div>
+          <div class="idx-kicker" data-pretext-key="ix.kicker">Gnu.in Labs · documentation & showcase</div>
         </div>
         <h1>gnu<span>.in</span>-OS</h1>
-        <p class="idx-lede">
-          Une porte d'entrée pour lire le shell comme un objet complet: <b>surfaces</b>, <b>moteur</b>, <b>motion</b>, <b>contenu</b> et <b>preuves visuelles</b> raccordés dans une même trajectoire de décision.
-        </p>
+        <p class="idx-lede"><span data-pretext-key="ix.lede">Une porte d'entrée pour lire le shell comme un objet complet: surfaces, moteur, motion, contenu et preuves visuelles raccordés dans une même trajectoire de décision.</span></p>
         <div class="idx-hero-actions" aria-label="État du corpus">
-          <a class="idx-chip" href="Central.dc.html"><strong>ouvrir</strong> Central</a>
-          <a class="idx-chip" href="Gnu.In-Shell%20-%20Atlas%20Unifi%C3%A9.dc.html"><strong>lire</strong> Atlas</a>
+          <a class="idx-chip" href="Central.dc.html"><strong data-pretext-key="ix.chip.central.v">ouvrir</strong> <span data-pretext-key="ix.chip.central.n">Central</span></a>
+          <a class="idx-chip" href="Gnu.In-Shell%20-%20Atlas%20Unifi%C3%A9.dc.html"><strong data-pretext-key="ix.chip.atlas.v">lire</strong> <span data-pretext-key="ix.chip.atlas.n">Atlas</span></a>
           <span class="idx-chip"><strong>version</strong> v0.14.2</span>
-          <a class="idx-chip" href="Project.dc.html"><strong>docs</strong> corpus public</a>
+          <a class="idx-chip" href="Project.dc.html"><strong data-pretext-key="ix.chip.docs.v">docs</strong> <span data-pretext-key="ix.chip.docs.n">corpus public</span></a>
         </div>
       </div>
 
       <aside class="idx-ledger" aria-label="Rôle de l'index">
         <div class="idx-ledger-row">
           <span class="idx-ledger-num" aria-hidden="true">01</span>
-          <span><span class="idx-ledger-title">Cartographier les surfaces</span><span class="idx-ledger-copy">Docs, Atlas, Context et Central donnent un ordre de lecture stable au corpus.</span></span>
+          <span><span class="idx-ledger-title" data-pretext-key="ix.lg1">Cartographier les surfaces</span><span class="idx-ledger-copy">Docs, Atlas, Context et Central donnent un ordre de lecture stable au corpus.</span></span>
         </div>
         <div class="idx-ledger-row">
           <span class="idx-ledger-num" aria-hidden="true">02</span>
-          <span><span class="idx-ledger-title">Composer les primitives</span><span class="idx-ledger-copy">Fondations, Atomes C.xx et Molécules CM.xx décrivent les mesures, états et assemblages.</span></span>
+          <span><span class="idx-ledger-title" data-pretext-key="ix.lg2">Composer les primitives</span><span class="idx-ledger-copy">Fondations, Atomes C.xx et Molécules CM.xx décrivent les mesures, états et assemblages.</span></span>
         </div>
         <div class="idx-ledger-row">
           <span class="idx-ledger-num" aria-hidden="true">03</span>
-          <span><span class="idx-ledger-title">Suivre la descente moteur</span><span class="idx-ledger-copy">Tokens, scènes, données d'état et captures relient les planches aux comportements attendus.</span></span>
+          <span><span class="idx-ledger-title" data-pretext-key="ix.lg3">Suivre la descente moteur</span><span class="idx-ledger-copy">Tokens, scènes, données d'état et captures relient les planches aux comportements attendus.</span></span>
         </div>
         <div class="idx-ledger-row">
           <span class="idx-ledger-num" aria-hidden="true">04</span>
-          <span><span class="idx-ledger-title">Vérifier les états</span><span class="idx-ledger-copy">Chaque surface garde un rôle lisible, un état nommé et une preuve de rendu.</span></span>
+          <span><span class="idx-ledger-title" data-pretext-key="ix.lg4">Vérifier les états</span><span class="idx-ledger-copy">Chaque surface garde un rôle lisible, un état nommé et une preuve de rendu.</span></span>
         </div>
       </aside>
     </div>
@@ -234,7 +232,7 @@ body { margin:0; background:var(--idx-paper); }
   <section class="idx-wrap idx-section" aria-labelledby="idx-method-title">
     <div class="idx-section-head">
       <span class="idx-section-num" aria-hidden="true">00</span>
-      <h2 id="idx-method-title" class="idx-section-title">Grammaire du shell</h2>
+      <h2 id="idx-method-title" class="idx-section-title" data-pretext-key="ix.s0h">Grammaire du shell</h2>
       <p class="idx-section-copy">Le shell se lit en couches: fondations, primitives, compositions, surfaces et transmission moteur. L'Index expose le niveau utile avant d'ouvrir les planches détaillées.</p>
     </div>
     <div class="idx-principles">
@@ -268,7 +266,7 @@ body { margin:0; background:var(--idx-paper); }
   <section class="idx-wrap idx-section" aria-labelledby="idx-cascade-title">
     <div class="idx-section-head">
       <span class="idx-section-num" aria-hidden="true">01</span>
-      <h2 id="idx-docs-title" class="idx-section-title">Carte documentaire</h2>
+      <h2 id="idx-docs-title" class="idx-section-title" data-pretext-key="ix.s1h">Carte documentaire</h2>
       <p class="idx-section-copy">Le site doit permettre de comprendre le projet, la méthode, les assets, les preuves, les communications, la roadmap, le plan complet et l'état réel de Central.</p>
     </div>
     <div class="idx-registry">
@@ -326,7 +324,7 @@ body { margin:0; background:var(--idx-paper); }
   <section class="idx-wrap idx-section" aria-labelledby="idx-cascade-title">
     <div class="idx-section-head">
       <span class="idx-section-num" aria-hidden="true">02</span>
-      <h2 id="idx-cascade-title" class="idx-section-title">Parcours du système</h2>
+      <h2 id="idx-cascade-title" class="idx-section-title" data-pretext-key="ix.s2h">Parcours du système</h2>
       <p class="idx-section-copy">Atlas reste la colonne des canevas statiques: de l'inventaire général vers la transmission moteur, avec chaque étape responsable d'un niveau d'abstraction.</p>
     </div>
     <div class="idx-main-grid">
@@ -404,7 +402,7 @@ body { margin:0; background:var(--idx-paper); }
   <section class="idx-wrap idx-section" aria-labelledby="idx-registry-title">
     <div class="idx-section-head">
       <span class="idx-section-num" aria-hidden="true">03</span>
-      <h2 id="idx-registry-title" class="idx-section-title">Registre des surfaces</h2>
+      <h2 id="idx-registry-title" class="idx-section-title" data-pretext-key="ix.s3h">Registre des surfaces</h2>
       <p class="idx-section-copy">Le registre montre qui fait quoi dans le corpus: documentation, canevas statiques, guides réactifs, hub live, mascotte et source publique.</p>
     </div>
     <div class="idx-registry">
@@ -456,7 +454,7 @@ body { margin:0; background:var(--idx-paper); }
   <section class="idx-wrap idx-section" aria-labelledby="idx-live-title">
     <div class="idx-section-head">
       <span class="idx-section-num" aria-hidden="true">04</span>
-      <h2 id="idx-live-title" class="idx-section-title">Carte vivante</h2>
+      <h2 id="idx-live-title" class="idx-section-title" data-pretext-key="ix.s4h">Carte vivante</h2>
       <p class="idx-section-copy">L'Index expose un circuit réactif borné: la lecture, la composition et la transmission changent le signal sans quitter la surface.</p>
     </div>
     <div class="idx-live" data-idx-live data-mode="orienter">
@@ -816,6 +814,28 @@ body { margin:0; background:var(--idx-paper); }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bootLiveIndex);
   else bootLiveIndex();
+})();
+</script>
+<script>
+(function () {
+  var EN = {
+    "ix.kicker": "Gnu.in Labs \u00b7 documentation & showcase",
+    "ix.lede": "An entry point to read the shell as a complete object: surfaces, engine, motion, content, and visual proof connected along one reading path.",
+    "ix.chip.central.v": "open", "ix.chip.central.n": "Central",
+    "ix.chip.atlas.v": "read", "ix.chip.atlas.n": "Atlas",
+    "ix.chip.docs.v": "docs", "ix.chip.docs.n": "public corpus",
+    "ix.s0h": "Shell grammar",
+    "ix.s1h": "Documentation map",
+    "ix.s2h": "System path",
+    "ix.s3h": "Surface registry",
+    "ix.s4h": "Living map",
+    "ix.lg1": "Map the surfaces",
+    "ix.lg2": "Compose the primitives",
+    "ix.lg3": "Follow the engine descent",
+    "ix.lg4": "Verify the states"
+  };
+  function go(){ if (window.GnuInPretext && GnuInPretext.register) { GnuInPretext.register("en", EN); } else { setTimeout(go, 20); } }
+  go();
 })();
 </script>
 </body>

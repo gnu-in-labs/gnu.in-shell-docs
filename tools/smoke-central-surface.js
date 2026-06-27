@@ -50,7 +50,9 @@ const FORBIDDEN_BODY_COPY = [
 
 const REQUIRED_COPY = [
   "CENTRAL",
-  "Auto-preview",
+  // The Guided Tour console renamed the old "Auto-preview" playback to "Visite complète" (the
+  // default scenario). Assert the current label so the gate tracks the delivered Central.
+  "Visite complète",
   "Gnosis"
 ];
 
@@ -155,7 +157,10 @@ async function runJourney(page) {
   };
 
   if (journey.controlOpen) {
-    journey.panelFamily = await textVisible(page, /panel family/i);
+    // The shell-aesthetic "panel family" treatment lives under the Général section (sec='general'),
+    // not the default-open control view, so navigate there first before asserting it — same pattern
+    // as the other journey steps, which each click into their section before checking.
+    if (await clickControlSection(page, "Général")) journey.panelFamily = await textVisible(page, /panel family/i);
     if (await clickControlSection(page, "Compositor")) journey.compositor = await textVisible(page, /Portal session/i);
     if (await clickControlSection(page, "Displays")) journey.displays = await textVisible(page, /sortie eDP-1/i);
     if (await clickControlSection(page, "Input")) journey.input = await textVisible(page, /clavier/i);

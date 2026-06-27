@@ -1,0 +1,56 @@
+{
+  "drop": "gnu-in-shell-docs-major-drop",
+  "date": "2026-06-27",
+  "baseline_ref": "main @ 51db817ff592",
+  "intent": "Make the public documentation corpus genuinely bilingual (EN/FR) on top of the existing GnuInPretext engine, without redesigning the strong visual system. Default profile is English with browser auto-detect and manual switch; French stays canonical. Adds a Pretext regression gate, neutralises one forbidden-substring risk in Central, and ships the drop artifacts.",
+  "rules_followed": {
+    "root_maps_to_repo_root": true,
+    "favicon_every_public_page": "assets/symbols/cube.svg (enforced by nav.js ensureFavicon)",
+    "shell_preserved": ["nav.js", "support.js", "docs.css", "index.html", "_components/Syster.dc.html", "tools/smoke-*.js (extended, not replaced)"],
+    "mascot": "current _components/Syster.dc.html kept as temporary canon; no new mascot promoted",
+    "film_not_public": "Trigger Film and films excluded from nav/showcase (unchanged)",
+    "no_forbidden_public_strings": true,
+    "no_duplicate_or_copy_folders": true
+  },
+  "language_model": {
+    "engine": "window.GnuInPretext (nav.js) — t(), setLanguage(), withLang(), register(lang,map), apply()",
+    "mechanism": "French is canonical markup; translatable leaves carry data-pretext-key; each page registers an English map via GnuInPretext.register('en', {...}); applyPretext swaps textContent when the active profile is English. A MutationObserver re-applies on DC mounts.",
+    "default": "en (DEFAULT_LANG), resolved from ?lang -> localStorage gid-lang -> navigator language -> en",
+    "switch": "EN/FR toggle in the shared top nav; choice persisted; ?lang propagated to internal links by withLang"
+  },
+  "files": [
+    { "path": "Gnu.In-Shell - Index.dc.html", "status": "changed", "reason": "Bilingual orientation layer (hero kicker/lede/chips, five section titles, index-role ledger) via data-pretext-key + registered EN map. Index contract (hero, grammar, documentation map, parcours, registry, live map, spine, gates, footer) preserved. Deep card detail remains FR-canonical; EN extension scheduled. FREEZE FIX: pretext keys moved onto leaf elements (chips split into <strong>/<span>, lede a clean leaf) so applyPretext's textContent write never deletes a React-tracked child element (which crashed this DC). Boots via dc-boot.js." },
+    { "path": "Project.dc.html", "status": "changed", "reason": "Full EN/FR via data-pretext-key + registered EN map. Gate anchors and Central Live link preserved." },
+    { "path": "Methodology.dc.html", "status": "changed", "reason": "Full EN/FR. Pretext-multilingue section updated to describe register('en'). Gate anchors + Assets link preserved." },
+    { "path": "Assets.dc.html", "status": "changed", "reason": "Full EN/FR. Added Methodology cross-link (gate requiredLink) as a sibling of the keyed span so the EN swap cannot remove it." },
+    { "path": "Evidence.dc.html", "status": "changed", "reason": "Full EN/FR. Added a Pretext-smoke gate row + a bilingual claims-ledger row; next-link now points to Communications (gate requiredLink)." },
+    { "path": "Communications.dc.html", "status": "changed", "reason": "Full EN/FR. Added a ready-to-ship launch-note example; next-link now points to Project (gate requiredLink), Roadmap kept as see-also." },
+    { "path": "Roadmap.dc.html", "status": "changed", "reason": "Full EN/FR (DC: dynamic data-pretext-key per phase + registered EN map). Added a per-phase 'evidence expected' line. Showcase-gate anchors (surface documentaire publique, phase 5, principe roadmap) preserved." },
+    { "path": "Central.dc.html", "status": "changed", "reason": "(1) Forbidden-string hygiene: rendered 'Auto-demo' -> 'Auto-preview', 'demo Photos' -> 'apercu Photos', 'QML' wire readout -> neutral, 'demons de session' -> 'services de session' (no forbidden 'Auto-demo'/'demo' string renders; the central smoke gate's REQUIRED_COPY now anchors on 'Visite complete' — the Guided Tour playback label per (5) — not the interim 'Auto-preview', which the upgrade replaced). (2) Focus/selection rings now read each surface's measured painted box (measuredRect) instead of hardcoded logical rects, so the ring tracks true geometry. (3) Shell aesthetic now propagates to every surface: one resolved surface treatment (family + material + hug geometry + light/dark theme) applied to bar, dock, sidebar, launcher, context menu, notifications, OSD, modal; Calestia profile adds an organic hug geometry + connective accent membrane; customizable shell material (Smoke/Frost/Ink/Halo). (4) Boots via dc-boot.js. (5) Auto-preview upgraded to a Guided Tour playback console: 5 exploration scenarios (full / windows / theme / motion / surfaces), named scenes+acts, transport (restart/play-pause/skip), progress bar, step counter, speed (0.5-2x), loop, clickable act chapters + scenario picker; emit rail regrouped into SURFACES/SYSTEME; compact console + monitor min-height for narrow/short viewports. All verified live, 0 console errors." },
+    { "path": "tools/smoke-pretext-surface.js", "status": "new", "reason": "New regression gate: proves the bilingual layer on the 7 documentation surfaces — FR profile keeps French, EN profile swaps + drops the French anchor, default profile resolves to English, no forbidden copy per language, cube favicon + nav + rail present." },
+    { "path": "tools/smoke-doc-pages.js", "status": "changed", "reason": "Pinned navigation to ?lang=fr so the existing French requiredText contract still asserts after the bilingual swap (default profile is English). No assertions removed." },
+    { "path": "tools/smoke-index-surface.js", "status": "changed", "reason": "Pinned navigation to ?lang=fr for the same reason; all index/rail/cascade/canvas/forbidden checks unchanged." },
+    { "path": "tools/smoke-showcase-surfaces.js", "status": "changed", "reason": "Pinned navigation to ?lang=fr so Roadmap (now bilingual) and the untranslated showcase pages still assert their French anchors." },
+    { "path": "ZIP_DROP_MANIFEST.json", "status": "new", "reason": "This manifest." },
+    { "path": "REGRESSION_GATES.md", "status": "new", "reason": "Exact checks to run after extracting the drop." },
+    { "path": "DROP_SUMMARY.md", "status": "new", "reason": "What changed, what stayed canon, what remains candidate, which gates should pass." },
+    { "path": "nav.js", "status": "changed", "reason": "Shared shell: top-nav IA, cascades, floating rail, favicon, GnuInPretext engine. One-line bilingual bug fix only: applyPretext() now writes textContent solely on a real change (added `&& node.textContent !== value`). Without this guard, registering any English map makes each applyPretext write re-trigger the MutationObserver that calls applyPretext -> infinite loop -> pages freeze blank. No IA/rail/favicon/structure change." },
+    { "path": "dc-boot.js", "status": "new", "reason": "Resilient runtime bootstrap. Replaces the `support.js` script tag on the migrated DC pages (Central, Index, Roadmap); the other DC pages still load support.js unchanged. Loads React/ReactDOM with a multi-CDN fallback chain (unpkg -> jsDelivr -> cdnjs, 7s per source) then injects support.js, which skips its own single-CDN fetch when window.React/ReactDOM already exist. Prevents a single CDN outage from blanking a migrated DC page; dark/light/runtime behaviour otherwise identical." },
+    { "path": "support.js", "status": "preserved", "reason": "DC runtime. Required shared file; unchanged. Now injected by dc-boot.js (no edit to the file itself)." },
+    { "path": "docs.css", "status": "preserved", "reason": "Doc-page chrome + responsive breakpoints. Required shared file; unchanged." },
+    { "path": "index.html", "status": "preserved", "reason": "Entry redirect to the Index with cube favicon. Required shared file; unchanged." },
+    { "path": "_components/Syster.dc.html", "status": "preserved", "reason": "Current mascot canon (in redesign). Required shared file; unchanged." },
+    { "path": "assets/symbols/cube.svg", "status": "preserved", "reason": "Canonical favicon for every public page. Required shared file; unchanged." },
+    { "path": "assets/cube.svg", "status": "preserved", "reason": "Cube symbol used by surfaces. Required shared file; unchanged." },
+    { "path": "_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/colors_and_type.css", "status": "preserved", "reason": "Design-system tokens referenced by every page. Required shared file; unchanged." },
+    { "path": "_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/styles.css", "status": "preserved", "reason": "Design-system base styles. Required shared file; unchanged." },
+    { "path": "_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/fonts/Montreal-Regular.woff", "status": "preserved", "reason": "Brand font. Required shared file; unchanged." },
+    { "path": "_ds/gnu-in-design-system-7a3afc1d-c275-4300-9429-a5d0f1edb1a9/fonts/Montreal-Bold.woff", "status": "preserved", "reason": "Brand font. Required shared file; unchanged." }
+  ],
+  "not_in_drop": "Atlas/Fondations/Atomes/Molécules/Intégration/Handoff, Context, Central Live, Animations, Motion, Sys.ter Mascot Kit, Menus, Renderer, Full Plan, legacy/, port-data/, screenshots/, mascot/, uploads/ — unchanged on the baseline, so excluded from this overlay. They render correctly against the preserved shared shell.",
+  "next_increments": [
+    "Extend EN coverage to the Index deep sections (parcours cascade, second surface registry, live-map chain) and the remaining showcase/Atlas surfaces.",
+    "Add EN profiles for Context, Animations, Motion, Central, Atlas canvases.",
+    "Add smoke-canvas-surfaces bounded-scroll assertions to close the partial Atlas-canvas claim."
+  ]
+}
